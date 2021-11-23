@@ -648,6 +648,30 @@ export default function App() {
               <Route path="/mobile">
                 <Mobile />
               </Route>
+              <Route exact path="/nrx/home">
+                <Home />
+              </Route>
+              <Route exact path="/nrx/explorer">
+                <Explorer />
+              </Route>
+              <Route path="/nrx/browse-data">
+                <BrowseData />
+              </Route>
+              <Route path="/nrx/dashboards">
+                <Dashboards />
+              </Route>
+              <Route path="/nrx/logs">
+                <Logs />
+              </Route>
+              <Route path="/nrx/alerts--ai">
+                <Alerts />
+              </Route>
+              <Route path="/nrx/messages">
+                <Messages setCommentsState={setCommentsState} />
+              </Route>
+              <Route path="/nrx/mobile">
+                <Mobile />
+              </Route>
             </Switch>
           </div>
           <Comments
