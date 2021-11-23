@@ -188,7 +188,7 @@ const Dashboards = (props: any) => {
   );
 };
 
-const Badge = (props: any) => {
+export const Badge = (props: any) => {
   return <div className="badge">{props.children}</div>;
 };
 
@@ -290,7 +290,7 @@ const NAV = [
   { label: "More", icon: <VscEllipsis />, subnav: NAV_MORE },
 ];
 
-const Menu = (props: { items: any[] }) => {
+export const Menu = (props: { items: any[] }) => {
   return (
     <ul className="links submenu">
       {props.items.map((item) => (
@@ -314,9 +314,9 @@ const NavItem = (props: any) => {
           .replace(" ", "-")
           .replace("&", "")}
         activeClassName="active"
-        onClick={() =>
-          item.noComment ? props.setCommentsState("closed") : null
-        }
+        onClick={() => {
+          if (item.noComment) props.setCommentsState("closed");
+        }}
       >
         {item.icon} <span className="label">{item.label}</span>
         <span className="extra">{item.extra}</span>
@@ -332,9 +332,8 @@ const NavItem = (props: any) => {
 };
 
 const Nav = (props: any) => {
-  const [collapsed, setCollapsed] = React.useState(false);
   return (
-    <div className={collapsed ? "nav collapsed" : "nav"}>
+    <div className={`nav ${props.navState}`}>
       {/* collapsed ? (
         <VscChevronRight
           className="icon icon-left"
@@ -346,7 +345,18 @@ const Nav = (props: any) => {
           onClick={() => setCollapsed(!collapsed)}
         />
       ) */}
-      <div className="logo-wrap" onClick={() => setCollapsed(!collapsed)}>
+      <div
+        className="logo-wrap"
+        onClick={() =>
+          props.setNavState(
+            props.navState == "normal"
+              ? "collapsed"
+              : props.navState == "collapsed"
+              ? "hidden"
+              : "normal"
+          )
+        }
+      >
         <div className="logo">
           {/*<VscArrowUp className="icon icon-up" />*/}
           <img className="logo-svg" src={logo} alt="logo" />
@@ -396,7 +406,10 @@ const Header = (props: any) => {
   const [accountOpen, setAccountOpen] = React.useState(false);
   const location = useLocation();
   return (
-    <div className="header">
+    <div
+      className="header"
+      style={{ marginLeft: props.navState === "hidden" ? "40px" : "0px" }}
+    >
       <button
         style={{
           margin: "0 auto 0 0",
@@ -569,6 +582,8 @@ const Header = (props: any) => {
           <Badge>5</Badge>
         ) : location.pathname.endsWith("dashboards") ? (
           <Badge>6</Badge>
+        ) : location.pathname.endsWith("mobile") ? (
+          <Badge>4</Badge>
         ) : (
           <FiMessageSquare
             style={{ verticalAlign: "-2px", marginRight: "5px" }}
@@ -582,6 +597,9 @@ const Header = (props: any) => {
 
 export default function App() {
   const [commentsState, setCommentsState] = React.useState("closed");
+  const [navState, setNavState] = React.useState<
+    "normal" | "collapsed" | "hidden"
+  >("normal");
 
   return (
     <Router>
@@ -589,11 +607,14 @@ export default function App() {
         <Nav
           setCommentsState={setCommentsState}
           commentsState={commentsState}
+          setNavState={setNavState}
+          navState={navState}
         />
         <div className="body">
           <Header
             commentsState={commentsState}
             setCommentsState={setCommentsState}
+            navState={navState}
           />
           <div
             style={{

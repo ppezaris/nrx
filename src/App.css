@@ -14,45 +14,14 @@
   transition: padding 0.15s;
   /* border-bottom: 1px solid black; */
 }
-.collapsed .logo {
+.collapsed .logo,
+.hidden .logo {
   overflow: hidden;
   width: 15px;
 }
-.icon-left {
-  position: absolute;
-  transition: opacity 0.15s;
-  padding: 8px 1px 8px 0;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0 3px 3px 0;
-  color: #6fccd3 !important;
-  top: 50%;
-  right: -12px;
-  background: #2c2c2c;
-  z-index: 5;
-  cursor: pointer;
-}
-.icon-left:hover {
-  background: #017c86 !important;
-  color: #fff !important;
-}
 .logo-svg {
   width: 150px;
-}
-.logo .icon svg {
-  display: inline-block;
-}
-
-.logo:hover .icon {
-  cursor: pointer;
-}
-.logo .icon:hover {
-}
-
-.logo:hover .icon {
-  opacity: 1;
+  height: 18px;
 }
 .icon-up {
   left: -10px;
@@ -119,8 +88,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  transition: height 0.15s;
+  height: 100vh;
 }
 
+.nav.hidden {
+  height: 45px;
+  width: 40px;
+  overflow: hidden;
+  position: absolute;
+  z-index: 15;
+  top: 0;
+  left: 0;
+}
 .body {
   justify-self: center;
   flex-grow: 2;
@@ -161,6 +141,13 @@
   margin-left: -1px;
   background: #999;
 }
+.comment .badge {
+  box-shadow: none;
+  background: #999;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+}
 .links a .extra {
   position: absolute;
   left: 140px;
@@ -180,7 +167,12 @@
   right: 12px !important;
   top: 4px;
 }
-.collapsed .links a .badge {
+.hidden .links a .badge {
+  position: fixed;
+  left: 18px !important;
+  right: auto !important;
+  top: 24px;
+  /* pointer-events: none; */
 }
 .links a .hover {
   position: absolute;
@@ -343,28 +335,39 @@
   border-collapse: collapse;
   font-size: 13px;
 }
+.green {
+  background: #24a100 !important;
+  border: none !important;
+  color: white !important;
+}
+.purple {
+  background: #6f42c1 !important;
+  border: none !important;
+  color: white !important;
+}
 .open {
   width: 40px;
   background: #24a100;
-  border-radius: 4px;
+  border-radius: 14px;
   text-align: center;
-  padding: 3px 8px;
+  padding: 4px 8px;
   color: white;
-  font-size: 11px;
+  font-size: 10px;
 }
 .closed {
   width: 40px;
   background: #6f42c1;
-  border-radius: 4px;
+  border-radius: 14px;
   text-align: center;
-  padding: 3px 8px;
+  padding: 4px 8px;
   color: white;
-  font-size: 11px;
+  font-size: 10px;
 }
 .filters {
   display: flex;
 }
-.filters button {
+.filters button,
+.comment-actions button {
   margin-right: 10px;
   /* background: #4d90e6; */
   /* background: #017c86; */
@@ -376,6 +379,9 @@
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
+}
+.comment-actions button {
+  width: 50%;
 }
 .filters button.selected {
   background: #eee;
@@ -417,6 +423,9 @@ button.primary {
   border: 1px solid #0e74df;
   color: white;
 }
+button.disabled {
+  opacity: 0.75;
+}
 .comments {
   overflow: hidden;
   width: 300px;
@@ -431,7 +440,6 @@ button.primary {
   text-align: left;
   transition: all 0.15s;
   overflow-y: auto;
-  padding-top: 20px;
 }
 .comments.float {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
@@ -443,6 +451,15 @@ button.primary {
 }
 .comments.off-screen {
   right: -300px;
+}
+.comments-header {
+  padding: 20px 20px 0 0;
+}
+.comments.float .comments-header {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  z-index: 5;
+  padding: 10px 20px 8px 20px;
 }
 .messages .subtle {
   padding-left: 10px;
@@ -519,6 +536,20 @@ button.primary {
   white-space: nowrap;
   color: #017c86;
   padding: 0 8px;
+  left: 40%;
+}
+.date-line {
+  border-top: 1px solid #ddd;
+  text-align: center;
+  position: relative;
+}
+.date-line div {
+  top: -5px;
+  position: absolute;
+  background: #f8f8f8;
+  white-space: nowrap;
+  color: #999;
+  padding: 0 8px;
   left: 30%;
 }
 .menu {
@@ -529,6 +560,7 @@ button.primary {
   right: 0;
   top: 23px;
   border-radius: 4px 0 4px 4px;
+  color: black;
 }
 .menu ul {
   list-style-type: none;
@@ -556,7 +588,7 @@ button.primary {
 .comment-actions svg {
   cursor: pointer;
 }
-.comment-actions svg:hover {
+x.comment-actions svg:hover {
   background: #017c86;
   color: white;
   border-radius: 4px;
@@ -622,4 +654,16 @@ button.primary {
 }
 .subtle {
   opacity: 0.4;
+}
+button {
+  position: relative;
+}
+.vert-sep {
+  position: absolute;
+  right: 28px;
+  height: 100%;
+  width: 1px;
+  background: white;
+  opacity: 0.5;
+  top: 0;
 }
