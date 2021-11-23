@@ -168,7 +168,8 @@ const COMMENTS = {
 };
 
 export const Comment = (props: any) => {
-  const className = props.pinned ? "pinned" : props.reply ? "reply" : "";
+  let className = props.pinned ? "pinned" : props.reply ? "reply" : "";
+  if (!props.headshot) className += " no-headshot";
   if (props.newline)
     return (
       <div className="new-line">
@@ -189,7 +190,7 @@ export const Comment = (props: any) => {
 
   return (
     <div className={"comment " + className}>
-      <img className="headshot" src={props.headshot} />
+      {props.headshot && <img className="headshot" src={props.headshot} />}
       {/*<div className="author">
         Peter Pezaris <span className="subtle">2:30 PM</span>
   </div>*/}
@@ -257,7 +258,6 @@ export const Thread = (props: any) => {
     <>
       {resolved[props.commentThread] && (
         <Comment
-          headshot="https://i.imgur.com/jSrZwhT.jpg"
           body={
             <div
               onClick={() =>
@@ -269,7 +269,7 @@ export const Thread = (props: any) => {
               }
             >
               <Badge>5</Badge>
-              Thread resolved on 12/12/21 by{" "}
+              Thread <div className="closed">CLOSED</div> on 12/12/21 by{" "}
               <span className="mention">@pez</span>{" "}
             </div>
           }
@@ -297,7 +297,7 @@ export const Thread = (props: any) => {
               }}
               placeholder={
                 resolved[props.commentThread]
-                  ? "Start a thread..."
+                  ? "Start a new thread..."
                   : "Add a comment..."
               }
               value={text}

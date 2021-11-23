@@ -15,12 +15,12 @@ export const Messages = (props: any) => {
   const history = useHistory();
 
   function handleClick() {
-    history.push("/explorer");
-    props.setCommentsOn(true);
+    history.push("/browse-data");
+    props.setCommentsState("open");
   }
   function handleClick2() {
-    history.push("/alerts--ai");
-    props.setCommentsOn(true);
+    history.push("/mobile");
+    props.setCommentsState("open");
   }
 
   const [view, setView] = React.useState("all");

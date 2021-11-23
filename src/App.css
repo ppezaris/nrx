@@ -145,6 +145,7 @@
   box-shadow: none;
   background: #999;
   position: absolute;
+  left: auto;
   right: -5px;
   top: -5px;
 }
@@ -363,6 +364,9 @@
   color: white;
   font-size: 10px;
 }
+.comment-body .closed {
+  display: inline-block;
+}
 .filters {
   display: flex;
 }
@@ -517,6 +521,12 @@ button.disabled {
   top: 12px;
   position: absolute;
   clip: rect(0px 10px 10px 0px);
+}
+.no-headshot .comment-body::before {
+  display: none;
+}
+.no-headshot .comment-body {
+  margin-left: 0px;
 }
 .mention,
 .comment a {
