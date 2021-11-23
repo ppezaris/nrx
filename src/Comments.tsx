@@ -315,7 +315,7 @@ export const Thread = (props: any) => {
           // padding: "10px 0 10px 10px",
           // borderTop: "1px solid #eee",
           // backgroundColor: "#f8f8f8",
-          marginTop: "-10px",
+          marginTop: "-0px",
           paddingRight: "10px",
           paddingLeft: "55px",
           display: "flex",
