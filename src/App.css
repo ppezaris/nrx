@@ -409,6 +409,14 @@
   border-left: none;
   border-radius: 0 14px 14px 0;
 }
+.filters button.right {
+  margin-right: 0;
+}
+button.primary {
+  background: #0e74df;
+  border: 1px solid #0e74df;
+  color: white;
+}
 .comments {
   overflow: hidden;
   width: 300px;

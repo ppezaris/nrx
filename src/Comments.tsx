@@ -287,10 +287,11 @@ export const Comments = (props: any) => {
           </span>
         </div>
         <div style={{ marginLeft: "auto" }}>
-          {" "}
+          {/*          {" "}
           <VscChromeClose
             onClick={() => props.setCommentsState("closed")}
           />{" "}
+        */}
           <VscLinkExternal
             onClick={() =>
               props.commentsState === "float"

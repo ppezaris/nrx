@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Content, Title } from "./App";
-import { VscSearch, VscWarning, VscMention } from "react-icons/vsc";
+import { VscSearch, VscWarning, VscMention, VscAdd } from "react-icons/vsc";
 
 export const Square = (props: any) => {
   return <div className="square" style={{ backgroundColor: props.color }} />;
@@ -36,6 +36,12 @@ export const Messages = (props: any) => {
             View All
           </button>
           <button
+            className={view === "following" ? "selected" : ""}
+            onClick={() => setView("following")}
+          >
+            Following
+          </button>
+          <button
             className={view === "unread" ? "selected" : ""}
             onClick={() => setView("unread")}
           >
@@ -63,6 +69,10 @@ export const Messages = (props: any) => {
         <button>
           <VscSearch />
           Search Messages
+        </button>
+        <button className="primary right">
+          <VscAdd />
+          New Message
         </button>
       </div>
       <table className="messages">
