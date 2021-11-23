@@ -31,6 +31,13 @@ const TITLES = {
   "/explorer": "Explorer",
   "/browse-data": "Browse Data",
   "/dashboards": "Dashboards",
+  "/nrx/mobile": "Mobile",
+  "/nrx/browser": "Browser",
+  "/nrx/apm": "APM",
+  "/nrx/home": "Home",
+  "/nrx/explorer": "Explorer",
+  "/nrx/browse-data": "Browse Data",
+  "/nrx/dashboards": "Dashboards",
 };
 
 const COMMENTS = {
@@ -405,6 +412,7 @@ export const Comments = (props: any) => {
     if (props.commentsState === "open") setPathname(location.pathname);
   }, [location.pathname]);
 
+  console.warn("pathname is: ", pathname);
   const commentThread = pathname.endsWith("dashboards")
     ? "dashboards"
     : pathname.endsWith("browse-data")
