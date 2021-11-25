@@ -173,7 +173,6 @@
   left: 18px !important;
   right: auto !important;
   top: 24px;
-  /* pointer-events: none; */
 }
 .links a .hover {
   position: absolute;
@@ -371,7 +370,8 @@
   display: flex;
 }
 .filters button,
-.comment-actions button {
+.comment-actions button,
+.comments-header button {
   margin-right: 10px;
   /* background: #4d90e6; */
   /* background: #017c86; */
@@ -384,8 +384,26 @@
   display: inline-block;
   cursor: pointer;
 }
+.comments-header button {
+  padding: 4px 10px;
+  font-size: 12px;
+  margin-left: 20px;
+  margin: -4px 10px -4px 0;
+  vertical-align: 2px;
+}
 .comment-actions button {
   width: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: border-radius 0.1s, margin 0.1s;
+}
+.comment-actions button .menu {
+  border-radius: 0 0 4px 4px;
+  top: 25px;
+}
+.comments-header button.active {
+  border-radius: 4px 4px 0 0;
+  z-index: 10;
 }
 .filters button.selected {
   background: #eee;
@@ -445,6 +463,9 @@ button.disabled {
   transition: all 0.15s;
   overflow-y: auto;
 }
+.react-draggable-dragging {
+  transition: none !important;
+}
 .comments.float {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
   top: 60px;
@@ -452,6 +473,7 @@ button.disabled {
   height: 50vh;
   border-radius: 10px;
   border: 1px solid #ddd;
+  z-index: 30;
 }
 .comments.off-screen {
   right: -300px;
@@ -464,6 +486,7 @@ button.disabled {
   border-bottom: 1px solid #ddd;
   z-index: 5;
   padding: 10px 20px 8px 20px;
+  cursor: move;
 }
 .messages .subtle {
   padding-left: 10px;
@@ -571,6 +594,7 @@ button.disabled {
   top: 23px;
   border-radius: 4px 0 4px 4px;
   color: black;
+  z-index: 50;
 }
 .menu ul {
   list-style-type: none;
@@ -595,21 +619,31 @@ button.disabled {
   border: none;
   border-top: 1px solid #ddd;
 }
-.comment-actions svg {
+.comment-attachments {
+  font-size: 14px;
+  color: #888;
+  margin: 0px -10px -10px -10px;
+  border-top: 1px solid #eee;
+  background-color: #f8f8f8;
+  padding: 20px 10px 10px 10px;
+  display: flex;
+}
+.comment-attachments svg {
   cursor: pointer;
 }
-x.comment-actions svg:hover {
+.comment-attachments svg:hover,
+.comment-attachments .active {
   background: #017c86;
   color: white;
   border-radius: 4px;
   padding: 6px;
   margin: -6px;
 }
-.comment-actions svg + svg {
-  margin-left: 4px;
+.comment-attachments svg + svg {
+  margin-left: 10px;
 }
-.comment-actions svg + svg:hover {
-  margin-left: -2px;
+.comment-attachments svg + svg:hover {
+  margin-left: 4px;
 }
 .getting-started {
   display: flex;
