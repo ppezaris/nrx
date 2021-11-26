@@ -335,7 +335,7 @@ const NavItem = (props: any) => {
 
 const Nav = (props: any) => {
   return (
-    <div className={`nav ${props.navState}`}>
+    <div className="nav">
       {/* collapsed ? (
         <VscChevronRight
           className="icon icon-left"
@@ -365,6 +365,20 @@ const Nav = (props: any) => {
         </div>
       </div>
 
+      {props.navState === "hidden" && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 400,
+            cursor: "pointer",
+          }}
+          onClick={() => props.setNavState("normal")}
+        />
+      )}
       <ul className="links" style={{ marginTop: 0 }}>
         {NAV.map((item) => (
           <NavItem
@@ -434,10 +448,7 @@ const Header = (props: any) => {
   const color = threadState == "open" ? "green" : "purple";
 
   return (
-    <div
-      className="header"
-      style={{ marginLeft: props.navState === "hidden" ? "40px" : "0px" }}
-    >
+    <div className="header">
       <Comments
         threadState={threadState}
         commentThread={commentThread}
@@ -458,20 +469,21 @@ const Header = (props: any) => {
         className={searchOpen ? "active" : ""}
         onClick={() => setSearchOpen(!searchOpen)}
       >
-        <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-        <span style={{ opacity: 0.4 }}>Search &amp; Query</span>
-        <div
-          style={{
-            position: "absolute",
-            right: "10px",
-            top: "5px",
-            color: "#999",
-            fontSize: "12px",
-          }}
-        >
-          <CmdK />
-        </div>
-
+        <label>
+          <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
+          <span style={{ opacity: 0.4 }}>Search &amp; Query</span>
+          <div
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "5px",
+              color: "#999",
+              fontSize: "12px",
+            }}
+          >
+            <CmdK />
+          </div>
+        </label>
         {searchOpen && (
           <div className="menu" style={{ width: "100%" }}>
             <ul>
@@ -515,8 +527,10 @@ const Header = (props: any) => {
         className={accountOpen ? "active" : ""}
         onClick={() => setAccountOpen(!accountOpen)}
       >
-        Account: Sunstone Staging{" "}
-        <VscChevronDown style={{ verticalAlign: "-2px" }} />
+        <label>
+          Account: Sunstone Staging{" "}
+          <VscChevronDown style={{ verticalAlign: "-2px" }} />
+        </label>
         {accountOpen && (
           <div className="menu" style={{ width: "100%" }}>
             <ul>
@@ -546,8 +560,10 @@ const Header = (props: any) => {
         className={userOpen ? "active" : ""}
         onClick={() => setUserOpen(!userOpen)}
       >
-        <img src="https://i.imgur.com/jSrZwhT.jpg" />
-        <VscChevronDown style={{ verticalAlign: "-2px" }} />
+        <label>
+          <img src="https://i.imgur.com/jSrZwhT.jpg" />
+          <VscChevronDown style={{ verticalAlign: "-2px" }} />
+        </label>
         {userOpen && (
           <div className="menu">
             <ul>
@@ -575,8 +591,10 @@ const Header = (props: any) => {
         className={shareOpen ? "active" : ""}
         onClick={() => setShareOpen(!shareOpen)}
       >
-        <FiShare2 style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-        Share
+        <label>
+          <FiShare2 style={{ verticalAlign: "-2px", marginRight: "5px" }} />
+          Share
+        </label>
         {shareOpen && (
           <div className="menu">
             <ul>
@@ -643,7 +661,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="page">
+      <div className={`page ${navState}`}>
         <Nav
           setCommentsState={setCommentsState}
           commentsState={commentsState}

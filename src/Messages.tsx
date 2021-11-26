@@ -22,6 +22,18 @@ export const Messages = (props: any) => {
     history.push("/mobile");
     props.setCommentsState("open");
   }
+  function handleClick3() {
+    history.push("/apm");
+    props.setCommentsState("open");
+  }
+  function handleClick4() {
+    history.push("/dashboards");
+    props.setCommentsState("open");
+  }
+  function handleClick5() {
+    history.push("/browse-data");
+    props.setCommentsState("open");
+  }
 
   const [view, setView] = React.useState("all");
   return (
@@ -118,7 +130,7 @@ export const Messages = (props: any) => {
             </td>
             <td>Nov 1</td>
           </tr>
-          <tr>
+          <tr onClick={handleClick3}>
             <td style={{ position: "relative" }}>
               <div className="unread-mention">
                 <VscMention />
@@ -135,7 +147,7 @@ export const Messages = (props: any) => {
             </td>
             <td>Oct 31</td>
           </tr>
-          <tr>
+          <tr onClick={handleClick4}>
             <td>
               <Unread />
             </td>
@@ -149,7 +161,7 @@ export const Messages = (props: any) => {
             </td>
             <td>Oct 27</td>
           </tr>
-          <tr>
+          <tr onClick={handleClick5}>
             <td></td>
             <td>Larry Wall</td>
             <td>
