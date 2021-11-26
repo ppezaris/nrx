@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/nrx/static/css/main.3a7efa0c.chunk.css",
-    "main.js": "/nrx/static/js/main.11bdd5f9.chunk.js",
-    "main.js.map": "/nrx/static/js/main.11bdd5f9.chunk.js.map",
+    "main.css": "/nrx/static/css/main.f5338d70.chunk.css",
+    "main.js": "/nrx/static/js/main.43133718.chunk.js",
+    "main.js.map": "/nrx/static/js/main.43133718.chunk.js.map",
     "runtime-main.js": "/nrx/static/js/runtime-main.c0d1e55f.js",
     "runtime-main.js.map": "/nrx/static/js/runtime-main.c0d1e55f.js.map",
     "static/js/2.88ad7109.chunk.js": "/nrx/static/js/2.88ad7109.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.ef1d70f2.chunk.js": "/nrx/static/js/3.ef1d70f2.chunk.js",
     "static/js/3.ef1d70f2.chunk.js.map": "/nrx/static/js/3.ef1d70f2.chunk.js.map",
     "index.html": "/nrx/index.html",
-    "static/css/main.3a7efa0c.chunk.css.map": "/nrx/static/css/main.3a7efa0c.chunk.css.map",
+    "static/css/main.f5338d70.chunk.css.map": "/nrx/static/css/main.f5338d70.chunk.css.map",
     "static/js/2.88ad7109.chunk.js.LICENSE.txt": "/nrx/static/js/2.88ad7109.chunk.js.LICENSE.txt",
     "static/media/logo2.8767602e.svg": "/nrx/static/media/logo2.8767602e.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c0d1e55f.js",
     "static/js/2.88ad7109.chunk.js",
-    "static/css/main.3a7efa0c.chunk.css",
-    "static/js/main.11bdd5f9.chunk.js"
+    "static/css/main.f5338d70.chunk.css",
+    "static/js/main.43133718.chunk.js"
   ]
 }
