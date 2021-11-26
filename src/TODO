@@ -3,10 +3,10 @@ configure nav
 share to slack
 create ticket/jira
 open team(account?)-based conversation threads?
-header treatment for popped-out message threads
-resolve thread (collapse)
-
+UMI should be color-coded
 
 x logo upper-left
 x messages mockup
 x runbook / pinned messages
+x resolve thread (collapse)
+x header treatment for popped-out message threads

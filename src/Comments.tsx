@@ -4,16 +4,11 @@ import {
   VscChevronDown,
   VscLink,
   VscLinkExternal,
-  VscMarkdown,
-  VscMention,
-  VscPin,
   VscPinned,
-  VscSearch,
   VscSmiley,
 } from "react-icons/vsc";
 import { BsSlack } from "react-icons/bs";
 import { NavLink, useLocation } from "react-router-dom";
-import { FiPaperclip } from "react-icons/fi";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { SiJirasoftware } from "react-icons/si";
 import Draggable from "react-draggable";
@@ -179,6 +174,55 @@ const COMMENTS = {
       body: <>This is the same problem as the last time we checked it</>,
     },
   ],
+  apm: [
+    {
+      headshot: "https://i.imgur.com/jSrZwhT.jpg",
+      pinned: true,
+      body: (
+        <>
+          <div style={{ position: "absolute", top: "-10px", right: "0" }}>
+            <VscPinned />
+          </div>
+          Runbook for this app lives <span className="mention">here</span>
+        </>
+      ),
+    },
+    {
+      headshot: "https://i.imgur.com/jSrZwhT.jpg",
+      body: (
+        <>
+          <span className="mention">@dave</span> any idea what happened here?
+          this doesn't look like anything I've seen before. help!
+        </>
+      ),
+    },
+    {
+      headshot: "https://i.imgur.com/1xDVxPQ.png",
+      body: (
+        <>
+          Could it have something to do with{" "}
+          <span style={{ whiteSpace: "nowrap" }} className="mention">
+            <Square color="red"></Square>demotron_gateway_api
+          </span>
+          ?
+        </>
+      ),
+    },
+    {
+      headshot: "https://i.imgur.com/jSrZwhT.jpg",
+      reply: true,
+      body: <>I don't think so.</>,
+    },
+    { newline: true },
+    {
+      headshot: "https://i.imgur.com/jSrZwhT.jpg",
+      body: <>What happened to the workload it used to be a part of?</>,
+    },
+    {
+      headshot: "https://i.imgur.com/1xDVxPQ.png",
+      body: <>This is the same problem as the last time we checked it</>,
+    },
+  ],
 };
 
 export const Comment = (props: any) => {
@@ -307,8 +351,14 @@ export const Thread = (props: any) => {
               onChange={(e) => setText(e.target.value)}
             />
             <div className="comment-attachments">
-              <BsMarkdown /> <GoMention /> <VscSmiley />{" "}
-              <VscLink onClick={() => addComment("/mobile")} /> <IoIosAttach />
+              <BsMarkdown title="Markdown Help" />{" "}
+              <GoMention title="Mention a teammate" />{" "}
+              <VscSmiley title="Emoji" />{" "}
+              <VscLink
+                title="Link to current page"
+                onClick={() => addComment("/mobile")}
+              />{" "}
+              <IoIosAttach title="Attach a file" />
               <div
                 className={`primary right ${text ? "active" : "disabled"}`}
                 onClick={() => addComment(text)}
@@ -382,73 +432,17 @@ export const Thread = (props: any) => {
     </>
   );
 };
-export const xThread = (props: any) => {
-  return (
-    <>
-      <Comment className="pinned" headshot="https://i.imgur.com/jSrZwhT.jpg">
-        <div style={{ position: "absolute", top: "-10px", right: "0" }}>
-          <VscPinned />
-        </div>
-        Runbook for this app lives <span className="mention">here</span>
-      </Comment>
-      <Comment headshot="https://i.imgur.com/jSrZwhT.jpg">
-        <span className="mention">@dave</span> any idea what happened here? this
-        doesn't look like anything I've seen before. help!
-      </Comment>
-      <Comment headshot="https://i.imgur.com/1xDVxPQ.png">
-        Could it have something to do with{" "}
-        <span style={{ whiteSpace: "nowrap" }} className="mention">
-          <Square color="red"></Square>demotron_gateway_api
-        </span>
-        ?
-      </Comment>
-      <Comment className="reply" headshot="https://i.imgur.com/jSrZwhT.jpg">
-        I don't think so.
-      </Comment>
-      <Comment headshot="https://i.imgur.com/jSrZwhT.jpg">
-        What happened to the workload it used to be a part of?
-      </Comment>
-      <div className="new-line">
-        <div>
-          <div>new</div>
-        </div>
-      </div>
-      <Comment headshot="https://i.imgur.com/1xDVxPQ.png">
-        This is the same problem as the last time we checked it
-      </Comment>
-    </>
-  );
-};
 
 export const Comments = (props: any) => {
-  const location = useLocation();
   const [pinned, setPinned] = React.useState(false);
-  const [pathname, setPathname] = React.useState<string>(location.pathname);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [resolved, setResolved] = React.useState<{ [foo: string]: any }>({});
 
-  React.useEffect(() => {
-    if (props.commentsState !== "float") setPathname(location.pathname);
-  }, [location.pathname, props.commentState]);
-
-  // console.warn("pathname is: ", pathname);
-  const commentThread = pathname.endsWith("dashboards")
-    ? "dashboards"
-    : pathname.endsWith("browse-data")
-    ? "browse"
-    : pathname.endsWith("mobile")
-    ? "mobile"
-    : "";
+  const { resolved, setResolved, commentThread, threadState } = props;
 
   // @ts-ignore
   const commentsInDB = COMMENTS[commentThread] || [];
 
   const existingComments = resolved[commentThread] ? [] : commentsInDB;
-
-  const threadState =
-    resolved[commentThread] || resolved[commentThread] === false
-      ? "closed"
-      : "open";
 
   const color = threadState == "open" ? "green" : "purple";
 
@@ -511,14 +505,12 @@ export const Comments = (props: any) => {
                           })
                         }
                       >
-                        {threadState == "open"
-                          ? "Resolve Thread"
-                          : "Reopen Thread"}
+                        {threadState == "open" ? "Resolve" : "Reopen"}
                       </li>
                       <hr />
-                      <li>Export Thread</li>
+                      <li>Export</li>
                       <hr />
-                      <li>Archive Thread</li>
+                      <li>Archive</li>
                     </ul>
                   </div>
                 )}

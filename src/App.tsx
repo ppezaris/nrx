@@ -189,7 +189,9 @@ const Dashboards = (props: any) => {
 };
 
 export const Badge = (props: any) => {
-  return <div className="badge">{props.children}</div>;
+  return (
+    <div className={"badge " + (props.className || "")}>{props.children}</div>
+  );
 };
 
 const CmdK = (props: any) => {
@@ -405,11 +407,47 @@ const Header = (props: any) => {
   const [userOpen, setUserOpen] = React.useState(false);
   const [accountOpen, setAccountOpen] = React.useState(false);
   const location = useLocation();
+
+  const [pathname, setPathname] = React.useState<string>(location.pathname);
+  const [resolved, setResolved] = React.useState<{ [foo: string]: any }>({});
+
+  React.useEffect(() => {
+    if (props.commentsState !== "float") setPathname(location.pathname);
+  }, [location.pathname, props.commentState]);
+
+  // console.warn("pathname is: ", pathname);
+  const commentThread = pathname.endsWith("dashboards")
+    ? "dashboards"
+    : pathname.endsWith("browse-data")
+    ? "browse"
+    : pathname.endsWith("apm")
+    ? "apm"
+    : pathname.endsWith("mobile")
+    ? "mobile"
+    : "";
+
+  const threadState =
+    resolved[commentThread] || resolved[commentThread] === false
+      ? "closed"
+      : "open";
+
+  const color = threadState == "open" ? "green" : "purple";
+
   return (
     <div
       className="header"
       style={{ marginLeft: props.navState === "hidden" ? "40px" : "0px" }}
     >
+      <Comments
+        threadState={threadState}
+        commentThread={commentThread}
+        resolved={resolved}
+        setResolved={setResolved}
+        commentsState={props.commentsState}
+        setCommentsState={props.setCommentsState}
+        offScreen={props.commentsState == "closed"}
+      />
+
       <button
         style={{
           margin: "0 auto 0 0",
@@ -579,11 +617,13 @@ const Header = (props: any) => {
         }
       >
         {location.pathname.endsWith("browse-data") ? (
-          <Badge>5</Badge>
+          <Badge className={color}>5</Badge>
         ) : location.pathname.endsWith("dashboards") ? (
-          <Badge>6</Badge>
+          <Badge className={color}>6</Badge>
+        ) : location.pathname.endsWith("apm") ? (
+          <Badge className={color}>6</Badge>
         ) : location.pathname.endsWith("mobile") ? (
-          <Badge>4</Badge>
+          <Badge className={color}>4</Badge>
         ) : (
           <FiMessageSquare
             style={{ verticalAlign: "-2px", marginRight: "5px" }}
@@ -674,11 +714,6 @@ export default function App() {
               </Route>
             </Switch>
           </div>
-          <Comments
-            setCommentsState={setCommentsState}
-            commentsState={commentsState}
-            offScreen={commentsState == "closed"}
-          />
         </div>
       </div>
     </Router>

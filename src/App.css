@@ -139,14 +139,14 @@
   vertical-align: 2px;
   margin-right: 5px;
   margin-left: -1px;
-  background: #999;
+  background: #24a100;
 }
 .comment .badge {
   box-shadow: none;
   background: #999;
   position: absolute;
   left: auto;
-  right: -5px;
+  right: -8px;
   top: -5px;
 }
 .links a .extra {
@@ -256,12 +256,13 @@
 }
 .header button.active {
   border-radius: 4px 4px 0 0;
-  z-index: 10;
+  z-index: 50;
   background: #f8f8f8;
 }
 .header button.comment-button.active {
   margin-bottom: -10px;
   margin-top: 10px;
+  z-index: 49;
 }
 .header button:hover {
   background: #f8f8f8;
@@ -590,7 +591,7 @@ button.disabled {
   text-align: left;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
   background: #f8f8f8;
-  right: 0;
+  left: 0;
   top: 23px;
   border-radius: 4px 0 4px 4px;
   color: black;
