@@ -508,9 +508,25 @@ export const Comments = (props: any) => {
                         {threadState == "open" ? "Resolve" : "Reopen"}
                       </li>
                       <hr />
-                      <li>Export</li>
+                      <li
+                        onClick={() =>
+                          alert(
+                            "Not implemented. Would create a google doc from the thread as an instant-retro."
+                          )
+                        }
+                      >
+                        Export
+                      </li>
                       <hr />
-                      <li>Archive</li>
+                      <li
+                        onClick={() =>
+                          alert(
+                            "Not implemented. Would hide the thread completely including on this tab and on the Messages page."
+                          )
+                        }
+                      >
+                        Archive
+                      </li>
                     </ul>
                   </div>
                 )}
