@@ -423,7 +423,9 @@ const Header = (props: any) => {
   const location = useLocation();
 
   const [pathname, setPathname] = React.useState<string>(location.pathname);
-  const [resolved, setResolved] = React.useState<{ [foo: string]: any }>({});
+  const [resolved, setResolved] = React.useState<{ [foo: string]: any }>({
+    dashboards: true,
+  });
 
   React.useEffect(() => {
     if (props.commentsState !== "float") setPathname(location.pathname);
