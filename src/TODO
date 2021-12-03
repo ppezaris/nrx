@@ -3,6 +3,11 @@ configure nav
 share to slack
 create ticket/jira
 open team(account?)-based conversation threads?
+translate-y for comment placement
+pin message w/animation
+date separators
+simulate commenting on a timeline (date-specific comment)
+mock up explorer fully (left selection/nav turn it into horizontal filters)
 
 x UMI should be color-coded
 x logo upper-left

@@ -61,6 +61,7 @@ const COMMENTS = {
         </>
       ),
     },
+    { date: "Nov 20, 3:22pm et" },
     {
       headshot: "https://i.imgur.com/jSrZwhT.jpg",
       body: (
@@ -109,6 +110,7 @@ const COMMENTS = {
         </>
       ),
     },
+    { date: "Dec 1, 4:34pm et" },
     {
       reply: true,
       headshot: "https://i.imgur.com/jSrZwhT.jpg",
