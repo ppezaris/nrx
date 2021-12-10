@@ -34,6 +34,7 @@ import {
   VscChevronLeft,
   VscChevronRight,
 } from "react-icons/vsc";
+import { MdOutlineWbSunny } from "react-icons/md";
 
 import { BsSlack } from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
@@ -396,6 +397,11 @@ const Nav = (props: any) => {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/whats-new" activeClassName="active">
+              <MdOutlineWbSunny /> What's New
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/feedback" activeClassName="active">
               <VscFeedback /> Feedback
             </NavLink>
@@ -455,6 +461,7 @@ const Header = (props: any) => {
         threadState={threadState}
         commentThread={commentThread}
         resolved={resolved}
+        pathname={pathname}
         setResolved={setResolved}
         commentsState={props.commentsState}
         setCommentsState={props.setCommentsState}

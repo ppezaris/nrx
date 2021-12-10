@@ -165,7 +165,9 @@ body {
 .links .sep {
   border-top: 1px solid #017c86;
   margin-top: 5px;
-  padding: 10px 0 5px 15px;
+  padding: 10px 0 5px 10px;
+  text-transform: uppercase;
+  font-size: 11px;
 }
 .links a .badge {
   position: absolute;
@@ -268,6 +270,9 @@ body {
   cursor: pointer;
   position: relative;
   transition: border-radius 0.1s, margin 0.1s;
+}
+.header button label {
+  cursor: pointer;
 }
 .header button.active {
   border-radius: 4px 4px 0 0;
@@ -495,10 +500,10 @@ button.disabled {
   transition: none !important;
 }
 .comments.float {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
   top: 60px;
   right: 20px;
-  height: 50vh;
+  height: 75vh;
   border-radius: 10px;
   border: 1px solid #ddd;
   z-index: 30;
@@ -508,12 +513,13 @@ button.disabled {
 }
 .comments-header {
   padding: 20px 20px 0 0;
+  transition: padding 0.15s;
 }
 .comments.float .comments-header {
   background: #eee;
   border-bottom: 1px solid #ddd;
   z-index: 5;
-  padding: 10px 20px 8px 20px;
+  padding: 12px 10px 8px 0px;
   cursor: move;
 }
 .messages .subtle {
@@ -539,6 +545,18 @@ button.disabled {
 }
 .comment.pinned .comment-body::before {
   background: #fefecc;
+}
+.comment .pin {
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+.comment .unpinned {
+  transform: rotate(-45deg);
+}
+.comment.pinned .pin,
+.comment:hover .pin {
+  opacity: 1;
 }
 .comment img.headshot {
   width: 24px;

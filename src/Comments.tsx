@@ -2,12 +2,14 @@ import React from "react";
 import { Badge } from "./App";
 import {
   VscChevronDown,
+  VscChromeClose,
   VscLink,
   VscLinkExternal,
+  VscPin,
   VscPinned,
   VscSmiley,
 } from "react-icons/vsc";
-import { BsSlack } from "react-icons/bs";
+import { BsClock, BsSlack } from "react-icons/bs";
 import { NavLink, useLocation } from "react-router-dom";
 import { RiSendPlane2Line } from "react-icons/ri";
 import { SiJirasoftware } from "react-icons/si";
@@ -255,17 +257,20 @@ export const Comment = (props: any) => {
         Peter Pezaris <span className="subtle">2:30 PM</span>
   </div>*/}
       <div className="comment-body">
-        {props.pinned && (
-          <div
-            style={{
-              position: "absolute",
-              top: "-10px",
-              right: "0",
-            }}
-          >
-            <VscPinned />
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            top: "-10px",
+            right: "0",
+          }}
+        >
+          {props.timed && <BsClock />}
+          {props.pinned ? (
+            <VscPinned className="pin" />
+          ) : (
+            <VscPin className="pin unpinned" />
+          )}
+        </div>
         {props.body}
       </div>
     </div>
@@ -360,6 +365,7 @@ export const Thread = (props: any) => {
                 title="Link to current page"
                 onClick={() => addComment("/mobile")}
               />{" "}
+              <BsClock title="Commont on a point in time" />
               <IoIosAttach title="Attach a file" />
               <div
                 className={`primary right ${text ? "active" : "disabled"}`}
@@ -439,7 +445,7 @@ export const Comments = (props: any) => {
   const [pinned, setPinned] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
-  const { resolved, setResolved, commentThread, threadState } = props;
+  const { resolved, setResolved, commentThread, threadState, pathname } = props;
 
   // @ts-ignore
   const commentsInDB = COMMENTS[commentThread] || [];
@@ -470,7 +476,7 @@ export const Comments = (props: any) => {
             top: 0,
           }}
         >
-          <div>
+          <div style={{ paddingLeft: "20px" }}>
             {title}{" "}
             <span
               style={{ fontSize: "15px", verticalAlign: "-3px" }}
@@ -534,14 +540,17 @@ export const Comments = (props: any) => {
                 )}
               </button>
             )}
-            <VscLinkExternal
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                props.commentsState === "float"
-                  ? props.setCommentsState("open")
-                  : props.setCommentsState("float")
-              }
-            />
+            {props.commentsState === "float" ? (
+              <VscChromeClose
+                style={{ cursor: "pointer", transform: "scale(1.25)" }}
+                onClick={() => props.setCommentsState("closed")}
+              />
+            ) : (
+              <VscLinkExternal
+                style={{ cursor: "pointer" }}
+                onClick={() => props.setCommentsState("float")}
+              />
+            )}
           </div>
         </div>
         <Thread

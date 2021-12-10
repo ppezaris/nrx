@@ -2,10 +2,9 @@ drag & drop of nav
 configure nav
 share to slack
 create ticket/jira
-open team(account?)-based conversation threads?
-translate-y for comment placement
+creaete new team(account?)-based conversation threads?
+translate-y for comment placement and pinning
 pin message w/animation
-date separators
 simulate commenting on a timeline (date-specific comment)
 mock up explorer fully (left selection/nav turn it into horizontal filters)
 
@@ -15,3 +14,4 @@ x messages mockup
 x runbook / pinned messages
 x resolve thread (collapse)
 x header treatment for popped-out message threads
+x date separators
