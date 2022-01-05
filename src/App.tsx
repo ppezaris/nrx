@@ -33,11 +33,12 @@ import {
   VscHome,
   VscCopy,
   VscChevronLeft,
+  VscBug,
   VscChevronRight,
 } from "react-icons/vsc";
 import { MdOutlineWbSunny } from "react-icons/md";
 
-import { BsSlack } from "react-icons/bs";
+import { BsSlack, BsStar } from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
 
 import { FiShare2, FiUserPlus, FiMessageSquare } from "react-icons/fi";
@@ -287,7 +288,7 @@ const NAV = [
   { label: "Synthetics", icon: <VscGithubAction />, extra: <VscChevronDown /> },
   {
     label: "Messages",
-    icon: <VscComment />,
+    icon: <VscCommentDiscussion />,
     badge: <Badge>3</Badge>,
     noComment: true,
   },
@@ -295,16 +296,18 @@ const NAV = [
 ];
 
 const NAV_FEEDBACK = [
-    {label: "Rate your experience",
+    {label: "Rate your experience", icon: <BsStar />,
     onClick : () => {
                   /* @ts-ignore */ 
                   window.Usersnap.logEvent('rate_experience')
               }},
-    {label: "Feature request",onClick : () => {
+    {label: "Feature request",  icon: <VscComment />,
+    onClick : () => {
                   /* @ts-ignore */ 
                   window.Usersnap.logEvent('feature_request')
               }},
-  { label: "Report a bug", onClick : () => {
+  { label: "Report a bug", icon: <VscBug />,
+  onClick : () => {
                   /* @ts-ignore */ 
                   window.Usersnap.logEvent('report_bug')
               }}
