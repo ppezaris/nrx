@@ -190,6 +190,10 @@ body {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
   z-index: 10;
 }
+.bottom .links a .hover {
+    top: auto;
+    bottom: -4px;
+}
 .collapsed .links a .hover {
   left: 40px;
 }
@@ -756,4 +760,7 @@ button {
   background: white;
   opacity: 0.5;
   top: 0;
+}
+form#feedback button {
+    border-radius: 50%;
 }

@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
+import Helmet from 'react-helmet'
 import logo from "./logo2.svg";
 import {
   VscBell,
@@ -293,6 +294,31 @@ const NAV = [
   { label: "More", icon: <VscEllipsis />, subnav: NAV_MORE },
 ];
 
+const NAV_FEEDBACK = [
+    {label: "Rate your experience",
+    onClick : () => {
+                  /* @ts-ignore */ 
+                  window.Usersnap.logEvent('rate_experience')
+              }},
+    {label: "Feature request",onClick : () => {
+                  /* @ts-ignore */ 
+                  window.Usersnap.logEvent('feature_request')
+              }},
+  { label: "Report a bug", onClick : () => {
+                  /* @ts-ignore */ 
+                  window.Usersnap.logEvent('report_bug')
+              }}
+];
+
+const NAV_BOTTOM = [
+{label: "Help", icon:              <VscQuestion /> },
+{label: "What's New", icon:             <MdOutlineWbSunny /> },
+{label: "Feedback", icon:            <VscFeedback />,
+subnav: NAV_FEEDBACK},
+{label: "Invite", icon:              <FiUserPlus /> }
+
+];
+
 export const Menu = (props: { items: any[] }) => {
   return (
     <ul className="links submenu">
@@ -317,7 +343,13 @@ const NavItem = (props: any) => {
           .replace(" ", "-")
           .replace("&", "")}
         activeClassName="active"
-        onClick={() => {
+        onClick={e => {
+          if (item.onClick) {
+              item.onClick();
+              e.stopPropagation();
+              e.preventDefault();
+              return false;
+          }
           if (item.noComment) props.setCommentsState("closed");
         }}
       >
@@ -391,26 +423,13 @@ const Nav = (props: any) => {
       </ul>
       <div className="bottom">
         <ul className="links">
-          <li>
-            <NavLink to="/account" activeClassName="active">
-              <VscQuestion /> Help
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/whats-new" activeClassName="active">
-              <MdOutlineWbSunny /> What's New
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/feedback" activeClassName="active">
-              <VscFeedback /> Feedback
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/invite" activeClassName="active">
-              <FiUserPlus /> Invite
-            </NavLink>
-          </li>
+        {NAV_BOTTOM.map((item) => (
+          <NavItem
+            item={item}
+            setCommentsState={props.setCommentsState}
+            commentsState={props.commentsState}
+          />
+        ))}
           <img
             src="https://i.imgur.com/lYDpx6c.png"
             style={{ width: "1px", height: "0px" }}
@@ -662,6 +681,9 @@ const Header = (props: any) => {
   );
 };
 
+const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e"
+const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09"
+
 export default function App() {
   const [commentsState, setCommentsState] = React.useState("closed");
   const [navState, setNavState] = React.useState<
@@ -669,6 +691,20 @@ export default function App() {
   >("normal");
 
   return (
+      <> <Helmet>
+      <script type="text/javascript">
+        {`
+            window.onUsersnapCXLoad = function(api) {
+              api.init();
+              window.Usersnap = api;
+            }
+            var script = document.createElement('script');
+            script.defer = 1;
+            script.src = 'https://widget.usersnap.com/global/load/${USERSNAP_GLOBAL_API_KEY}?onload=onUsersnapCXLoad';
+            document.getElementsByTagName('head')[0].appendChild(script);
+        `}
+      </script>
+    </Helmet>
     <Router>
       <div className={`page ${navState}`}>
         <Nav
@@ -743,6 +779,6 @@ export default function App() {
           </div>
         </div>
       </div>
-    </Router>
+    </Router></>
   );
 }
