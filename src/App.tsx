@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
-import Helmet from 'react-helmet'
+import Helmet from "react-helmet";
 import logo from "./logo2.svg";
 import {
   VscBell,
@@ -296,30 +296,37 @@ const NAV = [
 ];
 
 const NAV_FEEDBACK = [
-    {label: "Rate your experience", icon: <BsStar />,
-    onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('rate_experience')
-              }},
-    {label: "Feature request",  icon: <VscComment />,
-    onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('feature_request')
-              }},
-  { label: "Report a bug", icon: <VscBug />,
-  onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('report_bug')
-              }}
+  {
+    label: "Rate your experience",
+    icon: <BsStar />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("rate_experience");
+    },
+  },
+  {
+    label: "Feature request",
+    icon: <VscComment />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("feature_request");
+    },
+  },
+  {
+    label: "Report a bug",
+    icon: <VscBug />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("report_bug");
+    },
+  },
 ];
 
 const NAV_BOTTOM = [
-{label: "Help", icon:              <VscQuestion /> },
-{label: "What's New", icon:             <MdOutlineWbSunny /> },
-{label: "Feedback", icon:            <VscFeedback />,
-subnav: NAV_FEEDBACK},
-{label: "Invite", icon:              <FiUserPlus /> }
-
+  { label: "Help", icon: <VscQuestion /> },
+  { label: "What's New", icon: <MdOutlineWbSunny /> },
+  { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
+  { label: "Invite", icon: <FiUserPlus /> },
 ];
 
 export const Menu = (props: { items: any[] }) => {
@@ -346,12 +353,12 @@ const NavItem = (props: any) => {
           .replace(" ", "-")
           .replace("&", "")}
         activeClassName="active"
-        onClick={e => {
+        onClick={(e) => {
           if (item.onClick) {
-              item.onClick();
-              e.stopPropagation();
-              e.preventDefault();
-              return false;
+            item.onClick();
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
@@ -391,6 +398,8 @@ const Nav = (props: any) => {
               ? "collapsed"
               : props.navState == "collapsed"
               ? "hidden"
+              : props.navState == "hidden"
+              ? "horizontal"
               : "normal"
           )
         }
@@ -412,7 +421,7 @@ const Nav = (props: any) => {
             zIndex: 400,
             cursor: "pointer",
           }}
-          onClick={() => props.setNavState("normal")}
+          onClick={() => props.setNavState("horizontal")}
         />
       )}
       <ul className="links" style={{ marginTop: 0 }}>
@@ -426,13 +435,13 @@ const Nav = (props: any) => {
       </ul>
       <div className="bottom">
         <ul className="links">
-        {NAV_BOTTOM.map((item) => (
-          <NavItem
-            item={item}
-            setCommentsState={props.setCommentsState}
-            commentsState={props.commentsState}
-          />
-        ))}
+          {NAV_BOTTOM.map((item) => (
+            <NavItem
+              item={item}
+              setCommentsState={props.setCommentsState}
+              commentsState={props.commentsState}
+            />
+          ))}
           <img
             src="https://i.imgur.com/lYDpx6c.png"
             style={{ width: "1px", height: "0px" }}
@@ -491,27 +500,13 @@ const Header = (props: any) => {
       />
 
       <button
-        style={{
-          margin: "0 auto 0 0",
-          flexGrow: 2,
-          textAlign: "left",
-          position: "relative",
-        }}
-        className={searchOpen ? "active" : ""}
+        className={searchOpen ? "active search-button" : "search-button"}
         onClick={() => setSearchOpen(!searchOpen)}
       >
         <label>
           <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
           <span style={{ opacity: 0.4 }}>Search &amp; Query</span>
-          <div
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "5px",
-              color: "#999",
-              fontSize: "12px",
-            }}
-          >
+          <div className="search-shortcut">
             <CmdK />
           </div>
         </label>
@@ -684,19 +679,21 @@ const Header = (props: any) => {
   );
 };
 
-const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e"
-const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09"
+const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e";
+const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09";
 
 export default function App() {
   const [commentsState, setCommentsState] = React.useState("closed");
   const [navState, setNavState] = React.useState<
-    "normal" | "collapsed" | "hidden"
+    "normal" | "collapsed" | "hidden" | "horizontal"
   >("normal");
 
   return (
-      <> <Helmet>
-      <script type="text/javascript">
-        {`
+    <>
+      {" "}
+      <Helmet>
+        <script type="text/javascript">
+          {`
             window.onUsersnapCXLoad = function(api) {
               api.init();
               window.Usersnap = api;
@@ -706,82 +703,83 @@ export default function App() {
             script.src = 'https://widget.usersnap.com/global/load/${USERSNAP_GLOBAL_API_KEY}?onload=onUsersnapCXLoad';
             document.getElementsByTagName('head')[0].appendChild(script);
         `}
-      </script>
-    </Helmet>
-    <Router>
-      <div className={`page ${navState}`}>
-        <Nav
-          setCommentsState={setCommentsState}
-          commentsState={commentsState}
-          setNavState={setNavState}
-          navState={navState}
-        />
-        <div className="body">
-          <Header
-            commentsState={commentsState}
+        </script>
+      </Helmet>
+      <Router>
+        <div className={`page ${navState}`}>
+          <Nav
             setCommentsState={setCommentsState}
+            commentsState={commentsState}
+            setNavState={setNavState}
             navState={navState}
           />
-          <div
-            style={{
-              paddingRight: commentsState === "open" ? "300px" : "0",
-              position: "relative",
-              transition: "padding-right 0.2s",
-            }}
-          >
-            <Switch>
-              <Route exact path="/home">
-                <Home />
-              </Route>
-              <Route exact path="/explorer">
-                <Explorer />
-              </Route>
-              <Route path="/browse-data">
-                <BrowseData />
-              </Route>
-              <Route path="/dashboards">
-                <Dashboards />
-              </Route>
-              <Route path="/logs">
-                <Logs />
-              </Route>
-              <Route path="/alerts--ai">
-                <Alerts />
-              </Route>
-              <Route path="/messages">
-                <Messages setCommentsState={setCommentsState} />
-              </Route>
-              <Route path="/mobile">
-                <Mobile />
-              </Route>
-              <Route exact path="/nrx/home">
-                <Home />
-              </Route>
-              <Route exact path="/nrx/explorer">
-                <Explorer />
-              </Route>
-              <Route path="/nrx/browse-data">
-                <BrowseData />
-              </Route>
-              <Route path="/nrx/dashboards">
-                <Dashboards />
-              </Route>
-              <Route path="/nrx/logs">
-                <Logs />
-              </Route>
-              <Route path="/nrx/alerts--ai">
-                <Alerts />
-              </Route>
-              <Route path="/nrx/messages">
-                <Messages setCommentsState={setCommentsState} />
-              </Route>
-              <Route path="/nrx/mobile">
-                <Mobile />
-              </Route>
-            </Switch>
+          <div className="body">
+            <Header
+              commentsState={commentsState}
+              setCommentsState={setCommentsState}
+              navState={navState}
+            />
+            <div
+              style={{
+                paddingRight: commentsState === "open" ? "300px" : "0",
+                position: "relative",
+                transition: "padding-right 0.2s",
+              }}
+            >
+              <Switch>
+                <Route exact path="/home">
+                  <Home />
+                </Route>
+                <Route exact path="/explorer">
+                  <Explorer />
+                </Route>
+                <Route path="/browse-data">
+                  <BrowseData />
+                </Route>
+                <Route path="/dashboards">
+                  <Dashboards />
+                </Route>
+                <Route path="/logs">
+                  <Logs />
+                </Route>
+                <Route path="/alerts--ai">
+                  <Alerts />
+                </Route>
+                <Route path="/messages">
+                  <Messages setCommentsState={setCommentsState} />
+                </Route>
+                <Route path="/mobile">
+                  <Mobile />
+                </Route>
+                <Route exact path="/nrx/home">
+                  <Home />
+                </Route>
+                <Route exact path="/nrx/explorer">
+                  <Explorer />
+                </Route>
+                <Route path="/nrx/browse-data">
+                  <BrowseData />
+                </Route>
+                <Route path="/nrx/dashboards">
+                  <Dashboards />
+                </Route>
+                <Route path="/nrx/logs">
+                  <Logs />
+                </Route>
+                <Route path="/nrx/alerts--ai">
+                  <Alerts />
+                </Route>
+                <Route path="/nrx/messages">
+                  <Messages setCommentsState={setCommentsState} />
+                </Route>
+                <Route path="/nrx/mobile">
+                  <Mobile />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </div>
-      </div>
-    </Router></>
+      </Router>
+    </>
   );
 }
