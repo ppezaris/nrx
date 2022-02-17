@@ -1175,6 +1175,11 @@ const NAV = [
   { label: "Synthetics", icon: <VscGithubAction />, extra: <VscChevronDown /> },
   {
     label: "Messages",
+    labelDiv: (
+      <span>
+        Messages<span style={{ padding: "0 8px" }}> </span>
+      </span>
+    ),
     icon: <VscCommentDiscussion />,
     badge: <Badge>3</Badge>,
     noComment: true,
@@ -1238,7 +1243,7 @@ const NavItem = (props: any) => {
         }}
         className={item.hasThirdNav ? "has-third-nav" : ""}
       >
-        {item.icon} <span className="label">{item.label}</span>
+        {item.icon} <span className="label">{item.labelDiv || item.label}</span>
         <span className="extra">{item.extra}</span>
         {item.badge && item.badge}
         {item.subnav && (

@@ -1043,17 +1043,20 @@ button.disabled {
 .plugins.scrolled {
   margin-left: -630px;
 }
+.plugins .scroll-right svg,
+.plugins .scroll-left svg {
+  opacity: 0;
+}
 .plugins .scroll-right,
 .plugins .scroll-left {
   background: rgba(0, 0, 0, 0.4);
-  width: 50px;
+  width: 40px;
   right: 0;
   top: 0;
   position: absolute;
   height: 100%;
   display: flex;
   cursor: pointer;
-  opacity: 0;
   transition: opacity 0.5s;
   justify-content: center;
   align-items: center;
@@ -1064,8 +1067,8 @@ button.disabled {
   right: auto;
   left: 590px;
 }
-.plugins:hover .scroll-left,
-.plugins:hover .scroll-right {
+.plugins:hover .scroll-left svg,
+.plugins:hover .scroll-right svg {
   opacity: 1;
 }
 .step,
