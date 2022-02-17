@@ -30,7 +30,6 @@ import {
   VscChromeClose,
   VscCommentDiscussion,
   VscChromeMaximize,
-  VscHome,
   VscCopy,
   VscChevronLeft,
   VscBug,
@@ -39,6 +38,7 @@ import {
   VscMention,
   VscStarFull,
   VscStarEmpty,
+  VscSettingsGear,
 } from "react-icons/vsc";
 import { MdOutlineWbSunny } from "react-icons/md";
 
@@ -443,7 +443,7 @@ const Category = (props: any) => {
     </div>
   );
 };
-const Home = (props: any) => {
+const Setup = (props: any) => {
   const [hide, setHide] = React.useState(false);
   const [query, setQuery] = React.useState("");
   return (
@@ -1134,7 +1134,7 @@ const NAV_LOGS = [
 
 const NAV = [
   //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
-  { label: "Home", icon: <VscHome /> },
+  { label: "Setup", icon: <VscSettingsGear /> },
   {
     label: "Explorer",
     icon: <VscGlobe />,
@@ -1621,8 +1621,8 @@ export default function App() {
               }}
             >
               <Switch>
-                <Route exact path="/home">
-                  <Home />
+                <Route exact path="/setup">
+                  <Setup />
                 </Route>
                 <Route path="/explorer">
                   <Explorer />
@@ -1645,8 +1645,8 @@ export default function App() {
                 <Route path="/mobile">
                   <Mobile />
                 </Route>
-                <Route exact path="/nrx/home">
-                  <Home />
+                <Route exact path="/nrx/setup">
+                  <Setup />
                 </Route>
                 <Route exact path="/nrx/explorer">
                   <Explorer />
