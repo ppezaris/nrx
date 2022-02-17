@@ -36,6 +36,9 @@ import {
   VscBug,
   VscChevronRight,
   VscListFilter,
+  VscMention,
+  VscStarFull,
+  VscStarEmpty,
 } from "react-icons/vsc";
 import { MdOutlineWbSunny } from "react-icons/md";
 
@@ -52,7 +55,7 @@ import {
   NavLink,
 } from "react-router-dom";
 
-import { Messages } from "./Messages";
+import { Messages, Square, Unread } from "./Messages";
 import { Comments } from "./Comments";
 
 // This site has 3 pages, all of which are rendered
@@ -561,14 +564,13 @@ const Home = (props: any) => {
 }
 
 const Explorer = (props: any) => {
-  const [view, setView] = React.useState("all");
-  const [showDetails, setShowDetails] = React.useState(false);
+  const [view, setView] = React.useState("list");
   const [timeOpen, setTimeOpen] = React.useState(false);
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
       <Title
-        className="compact"
+        className="compactX"
         buttonsX={[
           <button className="primary round">Create a workload</button>,
         ]}
@@ -622,20 +624,20 @@ const Explorer = (props: any) => {
         <div className="filters" style={{ marginLeft: "10px" }}>
           <div className="group">
             <button
-              className={view === "all" ? "selected" : ""}
-              onClick={() => setView("all")}
+              className={view === "list" ? "selected" : ""}
+              onClick={() => setView("list")}
             >
               List
             </button>
             <button
-              className={view === "following" ? "selected" : ""}
-              onClick={() => setView("following")}
+              className={view === "navigator" ? "selected" : ""}
+              onClick={() => setView("navigator")}
             >
               Navigator
             </button>
             <button
-              className={view === "unread" ? "selected" : ""}
-              onClick={() => setView("unread")}
+              className={view === "lookout" ? "selected" : ""}
+              onClick={() => setView("lookout")}
             >
               Lookout
             </button>
@@ -663,51 +665,275 @@ const Explorer = (props: any) => {
       </button>
       <br />
       <br />
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <div
-          style={{
-            background: "var(--bg-3)",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          <img
-            src="https://i.imgur.com/XO4ZQac.png"
-            style={{ width: "100%" }}
-          />
-        </div>
-        {showDetails && (
-          <div
-            style={{
-              flexBasis: "500px",
-              minHeight: "100vh",
-              borderRadius: "4px",
-              background: "var(--bg-3)",
-            }}
-          >
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
-        )}
-      </div>
+      {view === "list" && <List />}
+      {view === "navigator" && <Navigator />}
     </Content>
   );
 };
 
+const Star = (props: any) => {
+  return <VscStarEmpty />;
+};
+
+const List = (props: any) => {
+  const handleClick = () => {};
+  return (
+    <>
+      <div className="box">
+        <SubTitle>
+          <VscChevronDown /> Services - APM
+        </SubTitle>
+        <table className="messages explorer">
+          <thead>
+            <tr>
+              <td></td>
+              <td>Name</td>
+              <td>Account</td>
+              <td>End User</td>
+              <td>Page Views</td>
+              <td>Response</td>
+              <td>Throughput</td>
+              <td>Errors</td>
+              <td>f</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onClick={handleClick}>
+              <td style={{ color: "yellow" }}>
+                <VscStarFull />
+              </td>
+              <td>
+                <Square color="green" />
+                FoodMe
+                <span className="subtle">
+                  This is the same problem as the last time we checked it
+                </span>
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td style={{ color: "yellow" }}>
+                <VscStarFull />
+              </td>
+              <td>
+                <Square color="green" />
+                Kafka-admin (perf)
+                <span className="subtle">
+                  Looks like we have a real issue here
+                </span>
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td style={{ position: "relative" }}>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="red" />
+                Kafka-admin (stg-deep-tree)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="green" />
+                Kafka-admin (stg-deep-tree)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="gray" />
+                kafka-admin (stg-showy-brain)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="box">
+        <SubTitle>
+          <VscChevronDown /> Hosts
+        </SubTitle>
+        <table className="messages explorer">
+          <thead>
+            <tr>
+              <td></td>
+              <td>Name</td>
+              <td>Account</td>
+              <td>Provider</td>
+              <td>Response</td>
+              <td>Throughput</td>
+              <td>Errors</td>
+              <td>f</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onClick={handleClick}>
+              <td style={{ color: "yellow" }}>
+                <VscStarFull />
+              </td>
+              <td>
+                <Square color="green" />
+                pd-mailin-10-101-0-230.codestream.us
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="green" />
+                ip-172-31-11-129.eu-central-1.compute.internal
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td style={{ position: "relative" }}>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="red" />
+                pd-api-20-101-0-237.codestream.us
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="red" />
+                ip-172-31-19-164.eu-central-1.compute.internal
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={handleClick}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="gray" />
+                ip-172-31-24-116.eu-central-1.compute.internal
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+const Navigator = (props: any) => {
+  const [showDetails, setShowDetails] = React.useState(false);
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "10px",
+      }}
+    >
+      <div
+        style={{
+          background: "var(--bg-3)",
+          borderRadius: "4px",
+          cursor: "pointer",
+        }}
+        onClick={() => setShowDetails(!showDetails)}
+      >
+        <img src="https://i.imgur.com/XO4ZQac.png" style={{ width: "100%" }} />
+      </div>
+      {showDetails && (
+        <div
+          style={{
+            flexBasis: "500px",
+            minHeight: "100vh",
+            borderRadius: "4px",
+            background: "var(--bg-3)",
+          }}
+        >
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
+      )}
+    </div>
+  );
+};
 const Mobile = (props: any) => {
   return (
     <Content>
