@@ -112,13 +112,18 @@ export const Search = (props: any) => {
 
 const Step = (props: any) => {
   const [active, setActive] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+
   return (
     <div
-      className={props.checked ? "step checked" : "step"}
-      onClick={() => setActive(!active)}
+      className={checked ? "step checked" : "step"}
+      onClick={() => {
+        setActive(!active);
+        setChecked(true);
+      }}
     >
       <div>
-        <div className="step-number">{props.number}</div>
+        <div className="step-number">{checked ? "✔" : props.number}</div>
         <div className="step-title">{props.title}</div>
         {props.children}
       </div>
@@ -175,9 +180,7 @@ const Plugins = (props: any) => {
         {plugins.map((p: any) => (
           <Plugin plugin={p} />
         ))}
-        {plugins.map((p: any) => (
-          <Plugin plugin={p} />
-        ))}
+        {!query && plugins.map((p: any) => <Plugin plugin={p} />)}
         <div className="scroll-right" onClick={() => setScrolled(!scrolled)}>
           <VscChevronRight />
         </div>
@@ -442,10 +445,10 @@ const Home = (props: any) => {
             Getting Started
           </Title>
           <div className="getting-started">
-            <Step title="Add your data" number="✔" checked>
+            <Step title="Add your data" number="1">
               Connect your data to New Relic and gain insights in 5 minutes.
             </Step>
-            <Step title="Explore your data" number="✔" checked>
+            <Step title="Explore your data" number="2">
               Traverse your entire stack in one place.
             </Step>
             <Step title="Monitor workflows" number="3">
@@ -460,7 +463,7 @@ const Home = (props: any) => {
             <Step title="Set up a dashboard" number="6">
               Create and share dashboards that matter to you and your team.
             </Step>
-            <Step title="Invite your team" number="✔" checked>
+            <Step title="Invite your team" number="7">
               Create and share dashboards that matter to you and your team.
             </Step>
           </div>
@@ -559,6 +562,8 @@ const Home = (props: any) => {
 
 const Explorer = (props: any) => {
   const [view, setView] = React.useState("all");
+  const [showDetails, setShowDetails] = React.useState(false);
+  const [timeOpen, setTimeOpen] = React.useState(false);
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
@@ -573,6 +578,7 @@ const Explorer = (props: any) => {
       <div
         style={{
           display: "flex",
+          flex: 1,
           //   background: "var(--bg-1)",
           //   padding: "10px",
           borderRadius: "4px",
@@ -584,13 +590,35 @@ const Explorer = (props: any) => {
           className="flex-grow"
           placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
         />
-        <button className="rounded secondary" style={{ margin: "0 0 0 10px" }}>
+        <button
+          className={`rounded secondary ${timeOpen ? "active" : ""}`}
+          style={{ margin: "0 0 0 10px" }}
+          onClick={() => setTimeOpen(!timeOpen)}
+        >
           <BsClock />
           <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
             Since 30 minutes ago
           </label>
           <VscChevronDown />
+          {timeOpen && (
+            <div className="menu" style={{ width: "100%" }}>
+              <ul>
+                <hr />
+                <li>30 minutes</li>
+                <li>60 minutes</li>
+                <hr />
+                <li>3 hours</li>
+                <li>6 hours</li>
+                <li>12 hours</li>
+                <li>24 hours</li>
+                <hr />
+                <li>3 days</li>
+                <li>7 days</li>
+              </ul>
+            </div>
+          )}
         </button>
+
         <div className="filters" style={{ marginLeft: "10px" }}>
           <div className="group">
             <button
@@ -613,7 +641,11 @@ const Explorer = (props: any) => {
             </button>
           </div>
         </div>
-        <button className="rounded secondary" style={{ margin: 0 }}>
+        <button
+          className="rounded secondary"
+          style={{ margin: 0 }}
+          title="Disabled. Enter a filter to save."
+        >
           Save as view
         </button>
       </div>
@@ -631,8 +663,46 @@ const Explorer = (props: any) => {
       </button>
       <br />
       <br />
-      <div style={{ background: "var(--bg-3)", borderRadius: "4px" }}>
-        <img src="https://i.imgur.com/XO4ZQac.png" style={{ width: "100%" }} />
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <div
+          style={{
+            background: "var(--bg-3)",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          <img
+            src="https://i.imgur.com/XO4ZQac.png"
+            style={{ width: "100%" }}
+          />
+        </div>
+        {showDetails && (
+          <div
+            style={{
+              flexBasis: "500px",
+              minHeight: "100vh",
+              borderRadius: "4px",
+              background: "var(--bg-3)",
+            }}
+          >
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </div>
+        )}
       </div>
     </Content>
   );

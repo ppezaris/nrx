@@ -35,12 +35,26 @@
   --fg-4: #727476;
   --border: #3d3f42;
   --shadow-top: #4b4e53;
+  --shadow-bottom: #222;
   color-scheme: dark;
 }
 .light {
-  --bg-2: white;
+  --bg-1: white;
+  --bg-2: #eee;
+  --bg-3: #ddd;
   --button-bg: #eee;
   --button-fg: #333;
+  --popup-bg: #ddd;
+  --popup-selected-bg: #bbb;
+  --popup-border: #bbb;
+  --selected-bg: #aaa;
+  --fg-1: #000;
+  --fg-2: #111;
+  --fg-3: #222;
+  --fg-4: #333;
+  --border: #ddd;
+  --shadow-top: #ddd;
+  --shadow-bottom: #ccc;
 }
 .App {
   text-align: center;
@@ -265,6 +279,9 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 3px black;
 }
+.light .badge {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
 .header .badge {
   box-shadow: none;
   display: inline-flex;
@@ -347,6 +364,9 @@ body {
 .bottom .links a .hover {
   top: auto;
   bottom: -4px;
+}
+.horizontal .bottom .links a .hover {
+  bottom: 24px;
 }
 .collapsed .links a .hover {
   left: 40px;
@@ -446,7 +466,7 @@ button.rounded {
   transition: border-radius 0.1s, margin 0.1s;
   background: var(--button-bg);
   color: var(--fg-3);
-  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px #222;
+  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
   margin: 5px 0 5px 15px;
 }
 button.compact {
@@ -478,7 +498,8 @@ button.compact {
 .header button label {
   cursor: pointer;
 }
-.header button.active {
+.header button.active,
+button.rounded.active {
   border-radius: 4px 4px 0 0;
   z-index: 50;
   background: #f8f8f8;
@@ -672,7 +693,7 @@ button.round,
   border: none;
   border-right: 1px solid var(--border);
   box-shadow: 0 -1px 0px var(--shadow-top);
-  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px #222;
+  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
 }
 button.round {
   margin-right: 0;
@@ -1170,7 +1191,7 @@ button.disabled {
   color: #393;
 }
 .step.checked .active::before {
-  color: #393;
+  /* color: #393; */
 }
 .step-title {
   padding: 60px 5px 10px 5px;
@@ -1248,7 +1269,7 @@ input[type="search"] {
   transition: border-radius 0.1s, margin 0.1s;
   background: var(--button-bg);
   color: var(--fg-3);
-  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px #222;
+  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
   margin: 0;
   width: 100%;
   position: relative;
