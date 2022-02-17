@@ -1046,6 +1046,8 @@ button.disabled {
 .plugins .scroll-right svg,
 .plugins .scroll-left svg {
   opacity: 0;
+  transition: opacity 0.5s, transform 0.15s;
+  transform: scale(0.5);
 }
 .plugins .scroll-right,
 .plugins .scroll-left {
@@ -1062,11 +1064,20 @@ button.disabled {
   height: 100%;
   display: flex;
   cursor: pointer;
-  transition: opacity 0.5s;
+  transition: opacity 0.5s, transform 0.15s;
   justify-content: center;
   align-items: center;
   font-size: 40px;
   color: var(--fg-1);
+}
+.light .plugins .scroll-right,
+.light .plugins .scroll-left {
+  /* background: rgba(39, 41, 45, 0.65); */
+  background: linear-gradient(
+    to right,
+    rgba(241, 241, 241, 0),
+    rgba(241, 241, 241, 1)
+  );
 }
 .plugins .scroll-left {
   right: auto;
@@ -1077,10 +1088,22 @@ button.disabled {
     rgba(39, 41, 45, 1)
   );
 }
+.light .plugins .scroll-left {
+  background: linear-gradient(
+    to left,
+    rgba(241, 241, 241, 0),
+    rgba(241, 241, 241, 1)
+  );
+}
 .plugins:hover .scroll-left svg,
 .plugins:hover .scroll-right svg {
   opacity: 1;
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.9));
+  transform: scale(1);
+}
+.light .plugins:hover .scroll-left svg,
+.light .plugins:hover .scroll-right svg {
+  filter: none;
 }
 .step,
 .plugin,

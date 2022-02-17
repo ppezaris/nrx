@@ -45,7 +45,13 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { BsClock, BsSlack, BsStar } from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
 
-import { FiShare2, FiUserPlus, FiMessageSquare } from "react-icons/fi";
+import {
+  FiShare2,
+  FiUserPlus,
+  FiMessageSquare,
+  FiChevronRight,
+  FiChevronLeft,
+} from "react-icons/fi";
 
 import React, { ChangeEvent } from "react";
 import {
@@ -57,6 +63,7 @@ import {
 
 import { Messages, Square, Unread } from "./Messages";
 import { Comments } from "./Comments";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -185,11 +192,11 @@ const Plugins = (props: any) => {
         ))}
         {!query && plugins.map((p: any) => <Plugin plugin={p} />)}
         <div className="scroll-right" onClick={() => setScrolled(!scrolled)}>
-          <VscChevronRight />
+          <FiChevronRight />
         </div>
         {scrolled && (
           <div className="scroll-left" onClick={() => setScrolled(!scrolled)}>
-            <VscChevronLeft />
+            <FiChevronLeft />
           </div>
         )}
       </div>
@@ -208,6 +215,7 @@ const PLUGINS = {
       title: "Lacework",
       icon: "https://www.lacework.com/wp-content/uploads/2021/12/Lacework_Shield_RGB.png",
       body: "Integrate Lacework's security events into the New Relic platform",
+      author: "Lacework, Inc",
     },
     {
       title: "Python",
@@ -285,6 +293,7 @@ const PLUGINS = {
       title: "Lacework",
       icon: "https://www.lacework.com/wp-content/uploads/2021/12/Lacework_Shield_RGB.png",
       body: "Integrate Lacework's security events into the New Relic platform",
+      author: "Lacework, Inc",
     },
     {
       title: "Linux",
