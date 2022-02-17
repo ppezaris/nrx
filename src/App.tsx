@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
-import Helmet from 'react-helmet'
+import Helmet from "react-helmet";
 import logo from "./logo2.svg";
 import {
   VscBell,
@@ -35,15 +35,16 @@ import {
   VscChevronLeft,
   VscBug,
   VscChevronRight,
+  VscListFilter,
 } from "react-icons/vsc";
 import { MdOutlineWbSunny } from "react-icons/md";
 
-import { BsSlack, BsStar } from "react-icons/bs";
+import { BsClock, BsSlack, BsStar } from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
 
 import { FiShare2, FiUserPlus, FiMessageSquare } from "react-icons/fi";
 
-import React from "react";
+import React, { ChangeEvent } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -64,64 +65,645 @@ import { Comments } from "./Comments";
 // work properly.
 
 export const Content = (props: any) => {
-  return <div className="content">{props.children}</div>;
+  return (
+    <div className={"content " + (props.className || "")}>{props.children}</div>
+  );
 };
 
 export const Title = (props: any) => {
-  return <div className="title">{props.children}</div>;
+  return (
+    <div className={`title ${props.className || ""}`}>
+      <label>{props.children}</label>
+      <div className="buttons">{props.buttons}</div>
+    </div>
+  );
+};
+
+export const SubTitle = (props: any) => {
+  return (
+    <div className="subtitle">
+      <label>{props.children}</label>
+      <div className="buttons">{props.buttons}</div>
+    </div>
+  );
+};
+
+export const Search = (props: any) => {
+  return (
+    <div className={`search ${props.className || ""}`}>
+      {props.icon === "filter" ? (
+        <VscListFilter className="search-icon" />
+      ) : (
+        <VscSearch className="search-icon" />
+      )}
+      <input
+        type="search"
+        placeholder={props.placeholder}
+        value={props.value}
+        autoFocus={props.autoFocus}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          props.onChange(e.target.value)
+        }
+      ></input>
+      <div className="buttons">{props.buttons}</div>
+    </div>
+  );
 };
 
 const Step = (props: any) => {
+  const [active, setActive] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+
   return (
-    <div className="step">
-      <div className={props.checked ? "step-number checked" : "step-number"}>
-        {props.number}
+    <div
+      className={checked ? "step checked" : "step"}
+      onClick={() => {
+        setActive(!active);
+        setChecked(true);
+      }}
+    >
+      <div>
+        <div className="step-number">{checked ? "✔" : props.number}</div>
+        <div className="step-title">{props.title}</div>
+        {props.children}
       </div>
-      <div className="step-title">{props.title}</div>
+      {active && (
+        <div className="active">
+          <div className="step-number">{props.number}</div>
+          <div className="step-title">{props.title}</div>
+          <div className="step-body">Video goes here...</div>
+          <button className="primary rounded">Get started</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Plugin = (props: any) => {
+  const { plugin = {} } = props;
+  return (
+    <div className="plugin">
+      <div className="plugin-icon">
+        <img src={plugin.icon} />
+      </div>
+      <div className="plugin-title">{plugin.title}</div>
+      <div className="plugin-body">{plugin.body}</div>
+      <div className="plugin-author">{plugin.author}</div>
+    </div>
+  );
+};
+
+const Plugins = (props: any) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const query = (props.q || "").toLocaleLowerCase();
+  const plugins = (props.plugins || []).filter((p: any) => {
+    return (
+      !query ||
+      p.title.toLocaleLowerCase().includes(query) ||
+      p.body.toLocaleLowerCase().includes(query)
+    );
+  });
+  if (plugins.length === 0) return null;
+  return (
+    <div className="plugins-wrapper">
+      <SubTitle>
+        <label>{props.title}</label>
+        <span className="show-all">
+          Show All <VscChevronRight />
+        </span>
+      </SubTitle>
+      <div
+        className={`plugins ${props.className || ""} ${
+          scrolled ? "scrolled" : ""
+        }`}
+      >
+        {plugins.map((p: any) => (
+          <Plugin plugin={p} />
+        ))}
+        {!query && plugins.map((p: any) => <Plugin plugin={p} />)}
+        <div className="scroll-right" onClick={() => setScrolled(!scrolled)}>
+          <VscChevronRight />
+        </div>
+        {scrolled && (
+          <div className="scroll-left" onClick={() => setScrolled(!scrolled)}>
+            <VscChevronLeft />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const PLUGINS = {
+  installed: [
+    {
+      title: ".NET",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/dotnet/dotnet/logo.svg",
+      body: "Learn more about .NET Framework, the importance of monitoring .NET, the ideal features of a .NET monitor, and the unique value of New Relic's .NET quickstart.",
+    },
+    {
+      title: "Lacework",
+      icon: "https://www.lacework.com/wp-content/uploads/2021/12/Lacework_Shield_RGB.png",
+      body: "Integrate Lacework's security events into the New Relic platform",
+    },
+    {
+      title: "Python",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/python/python/logo.svg",
+      body: "Alerts, event loop diagnostics, and multiple customizable dashboards to detect and resolve issues before they impact end-users.",
+    },
+    {
+      title: "Linux",
+      icon: "https://1000logos.net/wp-content/uploads/2017/03/LINUX-LOGO.png",
+      body: "Use the New Relic Infrastructure agent to monitor Linux",
+    },
+    {
+      title: "Kafka",
+      icon: "https://svn.apache.org/repos/asf/kafka/site/logos/originals/png/ICON%20-%20White%20on%20Transparent.png",
+      body: "Kafka monitoring helps track Kafka topics, number of brokers, messages per second, broker bytes, and consumer lag in real-time.",
+    },
+    {
+      title: "CodeStream",
+      icon: "https://plugins.jetbrains.com/files/12206/158570/icon/pluginIcon.svg",
+      body: "View production telemetry and troubleshoot errors from your IDE.",
+      author: "New Relic",
+    },
+  ],
+  recommended: [
+    {
+      title: "Guided Install",
+      icon: "https://www.clipartmax.com/png/full/252-2523577_logo-transparent-new-relic-logo-png.png",
+      body: "The easiest way to start instrumenting your environment so that you can monitor it.",
+      author: "New Relic",
+    },
+    {
+      title: "CodeStream",
+      icon: "https://plugins.jetbrains.com/files/12206/158570/icon/pluginIcon.svg",
+      body: "View production telemetry and troubleshoot errors from your IDE.",
+      author: "New Relic",
+    },
+    {
+      title: "Node.js",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/node-js/node-js/logo.svg",
+      body: "Monitor Node.js including multiple high-value alerts and informative dashboards to help developers visualize essential metrics and act on potential issues quickly.",
+      author: "New Relic",
+    },
+    {
+      title: "Java",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/java/adobe-cq/logo.svg",
+      body: "Insight into application performance, improves uptime, and reduces latency. Monitoring is reported using metric time-slice and event data, and all results are displayed in easy-to-use, visual dashboards.",
+      author: "New Relic",
+    },
+    {
+      title: "MongoDB",
+      icon: "https://th.bing.com/th/id/R.e02128ffde3fa9ddecf8a173a3f89260?rik=ISOzgojnaAOD6w&riu=http%3a%2f%2f1.bp.blogspot.com%2f-z0k4kdWf1D4%2fU2Nl-4GincI%2fAAAAAAAALs4%2fM058ExsalEY%2fs1600%2fmongodb.png&ehk=mUuc6w8PoO6%2bPUIoz0KOxZiuXspTFL%2bXujH%2f%2bV6cuUI%3d&risl=&pid=ImgRaw&r=0",
+      body: "New Relic's MongoDB quickstart provides multiple customized dashboards including total commands, requests per second, and database size. Install the quickstart to better understand utilization of resources and monitor performance issues.",
+      author: "New Relic",
+    },
+    {
+      title: ".NET",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/dotnet/dotnet/logo.svg",
+      body: "Learn more about .NET Framework, the importance of monitoring .NET, the ideal features of a .NET monitor, and the unique value of New Relic's .NET quickstart.",
+      author: "New Relic",
+    },
+  ],
+  featured: [
+    {
+      title: "Trend Micro Cloud One",
+      icon: "https://3.imimg.com/data3/DD/BY/MY-9447834/trend-micro-support-500x500.png",
+      body: "New Relic’s integration with Trend Micro Cloud One - Conformity ingests cloud security posture management (CSPM) data from Conformity into New Relic in real-time.",
+      author: "Trend Micro",
+    },
+    {
+      title: "PHP",
+      icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/2560px-PHP-logo.svg.png",
+      body: "PHP server monitor agent helps app developers quickly identify and resolve errors, including slow responses, to enhance customer experiences.",
+    },
+    {
+      title: "Lacework",
+      icon: "https://www.lacework.com/wp-content/uploads/2021/12/Lacework_Shield_RGB.png",
+      body: "Integrate Lacework's security events into the New Relic platform",
+    },
+    {
+      title: "Linux",
+      icon: "https://1000logos.net/wp-content/uploads/2017/03/LINUX-LOGO.png",
+      body: "Use the New Relic Infrastructure agent to monitor Linux",
+    },
+    {
+      title: "Python",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/python/python/logo.svg",
+      body: "Alerts, event loop diagnostics, and multiple customizable dashboards to detect and resolve issues before they impact end-users.",
+    },
+    {
+      title: "Fastly CDN",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/fastly/logo.png",
+      body: "Analyze the health of your Fastly CDN POP footprint with both a dashboard and alerts.",
+    },
+  ],
+  apm: [
+    {
+      title: "PHP",
+      icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/2560px-PHP-logo.svg.png",
+      body: "PHP server monitor agent helps app developers quickly identify and resolve errors, including slow responses, to enhance customer experiences.",
+    },
+    {
+      title: ".NET",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/dotnet/dotnet/logo.svg",
+      body: "Learn more about .NET Framework, the importance of monitoring .NET, the ideal features of a .NET monitor, and the unique value of New Relic's .NET quickstart.",
+    },
+    {
+      title: "Albo Pathpoint",
+      icon: "https://nr3.nr-ext.net/artifact-index-production/66cbf464-0991-4204-8552-cc7c45155e86/det/66cbf464-0991-4204-8552-cc7c45155e86.png",
+      body: "Pathpoint is an enterprise platform tracker that models business process health using New Relic telemetry as the foundational signal data.",
+    },
+    {
+      title: "Akka",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/java/akka/logo.svg",
+      body: "Monitor Akka with New Relic's Java agent.",
+    },
+    {
+      title: "Apigee API Distributed Tracing",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/gcp/apigee-api/logo.svg",
+      body: "Monitor Apigee API Flows with New Relic's Trace API.",
+    },
+    {
+      title: "ActiveRecord",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/ruby/activerecord/logo.svg",
+      body: "Monitor ActiveRecord with New Relic's Ruby agent.",
+    },
+    {
+      title: "",
+      icon: "",
+      body: "",
+    },
+  ],
+  recent: [
+    {
+      title: "Email Notifications",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/notification-channels/email-notifications/logo.png",
+      body: "Send your New Relic alerts via email.",
+      author: "Matan Moser and Ismail Azam",
+    },
+    {
+      title: "Event API",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/apis/event/logo.png",
+      body: "The New Relic Event API is one way to report custom events to New Relic. The Event API lets you send custom event data to your New Relic account with a POST command. These events are then queryable and chartable using NRQL.",
+    },
+    {
+      title: "F5",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/f5/logo.svg",
+      body: "Monitor your F5 BIG-IP with New Relic.",
+    },
+    {
+      title: "facepy",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/python/facepy/logo.svg",
+      body: "Monitor facepy with New Relic's Python agent.",
+    },
+    {
+      title: "Falcon",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/python/falcon/logo.svg",
+      body: "Monitor Falcon with New Relic's Python agent.",
+    },
+    {
+      title: "Fluent Bit plugin for Logs",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/fluent-bit-plugin-for-logs/logo.svg",
+      body: "Open source and multi-platform Log Processor and Forwarder which allows you to collect data/logs from different sources.",
+    },
+  ],
+  popular: [],
+  trending: [
+    {
+      title: "Amazon CloudWatch Metric Streams",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/aws/amazon-cloudwatch-metric-streams/logo.svg",
+      body: "Use Amazon CloudWatch to monitor your AWS services with New Relic.",
+    },
+    {
+      title: "AWS",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/aws/amazon-web-services/logo.svg",
+      body: "Enable integrations and get complete visibility into your infrastructure.",
+    },
+    {
+      title: "AWS NLB/ALB",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/aws/aws-nlb-alb/logo.svg",
+      body: "Monitor AWS NLB/ALB by connecting AWS to New Relic.",
+    },
+    {
+      title: "Azure App Service",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/azure/azure-app-service/logo.svg",
+      body: "Monitor Azure App Service by connecting Azure to New Relic.",
+    },
+    {
+      title: "Azure Front Door",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/azure/azure-front-door/logo.svg",
+      body: "Monitor Azure Front Door by connecting Azure to New Relic.",
+    },
+    {
+      title: "BancoChile Pathpoint",
+      icon: "https://nr3.nr-ext.net/artifact-index-production/49566445-b583-4794-b46d-81ff3cdb1c5b/1.0.2/49566445-b583-4794-b46d-81ff3cdb1c5b.png",
+      body: "Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.",
+    },
+    {
+      title: "",
+      icon: "",
+      body: "",
+    },
+  ],
+};
+
+const CATEGORIES = [
+  "Application monitoring",
+  "Infrastructure & OS",
+  "Browser & mobile",
+  "Simulate Traffic",
+  "Logging",
+  "Kubernetes & Containers",
+  "Amazon Web Services",
+  "Azure",
+  "Google Cloud Platform",
+  "Open source monitoring",
+  "Machine learning ops",
+  "Notifications",
+];
+
+const Category = (props: any) => {
+  return (
+    <div className="category" onClick={props.onClick}>
       {props.children}
-      <div className="mention learn-more">Show me how</div>
     </div>
   );
 };
 const Home = (props: any) => {
+  const [hide, setHide] = React.useState(false);
+  const [query, setQuery] = React.useState("");
   return (
     <Content>
-      <Title>Getting Started</Title>
-      <div className="getting-started">
-        <Step title="Add your data" number="✔" checked>
-          Connect your data to New Relic and gain insights in 5 minutes.
-        </Step>
-        <Step title="Explore your data" number="✔" checked>
-          Traverse your entire stack in one place.
-        </Step>
-        <Step title="Monitor critical workflows" number="3">
-          Detect outages and poor performance before your users notice.
-        </Step>
-        <Step title="Configure an alert" number="4">
-          Configure an alert and we'll tell you when to worry.
-        </Step>
-        <Step title="Query your data" number="5">
-          Write your first query in our powerful New Relic Query Language
-          (NRQL).
-        </Step>
-        <Step title="Set up a dashboard" number="6">
-          Create and share dashboards that matter to you and your team.
-        </Step>
-        <Step title="Invite your teammates" number="✔" checked>
-          Create and share dashboards that matter to you and your team.
-        </Step>
+      {!hide && (
+        <>
+          <Title
+            className="compact"
+            buttons={<span onClick={() => setHide(!hide)}>hide</span>}
+          >
+            Getting Started
+          </Title>
+          <div className="getting-started">
+            <Step title="Add your data" number="1">
+              Connect your data to New Relic and gain insights in 5 minutes.
+            </Step>
+            <Step title="Explore your data" number="2">
+              Traverse your entire stack in one place.
+            </Step>
+            <Step title="Monitor workflows" number="3">
+              Detect outages and poor performance before your users notice.
+            </Step>
+            <Step title="Configure an alert" number="4">
+              Configure an alert and we'll tell you when to worry.
+            </Step>
+            <Step title="Query your data" number="5">
+              Write your first query in our powerful New Relic Query Language.
+            </Step>
+            <Step title="Set up a dashboard" number="6">
+              Create and share dashboards that matter to you and your team.
+            </Step>
+            <Step title="Invite your team" number="7">
+              Create and share dashboards that matter to you and your team.
+            </Step>
+          </div>
+        </>
+      )}
+      <Title className="compact centered">Add Your Data to New Relic</Title>
+      <div className="subtle centered search-description">
+        Browse pre-built resources to get you started or improve how you monitor
+        your environment. Install visualizations, apps, or quickstarts filled
+        with resources like dashboards, instrumentation, and alerts.
       </div>
-      <Title>Add Data</Title>
-      <img src="https://i.imgur.com/iOZgwom.png" style={{ width: "100%" }} />
+      <Search
+        className="half-width"
+        autoFocus
+        placeholder="Search for any environment or data source"
+        value={query}
+        onChange={(q: string) => setQuery(q)}
+      />
+      <Plugins
+        title="Installed"
+        className="installed"
+        plugins={PLUGINS.installed}
+        q={query}
+      />
+      <Plugins title="Recommended" plugins={PLUGINS.recommended} q={query} />
+      <Plugins title="Featured" plugins={PLUGINS.featured} q={query} />
+      <Plugins title="Trending" plugins={PLUGINS.trending} q={query} />
+      <Plugins title="Most Popular" plugins={PLUGINS.popular} q={query} />
+      <Plugins title="Recently Added" plugins={PLUGINS.recent} q={query} />
+      <Plugins title="APM" plugins={PLUGINS.apm} q={query} />
+      <Plugins title="Infrastructure &amp; OS" q={query} />
+      <Plugins title="Browser &amp; Mobile" q={query} />
+      <SubTitle>Filter by Category</SubTitle>
+      <div className="categories">
+        {CATEGORIES.map((category: any) => {
+          return (
+            <Category onClick={() => setQuery(category)}>{category}</Category>
+          );
+        })}
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </Content>
   );
 };
 
+{
+  /* <div className="filters">
+<div className="group">
+  <button
+    className={view === "all" ? "selected" : ""}
+    onClick={() => setView("all")}
+  >
+    Health
+  </button>
+  <button
+    className={view === "following" ? "selected" : ""}
+    onClick={() => setView("following")}
+  >
+    Service Levels (Beta)
+  </button>
+  <button
+    className={view === "unread" ? "selected" : ""}
+    onClick={() => setView("unread")}
+  >
+    Activity
+  </button>
+  <button
+    className={view === "open" ? "selected" : ""}
+    onClick={() => setView("open")}
+  >
+    Owner
+  </button>
+  <button
+    className={view === "closed" ? "selected" : ""}
+    onClick={() => setView("closed")}
+  >
+    Map (Beta)
+  </button>
+</div>
+</div> */
+}
+
 const Explorer = (props: any) => {
+  const [view, setView] = React.useState("all");
+  const [showDetails, setShowDetails] = React.useState(false);
+  const [timeOpen, setTimeOpen] = React.useState(false);
   return (
-    <Content>
-      <Title>Explorer</Title>
-      <img src="https://i.imgur.com/lYDpx6c.png" style={{ width: "100%" }} />
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
+      <Title
+        className="compact"
+        buttonsX={[
+          <button className="primary round">Create a workload</button>,
+        ]}
+      >
+        Explorer / All
+      </Title>
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          //   background: "var(--bg-1)",
+          //   padding: "10px",
+          borderRadius: "4px",
+          marginBottom: "15px",
+        }}
+      >
+        <Search
+          icon="filter"
+          className="flex-grow"
+          placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+        />
+        <button
+          className={`rounded secondary ${timeOpen ? "active" : ""}`}
+          style={{ margin: "0 0 0 10px" }}
+          onClick={() => setTimeOpen(!timeOpen)}
+        >
+          <BsClock />
+          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+            Since 30 minutes ago
+          </label>
+          <VscChevronDown />
+          {timeOpen && (
+            <div className="menu" style={{ width: "100%" }}>
+              <ul>
+                <hr />
+                <li>30 minutes</li>
+                <li>60 minutes</li>
+                <hr />
+                <li>3 hours</li>
+                <li>6 hours</li>
+                <li>12 hours</li>
+                <li>24 hours</li>
+                <hr />
+                <li>3 days</li>
+                <li>7 days</li>
+              </ul>
+            </div>
+          )}
+        </button>
+
+        <div className="filters" style={{ marginLeft: "10px" }}>
+          <div className="group">
+            <button
+              className={view === "all" ? "selected" : ""}
+              onClick={() => setView("all")}
+            >
+              List
+            </button>
+            <button
+              className={view === "following" ? "selected" : ""}
+              onClick={() => setView("following")}
+            >
+              Navigator
+            </button>
+            <button
+              className={view === "unread" ? "selected" : ""}
+              onClick={() => setView("unread")}
+            >
+              Lookout
+            </button>
+          </div>
+        </div>
+        <button
+          className="rounded secondary"
+          style={{ margin: 0 }}
+          title="Disabled. Enter a filter to save."
+        >
+          Save as view
+        </button>
+      </div>
+      Group reporting entities by
+      <button className="rounded secondary compact" style={{ margin: "0 5px" }}>
+        <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+          language
+        </label>
+        <VscChevronDown />
+      </button>
+      and sort by
+      <button className="rounded secondary compact" style={{ margin: "0 5px" }}>
+        <label style={{ verticalAlign: "1px", padding: "0 5px" }}>health</label>
+        <VscChevronDown />
+      </button>
+      <br />
+      <br />
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <div
+          style={{
+            background: "var(--bg-3)",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          <img
+            src="https://i.imgur.com/XO4ZQac.png"
+            style={{ width: "100%" }}
+          />
+        </div>
+        {showDetails && (
+          <div
+            style={{
+              flexBasis: "500px",
+              minHeight: "100vh",
+              borderRadius: "4px",
+              background: "var(--bg-3)",
+            }}
+          >
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </div>
+        )}
+      </div>
     </Content>
   );
 };
@@ -137,7 +719,8 @@ const Mobile = (props: any) => {
 
 const Alerts = (props: any) => {
   return (
-    <Content>
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_ALERTS} subdir="/alerts--ai/" />
       <Title>Alerts &amp; AI</Title>
       <img src="https://i.imgur.com/mIZAU3v.png" style={{ width: "100%" }} />
     </Content>
@@ -146,7 +729,8 @@ const Alerts = (props: any) => {
 
 const Logs = (props: any) => {
   return (
-    <Content>
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_LOGS} subdir="/logs/" />
       <Title>Logs</Title>
       <img src="https://i.imgur.com/g0St7AZ.png" style={{ width: "100%" }} />
     </Content>
@@ -155,7 +739,8 @@ const Logs = (props: any) => {
 
 const BrowseData = (props: any) => {
   return (
-    <Content>
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_BROWSE} subdir="/browse-data/" />
       <Title>Browse Data</Title>
       <img src="https://i.imgur.com/QxHws6n.png" style={{ width: "100%" }} />
     </Content>
@@ -183,7 +768,8 @@ const Banner = (props: any) => {
 
 const Dashboards = (props: any) => {
   return (
-    <Content>
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
       <Banner />
       <Title>Dashboards</Title>
       <img src="https://i.imgur.com/S3USDNH.png" style={{ width: "100%" }} />
@@ -257,20 +843,86 @@ const NAV_ALERTS = [
   { label: "Destinations" },
 ];
 
+const NAV_FEEDBACK = [
+  {
+    label: "Rate your experience",
+    icon: <BsStar />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("rate_experience");
+    },
+  },
+  {
+    label: "Feature request",
+    icon: <VscComment />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("feature_request");
+    },
+  },
+  {
+    label: "Report a bug",
+    icon: <VscBug />,
+    onClick: () => {
+      /* @ts-ignore */
+      window.Usersnap.logEvent("report_bug");
+    },
+  },
+];
+
+const NAV_EXPLORER = [
+  { label: "All", icon: <VscFeedback /> },
+  { label: "Last", icon: <MdOutlineWbSunny /> },
+  { label: "Favorites", icon: <VscQuestion /> },
+  { label: "Saved", icon: <FiUserPlus /> },
+  { label: "Gaps", icon: <FiUserPlus /> },
+  { label: "Your system", icon: <FiUserPlus /> },
+  { label: "Other entities", icon: <FiUserPlus /> },
+  { label: "Synthetics", icon: <FiUserPlus /> },
+  { label: "Kubernetes", icon: <FiUserPlus /> },
+  { label: "AWS", icon: <FiUserPlus /> },
+  { label: "Azure", icon: <FiUserPlus /> },
+];
+
+const NAV_LOGS = [
+  { label: "All", icon: <VscQuestion /> },
+  { label: "Attributes", icon: <MdOutlineWbSunny /> },
+  { label: "Patterns", icon: <VscFeedback /> },
+  { label: "Livetail", icon: <FiUserPlus /> },
+  { label: "Query", icon: <FiUserPlus /> },
+  { label: "Drop Filters", icon: <FiUserPlus /> },
+  { label: "Parsing", icon: <FiUserPlus /> },
+  { label: "Data partitions", icon: <FiUserPlus /> },
+  { label: "Create alert condition", icon: <FiUserPlus /> },
+  { label: "Create drop filter", icon: <FiUserPlus /> },
+];
+
 const NAV = [
   //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
   { label: "Home", icon: <VscHome /> },
-  { label: "Explorer", icon: <VscGlobe />, hover: "" },
+  {
+    label: "Explorer",
+    icon: <VscGlobe />,
+    extra: <VscChevronDown />,
+    hover: "",
+    hasThirdNav: true,
+    subdir: "/explorer/",
+    subnav: NAV_EXPLORER,
+  },
   {
     label: "Browse Data",
     icon: <VscCompass />,
     extra: <VscChevronDown />,
+    hasThirdNav: true,
     subnav: NAV_BROWSE,
+    subdir: "/browse-data/",
   },
   {
     label: "Dashboards",
     icon: <VscDashboard />,
     extra: <VscChevronDown />,
+    hasThirdNav: true,
+    subdir: "/dashboards/",
     subnav: NAV_DASHBOARD,
   },
   {
@@ -278,12 +930,21 @@ const NAV = [
     icon: <VscWarning />,
     extra: <VscChevronDown />,
     subnav: NAV_ALERTS,
+    hasThirdNav: true,
+    subdir: "/alerts--ai/",
   },
   { label: "Errors Inbox", icon: <VscInbox /> },
   { label: "APM", icon: <VscGraphLine />, extra: <VscChevronDown /> },
   { label: "Browser", icon: <VscBrowser />, extra: <VscChevronDown /> },
   { label: "Infrastructure", icon: <VscServer />, extra: <VscChevronDown /> },
-  { label: "Logs", icon: <VscListFlat /> },
+  {
+    label: "Logs",
+    icon: <VscListFlat />,
+    hasThirdNav: true,
+    extra: <VscChevronDown />,
+    subdir: "/logs/",
+    subnav: NAV_LOGS,
+  },
   { label: "Mobile", icon: <VscDeviceMobile />, extra: <VscChevronDown /> },
   { label: "Synthetics", icon: <VscGithubAction />, extra: <VscChevronDown /> },
   {
@@ -295,38 +956,28 @@ const NAV = [
   { label: "More", icon: <VscEllipsis />, subnav: NAV_MORE },
 ];
 
-const NAV_FEEDBACK = [
-    {label: "Rate your experience", icon: <BsStar />,
-    onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('rate_experience')
-              }},
-    {label: "Feature request",  icon: <VscComment />,
-    onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('feature_request')
-              }},
-  { label: "Report a bug", icon: <VscBug />,
-  onClick : () => {
-                  /* @ts-ignore */ 
-                  window.Usersnap.logEvent('report_bug')
-              }}
-];
-
 const NAV_BOTTOM = [
-{label: "Help", icon:              <VscQuestion /> },
-{label: "What's New", icon:             <MdOutlineWbSunny /> },
-{label: "Feedback", icon:            <VscFeedback />,
-subnav: NAV_FEEDBACK},
-{label: "Invite", icon:              <FiUserPlus /> }
-
+  { label: "Help", icon: <VscQuestion /> },
+  { label: "What's New", icon: <MdOutlineWbSunny /> },
+  { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
+  { label: "Invite", icon: <FiUserPlus /> },
 ];
 
-export const Menu = (props: { items: any[] }) => {
+export const ThirdNav = (props: { items: any[]; subdir?: string }) => {
+  return (
+    <ul className="links thirdnav subnav">
+      {props.items.map((item) => (
+        <NavItem item={item} subdir={props.subdir} />
+      ))}
+    </ul>
+  );
+};
+
+export const Menu = (props: { items: any[]; subdir?: string }) => {
   return (
     <ul className="links submenu">
       {props.items.map((item) => (
-        <NavItem item={item} />
+        <NavItem item={item} subdir={props.subdir} />
       ))}
     </ul>
   );
@@ -337,31 +988,36 @@ const NavItem = (props: any) => {
   if (item.label.startsWith("-")) {
     return <div className="sep">{item.label.replace("-", "")}</div>;
   }
+  const to =
+    (props.subdir || "/") +
+    item.label
+      .toLocaleLowerCase()
+      .replace(" ", "-")
+      .replace(" ", "-")
+      .replace("&", "");
+
   return (
     <li>
       <NavLink
-        to={item.label
-          .toLocaleLowerCase()
-          .replace(" ", "-")
-          .replace(" ", "-")
-          .replace("&", "")}
+        to={to}
         activeClassName="active"
-        onClick={e => {
+        onClick={(e) => {
           if (item.onClick) {
-              item.onClick();
-              e.stopPropagation();
-              e.preventDefault();
-              return false;
+            item.onClick();
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
+        className={item.hasThirdNav ? "has-third-nav" : ""}
       >
         {item.icon} <span className="label">{item.label}</span>
         <span className="extra">{item.extra}</span>
         {item.badge && item.badge}
         {item.subnav && (
-          <span className="hover">
-            <Menu items={item.subnav} />
+          <span className={"hover"}>
+            <Menu items={item.subnav} subdir={item.subdir} />
           </span>
         )}
       </NavLink>
@@ -391,6 +1047,8 @@ const Nav = (props: any) => {
               ? "collapsed"
               : props.navState == "collapsed"
               ? "hidden"
+              : props.navState == "hidden"
+              ? "horizontal"
               : "normal"
           )
         }
@@ -412,7 +1070,7 @@ const Nav = (props: any) => {
             zIndex: 400,
             cursor: "pointer",
           }}
-          onClick={() => props.setNavState("normal")}
+          onClick={() => props.setNavState("horizontal")}
         />
       )}
       <ul className="links" style={{ marginTop: 0 }}>
@@ -426,13 +1084,13 @@ const Nav = (props: any) => {
       </ul>
       <div className="bottom">
         <ul className="links">
-        {NAV_BOTTOM.map((item) => (
-          <NavItem
-            item={item}
-            setCommentsState={props.setCommentsState}
-            commentsState={props.commentsState}
-          />
-        ))}
+          {NAV_BOTTOM.map((item) => (
+            <NavItem
+              item={item}
+              setCommentsState={props.setCommentsState}
+              commentsState={props.commentsState}
+            />
+          ))}
           <img
             src="https://i.imgur.com/lYDpx6c.png"
             style={{ width: "1px", height: "0px" }}
@@ -491,27 +1149,13 @@ const Header = (props: any) => {
       />
 
       <button
-        style={{
-          margin: "0 auto 0 0",
-          flexGrow: 2,
-          textAlign: "left",
-          position: "relative",
-        }}
-        className={searchOpen ? "active" : ""}
+        className={searchOpen ? "active search-button" : "search-button"}
         onClick={() => setSearchOpen(!searchOpen)}
       >
         <label>
           <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-          <span style={{ opacity: 0.4 }}>Search &amp; Query</span>
-          <div
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "5px",
-              color: "#999",
-              fontSize: "12px",
-            }}
-          >
+          <span>Search &amp; Query</span>
+          <div className="search-shortcut">
             <CmdK />
           </div>
         </label>
@@ -604,7 +1248,7 @@ const Header = (props: any) => {
               <hr />
               <li>Account settings</li>
               <hr />
-              <li>Theme</li>
+              <li onClick={props.toggleTheme}>Theme</li>
               <li>NRQL console</li>
               <hr />
               <li>Add more data</li>
@@ -684,19 +1328,25 @@ const Header = (props: any) => {
   );
 };
 
-const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e"
-const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09"
+const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e";
+const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09";
 
 export default function App() {
   const [commentsState, setCommentsState] = React.useState("closed");
+  const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
-    "normal" | "collapsed" | "hidden"
-  >("normal");
+    "normal" | "collapsed" | "hidden" | "horizontal"
+  >("horizontal");
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
-      <> <Helmet>
-      <script type="text/javascript">
-        {`
+    <>
+      {" "}
+      <Helmet>
+        <script type="text/javascript">
+          {`
             window.onUsersnapCXLoad = function(api) {
               api.init();
               window.Usersnap = api;
@@ -706,82 +1356,84 @@ export default function App() {
             script.src = 'https://widget.usersnap.com/global/load/${USERSNAP_GLOBAL_API_KEY}?onload=onUsersnapCXLoad';
             document.getElementsByTagName('head')[0].appendChild(script);
         `}
-      </script>
-    </Helmet>
-    <Router>
-      <div className={`page ${navState}`}>
-        <Nav
-          setCommentsState={setCommentsState}
-          commentsState={commentsState}
-          setNavState={setNavState}
-          navState={navState}
-        />
-        <div className="body">
-          <Header
-            commentsState={commentsState}
+        </script>
+      </Helmet>
+      <Router>
+        <div className={`page ${navState} ${theme}`}>
+          <Nav
             setCommentsState={setCommentsState}
+            commentsState={commentsState}
+            setNavState={setNavState}
             navState={navState}
           />
-          <div
-            style={{
-              paddingRight: commentsState === "open" ? "300px" : "0",
-              position: "relative",
-              transition: "padding-right 0.2s",
-            }}
-          >
-            <Switch>
-              <Route exact path="/home">
-                <Home />
-              </Route>
-              <Route exact path="/explorer">
-                <Explorer />
-              </Route>
-              <Route path="/browse-data">
-                <BrowseData />
-              </Route>
-              <Route path="/dashboards">
-                <Dashboards />
-              </Route>
-              <Route path="/logs">
-                <Logs />
-              </Route>
-              <Route path="/alerts--ai">
-                <Alerts />
-              </Route>
-              <Route path="/messages">
-                <Messages setCommentsState={setCommentsState} />
-              </Route>
-              <Route path="/mobile">
-                <Mobile />
-              </Route>
-              <Route exact path="/nrx/home">
-                <Home />
-              </Route>
-              <Route exact path="/nrx/explorer">
-                <Explorer />
-              </Route>
-              <Route path="/nrx/browse-data">
-                <BrowseData />
-              </Route>
-              <Route path="/nrx/dashboards">
-                <Dashboards />
-              </Route>
-              <Route path="/nrx/logs">
-                <Logs />
-              </Route>
-              <Route path="/nrx/alerts--ai">
-                <Alerts />
-              </Route>
-              <Route path="/nrx/messages">
-                <Messages setCommentsState={setCommentsState} />
-              </Route>
-              <Route path="/nrx/mobile">
-                <Mobile />
-              </Route>
-            </Switch>
+          <div className="body">
+            <Header
+              toggleTheme={toggleTheme}
+              commentsState={commentsState}
+              setCommentsState={setCommentsState}
+              navState={navState}
+            />
+            <div
+              style={{
+                paddingRight: commentsState === "open" ? "300px" : "0",
+                position: "relative",
+                transition: "padding-right 0.2s",
+              }}
+            >
+              <Switch>
+                <Route exact path="/home">
+                  <Home />
+                </Route>
+                <Route path="/explorer">
+                  <Explorer />
+                </Route>
+                <Route path="/browse-data">
+                  <BrowseData />
+                </Route>
+                <Route path="/dashboards">
+                  <Dashboards />
+                </Route>
+                <Route path="/logs">
+                  <Logs />
+                </Route>
+                <Route path="/alerts--ai">
+                  <Alerts />
+                </Route>
+                <Route path="/messages">
+                  <Messages setCommentsState={setCommentsState} />
+                </Route>
+                <Route path="/mobile">
+                  <Mobile />
+                </Route>
+                <Route exact path="/nrx/home">
+                  <Home />
+                </Route>
+                <Route exact path="/nrx/explorer">
+                  <Explorer />
+                </Route>
+                <Route path="/nrx/browse-data">
+                  <BrowseData />
+                </Route>
+                <Route path="/nrx/dashboards">
+                  <Dashboards />
+                </Route>
+                <Route path="/nrx/logs">
+                  <Logs />
+                </Route>
+                <Route path="/nrx/alerts--ai">
+                  <Alerts />
+                </Route>
+                <Route path="/nrx/messages">
+                  <Messages setCommentsState={setCommentsState} />
+                </Route>
+                <Route path="/nrx/mobile">
+                  <Mobile />
+                </Route>
+              </Switch>
+            </div>
           </div>
         </div>
-      </div>
-    </Router></>
+      </Router>
+    </>
   );
 }
