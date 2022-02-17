@@ -1049,7 +1049,7 @@ button.disabled {
 }
 .plugins .scroll-right,
 .plugins .scroll-left {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(39, 41, 45, 0.65);
   width: 40px;
   right: 0;
   top: 0;
