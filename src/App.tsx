@@ -39,10 +39,13 @@ import {
   VscStarFull,
   VscStarEmpty,
   VscSettingsGear,
+  VscCode,
+  VscListUnordered,
 } from "react-icons/vsc";
-import { MdOutlineWbSunny } from "react-icons/md";
+import { MdOutlineBubbleChart, MdOutlineWbSunny } from "react-icons/md";
+import { CgScreen, CgSoftwareDownload } from "react-icons/cg";
 
-import { BsClock, BsSlack, BsStar } from "react-icons/bs";
+import { BsClock, BsHexagon, BsSlack, BsStar } from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
 
 import {
@@ -112,7 +115,7 @@ export const Search = (props: any) => {
         value={props.value}
         autoFocus={props.autoFocus}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          props.onChange(e.target.value)
+          props.onChange && props.onChange(e.target.value)
         }
       ></input>
       <div className="buttons">{props.buttons}</div>
@@ -572,9 +575,41 @@ const Setup = (props: any) => {
 </div> */
 }
 
+const Timepicker = (props: any) => {
+  const [timeOpen, setTimeOpen] = React.useState(false);
+  return (
+    <button
+      className={`rounded secondary ${timeOpen ? "active" : ""}`}
+      style={{ margin: "0 0 0 10px" }}
+      onClick={() => setTimeOpen(!timeOpen)}
+    >
+      <BsClock />
+      <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+        Since 30 minutes ago
+      </label>
+      <VscChevronDown />
+      {timeOpen && (
+        <div className="menu" style={{ width: "100%" }}>
+          <ul>
+            <hr />
+            <li>30 minutes</li>
+            <li>60 minutes</li>
+            <hr />
+            <li>3 hours</li>
+            <li>6 hours</li>
+            <li>12 hours</li>
+            <li>24 hours</li>
+            <hr />
+            <li>3 days</li>
+            <li>7 days</li>
+          </ul>
+        </div>
+      )}
+    </button>
+  );
+};
 const Explorer = (props: any) => {
   const [view, setView] = React.useState("list");
-  const [timeOpen, setTimeOpen] = React.useState(false);
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
@@ -601,53 +636,28 @@ const Explorer = (props: any) => {
           className="flex-grow"
           placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
         />
-        <button
-          className={`rounded secondary ${timeOpen ? "active" : ""}`}
-          style={{ margin: "0 0 0 10px" }}
-          onClick={() => setTimeOpen(!timeOpen)}
-        >
-          <BsClock />
-          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-            Since 30 minutes ago
-          </label>
-          <VscChevronDown />
-          {timeOpen && (
-            <div className="menu" style={{ width: "100%" }}>
-              <ul>
-                <hr />
-                <li>30 minutes</li>
-                <li>60 minutes</li>
-                <hr />
-                <li>3 hours</li>
-                <li>6 hours</li>
-                <li>12 hours</li>
-                <li>24 hours</li>
-                <hr />
-                <li>3 days</li>
-                <li>7 days</li>
-              </ul>
-            </div>
-          )}
-        </button>
-
+        <Timepicker />
         <div className="filters" style={{ marginLeft: "10px" }}>
           <div className="group">
             <button
               className={view === "list" ? "selected" : ""}
               onClick={() => setView("list")}
             >
+              <VscListUnordered />
               List
             </button>
             <button
               className={view === "navigator" ? "selected" : ""}
               onClick={() => setView("navigator")}
             >
+              <BsHexagon />
               Navigator
             </button>
             <button
               className={view === "lookout" ? "selected" : ""}
               onClick={() => setView("lookout")}
             >
+              <MdOutlineBubbleChart />
               Lookout
             </button>
           </div>
@@ -703,7 +713,7 @@ const List = (props: any) => {
               <td>Response</td>
               <td>Throughput</td>
               <td>Errors</td>
-              <td>f</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -714,9 +724,6 @@ const List = (props: any) => {
               <td>
                 <Square color="green" />
                 FoodMe
-                <span className="subtle">
-                  This is the same problem as the last time we checked it
-                </span>
               </td>
               <td>New Relic</td>
               <td>-</td>
@@ -733,9 +740,6 @@ const List = (props: any) => {
               <td>
                 <Square color="green" />
                 Kafka-admin (perf)
-                <span className="subtle">
-                  Looks like we have a real issue here
-                </span>
               </td>
               <td>New Relic</td>
               <td>-</td>
@@ -810,7 +814,7 @@ const List = (props: any) => {
               <td>Response</td>
               <td>Throughput</td>
               <td>Errors</td>
-              <td>f</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -956,6 +960,7 @@ const Alerts = (props: any) => {
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_ALERTS} subdir="/alerts--ai/" />
+      <Banner />
       <Title>Alerts &amp; AI</Title>
       <img src="https://i.imgur.com/mIZAU3v.png" style={{ width: "100%" }} />
     </Content>
@@ -1002,11 +1007,33 @@ const Banner = (props: any) => {
 };
 
 const Dashboards = (props: any) => {
+  const [view, setView] = React.useState("list");
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
-      <Banner />
-      <Title>Dashboards</Title>
+      <Title
+        buttons={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="rounded-button-group">
+              <button className="rounded secondary">
+                <CgScreen />
+              </button>
+              <button className="rounded secondary">
+                <VscCode />
+              </button>
+              <button className="rounded secondary">
+                <CgSoftwareDownload />
+              </button>
+              <button className="rounded primary">
+                <VscAdd />
+              </button>
+            </div>
+            <Timepicker />
+          </div>
+        }
+      >
+        Dashboards
+      </Title>
       <img src="https://i.imgur.com/S3USDNH.png" style={{ width: "100%" }} />
     </Content>
   );
@@ -1030,12 +1057,10 @@ const NAV_BROWSE = [
 ];
 
 const NAV_DASHBOARD = [
-  { label: "Mel Test" },
-  { label: "Mel Test / Mel Test" },
-  { label: "Sonja Test Dashboard" },
-  { label: "vinit" },
-  { label: "vinit / vinit" },
-  { label: "Weekly_UI_Testing_Dash" },
+  { label: "All", icon: <VscFeedback /> },
+  { label: "Last", icon: <MdOutlineWbSunny /> },
+  { label: "Favorites", icon: <VscQuestion /> },
+  { label: "Saved", icon: <FiUserPlus /> },
 ];
 
 const NAV_MORE = [

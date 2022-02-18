@@ -344,12 +344,16 @@ export const Thread = (props: any) => {
           <>
             <input
               type="text"
+              className="neg-margin"
               style={{
                 border: "none",
-                width: "100%",
+                width: "90%",
                 outline: "none",
-                margin: "-8px",
+                margin: "-8px !important",
                 padding: "8px",
+                background: "transparent",
+                borderRadius: "4px",
+                color: "black",
               }}
               placeholder={
                 props.resolved ? "Start a new thread..." : "Add a comment..."

@@ -550,7 +550,7 @@ button.rounded.active {
 }
 .title {
   font-size: 18px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 20px;
   color: var(--fg-1);
   /* color: var(--green-4); */
@@ -1232,7 +1232,7 @@ button.disabled {
   transform: translateX(-50%);
   font-weight: bold;
   /* color: white; */
-  color: var(--fg-1);
+  color: #eee;
   border-radius: 50%;
   font-size: 16px;
   width: 40px;
@@ -1411,4 +1411,21 @@ input[type="search"] {
 .box .subtitle svg {
   font-size: 20px;
   vertical-align: -4px;
+}
+.rounded-button-group button {
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  padding: 2px !important;
+  font-size: 14px;
+}
+.rounded-button-group button svg {
+}
+.header input {
+  margin: -8px -8px 4px -8px !important;
 }
