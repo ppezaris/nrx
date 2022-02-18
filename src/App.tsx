@@ -1100,7 +1100,6 @@ const NAV_ALERTS = [
   { label: "System settings" },
   { label: "-Enrich & Respond" },
   { label: "Workflows" },
-  { label: "Destinations" },
 ];
 
 const NAV_FEEDBACK = [
