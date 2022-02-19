@@ -353,7 +353,7 @@ export const Thread = (props: any) => {
                 padding: "8px",
                 background: "transparent",
                 borderRadius: "4px",
-                color: "black",
+                color: "var(--fg-2)",
               }}
               placeholder={
                 props.resolved ? "Start a new thread..." : "Add a comment..."
