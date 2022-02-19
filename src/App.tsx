@@ -79,7 +79,12 @@ import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
 export const Content = (props: any) => {
   return (
-    <div className={"content " + (props.className || "")}>{props.children}</div>
+    <div
+      onClick={props.onClick}
+      className={"content " + (props.className || "")}
+    >
+      {props.children}
+    </div>
   );
 };
 
@@ -484,6 +489,7 @@ const Setup = (props: any) => {
           </div>
         </>
       )}
+      <div style={{ height: "50px" }} />
       <Title className="compact centered">Add Your Data to New Relic</Title>
       <div className="subtle centered search-description">
         Browse pre-built resources to get you started or improve how you monitor
@@ -904,6 +910,79 @@ const List = (props: any) => {
     </>
   );
 };
+
+const DashboardsTable = (props: any) => {
+  const handleClick = () => props.setView("dashboard");
+  return (
+    <div className="box">
+      <table className="messages dashboards">
+        <thead>
+          <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Account</td>
+            <td>Created By</td>
+            <td>Last Edited</td>
+            <td>Created On</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onClick={handleClick}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>Alerts Filter Operations Dashboard (Production) copy</td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+          </tr>
+          <tr onClick={handleClick}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>.NET Agent (based on UI views)</td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+          </tr>
+          <tr onClick={handleClick}>
+            <td style={{ position: "relative" }}>
+              <VscStarEmpty />
+            </td>
+            <td>Adobe User Engagement Export</td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+          </tr>
+          <tr onClick={handleClick}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>04162021-DEMPLA-PagSeguro Perf Testing</td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+          </tr>
+          <tr onClick={handleClick}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>[KPT] Kafka Cluster (stg-itchy-salt-kafka)</td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const Navigator = (props: any) => {
   const [showDetails, setShowDetails] = React.useState(false);
   return (
@@ -1008,35 +1087,81 @@ const Banner = (props: any) => {
 
 const Dashboards = (props: any) => {
   const [view, setView] = React.useState("list");
-  return (
-    <Content className="has-third-nav">
-      <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
-      <Title
-        buttons={
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="rounded-button-group">
+  if (view === "dashboard") {
+    return (
+      <Content className="has-third-nav">
+        <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
+        <Title
+          buttons={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Timepicker />
+              <div className="rounded-button-group">
+                <button className="rounded secondary">
+                  <CgScreen />
+                </button>
+                <button className="rounded secondary">
+                  <VscCode />
+                </button>
+                <button className="rounded secondary">
+                  <CgSoftwareDownload />
+                </button>
+                <button className="rounded primary">
+                  <VscAdd />
+                </button>
+              </div>
+            </div>
+          }
+        >
+          Dashboards / Adobe User Engagement Export
+        </Title>
+        <div className="placeholder" onClick={() => setView("list")}>
+          Dashboard goes here
+        </div>
+      </Content>
+    );
+  } else {
+    return (
+      <Content className="has-third-nav">
+        <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
+        <Title
+          buttons={
+            <>
               <button className="rounded secondary">
-                <CgScreen />
-              </button>
-              <button className="rounded secondary">
-                <VscCode />
-              </button>
-              <button className="rounded secondary">
-                <CgSoftwareDownload />
+                <label>
+                  <span
+                    style={{
+                      transform: "rotate(90deg)",
+                      width: "1em",
+                      height: "1em",
+                    }}
+                  >
+                    <CgSoftwareDownload />
+                  </span>
+                  Import dashboard
+                </label>
               </button>
               <button className="rounded primary">
-                <VscAdd />
+                <label>
+                  <VscAdd /> Create a dashboard
+                </label>
               </button>
-            </div>
-            <Timepicker />
-          </div>
-        }
-      >
-        Dashboards
-      </Title>
-      <img src="https://i.imgur.com/S3USDNH.png" style={{ width: "100%" }} />
-    </Content>
-  );
+            </>
+          }
+        >
+          Dashboards
+        </Title>
+        <div style={{ margin: "-5px 0 15px 0" }}>
+          <Search placeholder="Filter by name, type,tags... (e.g. entityType = Host)" />
+        </div>
+        <DashboardsTable setView={setView} />
+      </Content>
+    );
+  }
 };
 
 export const Badge = (props: any) => {
