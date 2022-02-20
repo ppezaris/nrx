@@ -1220,7 +1220,7 @@ button.disabled {
   transition: all 0.15s;
 }
 .step .active {
-  width: 80vw;
+  width: 70vw;
   aspect-ratio: 16 / 9;
   position: fixed;
   top: 50%;
@@ -1351,6 +1351,7 @@ button.disabled {
   text-shadow: 0 -1px 0 var(--shadow-top), 0 1px 0px var(--shadow-bottom);
 }
 .step .active::before {
+  text-shadow: 0 1px 0px var(--shadow-bottom);
   left: 10px;
   transform: none;
 }

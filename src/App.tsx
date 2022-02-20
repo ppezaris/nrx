@@ -351,9 +351,9 @@ const PLUGINS = {
       body: "Monitor ActiveRecord with New Relic's Ruby agent.",
     },
     {
-      title: "",
-      icon: "",
-      body: "",
+      title: "F5",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/f5/logo.svg",
+      body: "Monitor your F5 BIG-IP with New Relic.",
     },
   ],
   recent: [
@@ -1030,9 +1030,10 @@ const Mobile = (props: any) => {
   return (
     <Content>
       <Title>Mobile</Title>
-      <img src="https://i.imgur.com/FVcAiJC.png" style={{ width: "100%" }} />
+      <div className="placeholder">Mobile goes here</div>
     </Content>
   );
+  // <img src="https://i.imgur.com/FVcAiJC.png" style={{ width: "100%" }} />
 };
 
 const Alerts = (props: any) => {
@@ -1041,9 +1042,10 @@ const Alerts = (props: any) => {
       <ThirdNav items={NAV_ALERTS} subdir="/alerts--ai/" />
       <Banner />
       <Title>Alerts &amp; AI</Title>
-      <img src="https://i.imgur.com/mIZAU3v.png" style={{ width: "100%" }} />
+      <div className="placeholder">Alerts &amp; AI goes here</div>
     </Content>
   );
+  // <img src="https://i.imgur.com/mIZAU3v.png" style={{ width: "100%" }} />
 };
 
 const Logs = (props: any) => {
@@ -1051,9 +1053,10 @@ const Logs = (props: any) => {
     <Content className="has-third-nav">
       <ThirdNav items={NAV_LOGS} subdir="/logs/" />
       <Title>Logs</Title>
-      <img src="https://i.imgur.com/g0St7AZ.png" style={{ width: "100%" }} />
+      <div className="placeholder">Logs goes here</div>
     </Content>
   );
+  // <img src="https://i.imgur.com/g0St7AZ.png" style={{ width: "100%" }} />
 };
 
 const BrowseData = (props: any) => {
@@ -1061,9 +1064,10 @@ const BrowseData = (props: any) => {
     <Content className="has-third-nav">
       <ThirdNav items={NAV_BROWSE} subdir="/browse-data/" />
       <Title>Browse Data</Title>
-      <img src="https://i.imgur.com/QxHws6n.png" style={{ width: "100%" }} />
+      <div className="placeholder">Browse data goes here</div>
     </Content>
   );
+  // <img src="https://i.imgur.com/QxHws6n.png" style={{ width: "100%" }} />
 };
 
 const Banner = (props: any) => {
