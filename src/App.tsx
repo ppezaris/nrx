@@ -615,85 +615,186 @@ const Timepicker = (props: any) => {
   );
 };
 const Explorer = (props: any) => {
-  const [view, setView] = React.useState("list");
-  return (
-    <Content className="has-third-nav">
-      <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
-      <Title
-        className="compactX"
-        buttonsX={[
-          <button className="primary round">Create a workload</button>,
-        ]}
-      >
-        Explorer / All
-      </Title>
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          //   background: "var(--bg-1)",
-          //   padding: "10px",
-          borderRadius: "4px",
-          marginBottom: "15px",
-        }}
-      >
-        <Search
-          icon="filter"
-          className="flex-grow"
-          placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
-        />
-        <Timepicker />
-        <div className="filters" style={{ marginLeft: "10px" }}>
-          <div className="group">
-            <button
-              className={view === "list" ? "selected" : ""}
-              onClick={() => setView("list")}
-            >
-              <VscListUnordered />
-              List
-            </button>
-            <button
-              className={view === "navigator" ? "selected" : ""}
-              onClick={() => setView("navigator")}
-            >
-              <BsHexagon />
-              Navigator
-            </button>
-            <button
-              className={view === "lookout" ? "selected" : ""}
-              onClick={() => setView("lookout")}
-            >
-              <MdOutlineBubbleChart />
-              Lookout
-            </button>
-          </div>
-        </div>
-        <button
-          className="rounded secondary"
-          style={{ margin: 0 }}
-          title="Disabled. Enter a filter to save."
+  const [view, setView] = React.useState<string>("list");
+
+  if (view === "list" || view === "navigator" || view === "lookout") {
+    return (
+      <Content className="has-third-nav">
+        <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
+        <Title
+          className="compactX"
+          buttonsX={[
+            <button className="primary round">Create a workload</button>,
+          ]}
         >
-          Save as view
+          Explorer / All
+        </Title>
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            //   background: "var(--bg-1)",
+            //   padding: "10px",
+            borderRadius: "4px",
+            marginBottom: "15px",
+          }}
+        >
+          <Search
+            icon="filter"
+            className="flex-grow"
+            placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+          />
+          <Timepicker />
+          <div className="filters" style={{ marginLeft: "10px" }}>
+            <div className="group">
+              <button
+                className={view === "list" ? "selected" : ""}
+                onClick={() => setView("list")}
+              >
+                <VscListUnordered />
+                List
+              </button>
+              <button
+                className={view === "navigator" ? "selected" : ""}
+                onClick={() => setView("navigator")}
+              >
+                <BsHexagon />
+                Navigator
+              </button>
+              <button
+                className={view === "lookout" ? "selected" : ""}
+                onClick={() => setView("lookout")}
+              >
+                <MdOutlineBubbleChart />
+                Lookout
+              </button>
+            </div>
+          </div>
+          <button
+            className="rounded secondary"
+            style={{ margin: 0 }}
+            title="Disabled. Enter a filter to save."
+          >
+            Save as view
+          </button>
+        </div>
+        Group reporting entities by
+        <button
+          className="rounded secondary compact"
+          style={{ margin: "0 5px" }}
+        >
+          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+            language
+          </label>
+          <VscChevronDown />
         </button>
-      </div>
-      Group reporting entities by
-      <button className="rounded secondary compact" style={{ margin: "0 5px" }}>
-        <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-          language
-        </label>
-        <VscChevronDown />
-      </button>
-      and sort by
-      <button className="rounded secondary compact" style={{ margin: "0 5px" }}>
-        <label style={{ verticalAlign: "1px", padding: "0 5px" }}>health</label>
-        <VscChevronDown />
-      </button>
-      <br />
-      <br />
-      {view === "list" && <List />}
-      {view === "navigator" && <Navigator />}
-    </Content>
-  );
+        and sort by
+        <button
+          className="rounded secondary compact"
+          style={{ margin: "0 5px" }}
+        >
+          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+            health
+          </label>
+          <VscChevronDown />
+        </button>
+        <br />
+        <br />
+        {view === "list" && <List setView={setView} />}
+        {view === "navigator" && <Navigator />}
+      </Content>
+    );
+  } else {
+    return (
+      <Content className="has-third-nav">
+        <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
+        <Title
+          className="compactX"
+          buttonsX={[
+            <button className="primary round">Create a workload</button>,
+          ]}
+        >
+          Explorer / Services - APM /
+          <Square color="green" />
+          {view}
+          <VscChevronDown />
+        </Title>
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            //   background: "var(--bg-1)",
+            //   padding: "10px",
+            borderRadius: "4px",
+            marginBottom: "15px",
+          }}
+        >
+          <Search
+            icon="filter"
+            className="flex-grow"
+            placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+          />
+          <Timepicker />
+          <div className="filters" style={{ marginLeft: "10px" }}>
+            <div className="group">
+              <button
+                className={view === "list" ? "selected" : ""}
+                onClick={() => setView("list")}
+              >
+                <VscListUnordered />
+                List
+              </button>
+              <button
+                className={view === "navigator" ? "selected" : ""}
+                onClick={() => setView("navigator")}
+              >
+                <BsHexagon />
+                Navigator
+              </button>
+              <button
+                className={view === "lookout" ? "selected" : ""}
+                onClick={() => setView("lookout")}
+              >
+                <MdOutlineBubbleChart />
+                Lookout
+              </button>
+            </div>
+          </div>
+          <button
+            className="rounded secondary"
+            style={{ margin: 0 }}
+            title="Disabled. Enter a filter to save."
+          >
+            Save as view
+          </button>
+        </div>
+        Group reporting entities by
+        <button
+          className="rounded secondary compact"
+          style={{ margin: "0 5px" }}
+        >
+          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+            language
+          </label>
+          <VscChevronDown />
+        </button>
+        and sort by
+        <button
+          className="rounded secondary compact"
+          style={{ margin: "0 5px" }}
+        >
+          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+            health
+          </label>
+          <VscChevronDown />
+        </button>
+        <br />
+        <br />
+        {view === "list" && <List />}
+        {view === "navigator" && <Navigator />}
+      </Content>
+    );
+  }
 };
 
 const Star = (props: any) => {
@@ -701,7 +802,7 @@ const Star = (props: any) => {
 };
 
 const List = (props: any) => {
-  const handleClick = () => {};
+  const handleClick = (view: string) => props.setView(view);
   return (
     <>
       <div className="box">
@@ -723,7 +824,7 @@ const List = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            <tr onClick={handleClick}>
+            <tr onClick={() => handleClick("FoodMe")}>
               <td style={{ color: "yellow" }}>
                 <VscStarFull />
               </td>
@@ -739,7 +840,7 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr onClick={() => handleClick("Kafka-admin (perf)")}>
               <td style={{ color: "yellow" }}>
                 <VscStarFull />
               </td>
@@ -755,7 +856,7 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
               <td style={{ position: "relative" }}>
                 <VscStarEmpty />
               </td>
@@ -771,13 +872,13 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
               <td>
                 <VscStarEmpty />
               </td>
               <td>
                 <Square color="green" />
-                Kafka-admin (stg-deep-tree)
+                Kafka-admin (stg-tree)
               </td>
               <td>New Relic</td>
               <td>-</td>
@@ -787,7 +888,7 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
               <td>
                 <VscStarEmpty />
               </td>
@@ -824,7 +925,11 @@ const List = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            <tr onClick={handleClick}>
+            <tr
+              onClick={() =>
+                handleClick("pd-mailin-10-101-0-230.codestream.us")
+              }
+            >
               <td style={{ color: "yellow" }}>
                 <VscStarFull />
               </td>
@@ -840,7 +945,11 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr
+              onClick={() =>
+                handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
+              }
+            >
               <td>
                 <VscStarEmpty />
               </td>
@@ -856,7 +965,9 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr
+              onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}
+            >
               <td style={{ position: "relative" }}>
                 <VscStarEmpty />
               </td>
@@ -872,7 +983,11 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr
+              onClick={() =>
+                handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
+              }
+            >
               <td>
                 <VscStarEmpty />
               </td>
@@ -888,7 +1003,11 @@ const List = (props: any) => {
               <td>3%</td>
               <td>...</td>
             </tr>
-            <tr onClick={handleClick}>
+            <tr
+              onClick={() =>
+                handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
+              }
+            >
               <td>
                 <VscStarEmpty />
               </td>
@@ -1026,6 +1145,52 @@ const Navigator = (props: any) => {
     </div>
   );
 };
+
+const ErrorsInbox = (props: any) => {
+  return (
+    <Content>
+      <Title>Errors Inbox</Title>
+      <div className="placeholder">Errors Inbox goes here</div>
+    </Content>
+  );
+};
+
+const APM = (props: any) => {
+  return (
+    <Content>
+      <Title>APM</Title>
+      <div className="placeholder">APM goes here</div>
+    </Content>
+  );
+};
+
+const Infrastructure = (props: any) => {
+  return (
+    <Content>
+      <Title>Infrastructure</Title>
+      <div className="placeholder">Infrastructure goes here</div>
+    </Content>
+  );
+};
+
+const Synthetics = (props: any) => {
+  return (
+    <Content>
+      <Title>Synthetics</Title>
+      <div className="placeholder">Synthetics goes here</div>
+    </Content>
+  );
+};
+
+const Browser = (props: any) => {
+  return (
+    <Content>
+      <Title>Browser</Title>
+      <div className="placeholder">Browser goes here</div>
+    </Content>
+  );
+};
+
 const Mobile = (props: any) => {
   return (
     <Content>
@@ -1123,9 +1288,7 @@ const Dashboards = (props: any) => {
         >
           Dashboards / Adobe User Engagement Export
         </Title>
-        <div className="placeholder" onClick={() => setView("list")}>
-          Dashboard goes here
-        </div>
+        <img src="https://i.imgur.com/nQhZTwi.png" style={{ width: "100%" }} />
       </Content>
     );
   } else {
@@ -1791,6 +1954,21 @@ export default function App() {
                 </Route>
                 <Route path="/alerts--ai">
                   <Alerts />
+                </Route>
+                <Route path="/errors-inbox">
+                  <ErrorsInbox />
+                </Route>
+                <Route path="/apm">
+                  <APM />
+                </Route>
+                <Route path="/browser">
+                  <Browser />
+                </Route>
+                <Route path="/infrastructure">
+                  <Infrastructure />
+                </Route>
+                <Route path="/synthetics">
+                  <Synthetics />
                 </Route>
                 <Route path="/messages">
                   <Messages setCommentsState={setCommentsState} />

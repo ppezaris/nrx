@@ -579,14 +579,14 @@ button.rounded.active {
   min-height: calc(100vh - 160px);
 }
 .title {
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 0px;
   margin-bottom: 20px;
   color: var(--fg-1);
   /* color: var(--green-4); */
   /* color: #017c86; */
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .title.compact {
   margin-bottom: 10px;
@@ -1027,6 +1027,7 @@ button.disabled {
 }
 .date-line {
   border-top: 1px solid #ddd;
+  border-top: 1px solid var(--popup-bg);
   text-align: center;
   position: relative;
 }
@@ -1036,6 +1037,8 @@ button.disabled {
   background: #f8f8f8;
   white-space: nowrap;
   color: #999;
+  color: var(--fg-3);
+  background: var(--bg-3);
   padding: 0 8px;
   left: 30%;
 }

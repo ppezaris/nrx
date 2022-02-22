@@ -288,10 +288,10 @@ export const Thread = (props: any) => {
 
   const addComment = (str: string) => {
     if (str) {
-      const newText = str.endsWith("mobile") ? (
+      const newText = str.endsWith("dashboard") ? (
         <>
-          <img src="https://i.imgur.com/FVcAiJC.png" />
-          <NavLink to="/mobile">{str}</NavLink>
+          <img src="https://i.imgur.com/nQhZTwi.png" />
+          <NavLink to="/dashboard">{str}</NavLink>
         </>
       ) : (
         <span>{str}</span>
@@ -367,7 +367,7 @@ export const Thread = (props: any) => {
               <VscSmiley title="Emoji" />{" "}
               <VscLink
                 title="Link to current page"
-                onClick={() => addComment("/mobile")}
+                onClick={() => addComment("/dashboard")}
               />{" "}
               <BsClock title="Commont on a point in time" />
               <IoIosAttach title="Attach a file" />
