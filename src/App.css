@@ -41,6 +41,13 @@
   --shadow-top-selected: #787c84;
   --shadow-bottom-selected: #222;
   --link-bg: #0e74df;
+
+  --top-bg: var(--bg-2);
+  --nav-bg: var(--bg-1);
+  --nav-fg: var(--fg-3);
+  --nav-fg-active: var(--fg-1);
+  --third-nav-bg: var(--bg-3);
+  --content-bg: var(--bg-2);
   color-scheme: dark;
 }
 .light {
@@ -63,6 +70,7 @@
   --shadow-bottom: #ccc;
   --shadow-top-selected: #ddd;
   --shadow-bottom-selected: #ccc;
+  --content-bg: white;
   color-scheme: light;
 }
 .App {
@@ -90,7 +98,7 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .horizontal .logo-wrap {
-  background: var(--bg-2);
+  background: var(--top-bg);
 }
 .logo {
   padding: 19px 8px 19px 8px;
@@ -136,16 +144,18 @@ body {
   background: var(--bg-2);
   /* margin: 10px 0 -10px 0; */
   padding-bottom: 13px !important;
-  margin-bottom: -10px;
+  margin-bottom: -7px;
   /* border-bottom: 2px solid var(--fg-3); */
 }
 .horizontal .links a.active:hover {
-  margin-bottom: 0;
+  margin-bottom: 1px;
   padding-bottom: 5px !important;
   border-radius: 4px !important;
 }
 .horizontal .links a.active.has-third-nav {
+  color: var(--nav-fg-active) !important;
   background-color: var(--bg-3) !important;
+  background-color: var(--third-nav-bg) !important;
 }
 .normal .thirdnav,
 .collapsed .thirdnav,
@@ -156,7 +166,7 @@ body {
   /* color: #6fccd3 !important; */
   /* color: var(--green-4) !important; */
   /* color: var(--gray-15) !important; */
-  color: var(--fg-3) !important;
+  color: var(--nav-fg) !important;
   text-decoration: none;
   display: block;
   position: relative;
@@ -188,7 +198,7 @@ body {
   margin: -20px -40px 40px -40px;
   padding-left: 20px !important;
   padding-right: 20px !important;
-  background-color: var(--bg-3);
+  background-color: var(--third-nav-bg);
 }
 .collapsed .links a {
   width: 10px;
@@ -245,7 +255,8 @@ body {
 }
 .nav {
   background-color: #2c2c2c;
-  background-color: var(--bg-1);
+  color: var(--nav-fg);
+  background-color: var(--nav-bg);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -441,7 +452,7 @@ body {
   /* background: #6fccd3; */
   /* background: #2c2c2c; */
   background: var(--bg-1);
-  background: var(--bg-2);
+  background: var(--top-bg);
   /* background: #018C99; */
   /* background: #3c3c3c; */
   z-index: 5;
@@ -561,7 +572,7 @@ button.rounded.active {
   padding-right: 20px;
   transition: padding 0.15s;
   min-height: calc(100vh - 65px);
-  background: var(--bg-2);
+  background: var(--content-bg);
 }
 .hidden .content {
   padding-left: 20px;
