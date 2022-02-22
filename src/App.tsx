@@ -1150,6 +1150,7 @@ const Navigator = (props: any) => {
 const ErrorsInbox = (props: any) => {
   return (
     <Content>
+      <Banner />
       <Title>Errors Inbox</Title>
       <div className="placeholder">Errors Inbox goes here</div>
     </Content>
@@ -1175,9 +1176,46 @@ const Infrastructure = (props: any) => {
 };
 
 const Synthetics = (props: any) => {
+  const [view, setView] = React.useState<string>("list");
   return (
-    <Content>
+    <Content className="has-third-nav">
+      <ThirdNav items={NAV_SYNTHETICS} subdir="/synthetics/" />
       <Title>Synthetics</Title>
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          //   background: "var(--bg-1)",
+          //   padding: "10px",
+          borderRadius: "4px",
+          marginBottom: "15px",
+        }}
+      >
+        <Search
+          icon="filter"
+          className="flex-grow"
+          placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+        />
+        <div className="filters" style={{ marginLeft: "10px" }}>
+          <div className="group">
+            <button
+              className={view === "list" ? "selected" : ""}
+              onClick={() => setView("list")}
+            >
+              <VscListUnordered />
+              List
+            </button>
+            <button
+              className={view === "lookout" ? "selected" : ""}
+              onClick={() => setView("lookout")}
+            >
+              <MdOutlineBubbleChart />
+              Lookout
+            </button>
+          </div>
+          <button className="primary">Create monitor</button>
+        </div>
+      </div>
       <div className="placeholder">Synthetics goes here</div>
     </Content>
   );
@@ -1206,7 +1244,6 @@ const Alerts = (props: any) => {
   return (
     <Content className="has-third-nav">
       <ThirdNav items={NAV_ALERTS} subdir="/alerts--ai/" />
-      <Banner />
       <Title>Alerts &amp; AI</Title>
       <div className="placeholder">Alerts &amp; AI goes here</div>
     </Content>
@@ -1343,14 +1380,14 @@ const CmdK = (props: any) => {
 };
 
 const NAV_BROWSE = [
-  { label: "Events" },
+  { label: "Events", isDefault: true },
   { label: "Metrics" },
   { label: "Logs" },
   { label: "Traces" },
 ];
 
 const NAV_DASHBOARD = [
-  { label: "All", icon: <VscFeedback /> },
+  { label: "All", icon: <VscFeedback />, isDefault: true },
   { label: "Last", icon: <MdOutlineWbSunny /> },
   { label: "Favorites", icon: <VscQuestion /> },
   { label: "Saved", icon: <FiUserPlus /> },
@@ -1362,7 +1399,24 @@ const NAV_MORE = [
   { label: "Kubernetes" },
   { label: "Legacy custom dashboards" },
   { label: "Lookout" },
-  { label: "Manage Insights data" },
+  {
+    label: "Manage Insights data",
+    labelDiv: (
+      <span>
+        Manage Insights data&nbsp;
+        <span
+          style={{
+            display: "inline-block",
+            color: "var(--green-6)",
+            transform: "translateY(-8px)",
+            fontSize: "10px",
+          }}
+        >
+          new
+        </span>
+      </span>
+    ),
+  },
   { label: "Network" },
   { label: "New Relic Edge" },
   { label: "Plugins" },
@@ -1375,7 +1429,7 @@ const NAV_MORE = [
 ];
 
 const NAV_ALERTS = [
-  { label: "Overview" },
+  { label: "Overview", isDefault: true },
   { label: "Issues & activity" },
   { label: "-Alerts" },
   { label: "Incidents" },
@@ -1423,7 +1477,7 @@ const NAV_FEEDBACK = [
 ];
 
 const NAV_EXPLORER = [
-  { label: "All", icon: <VscFeedback /> },
+  { label: "All", icon: <VscFeedback />, isDefault: true },
   { label: "Last", icon: <MdOutlineWbSunny /> },
   { label: "Favorites", icon: <VscQuestion /> },
   { label: "Saved", icon: <FiUserPlus /> },
@@ -1436,8 +1490,18 @@ const NAV_EXPLORER = [
   { label: "Azure", icon: <FiUserPlus /> },
 ];
 
+const NAV_SYNTHETICS = [
+  { label: "Monitors", isDefault: true },
+  { label: "SLA report" },
+  { label: "Private locations" },
+  { label: "Monitor downtime" },
+  { label: "Secure credentials" },
+  { label: "Location status" },
+  { label: "Upgrade monitors" },
+];
+
 const NAV_LOGS = [
-  { label: "All", icon: <VscQuestion /> },
+  { label: "All", icon: <VscQuestion />, isDefault: true },
   { label: "Attributes", icon: <MdOutlineWbSunny /> },
   { label: "Patterns", icon: <VscFeedback /> },
   { label: "Livetail", icon: <FiUserPlus /> },
@@ -1454,7 +1518,6 @@ const NAV = [
   { label: "Setup", icon: <VscSettingsGear /> },
   {
     label: "Explorer",
-    url: "explorer/all",
     icon: <VscGlobe />,
     extra: <VscChevronDown />,
     hover: "",
@@ -1499,7 +1562,14 @@ const NAV = [
     subnav: NAV_LOGS,
   },
   { label: "Mobile", icon: <VscDeviceMobile />, extra: <VscChevronDown /> },
-  { label: "Synthetics", icon: <VscGithubAction />, extra: <VscChevronDown /> },
+  {
+    label: "Synthetics",
+    icon: <VscGithubAction />,
+    extra: <VscChevronDown />,
+    hasThirdNav: true,
+    subdir: "/synthetics",
+    subnav: NAV_SYNTHETICS,
+  },
   {
     label: "Messages",
     labelDiv: (
@@ -1511,7 +1581,11 @@ const NAV = [
     badge: <Badge>3</Badge>,
     noComment: true,
   },
-  { label: "More", icon: <VscEllipsis />, subnav: NAV_MORE },
+  {
+    label: "More",
+    icon: <VscEllipsis />,
+    subnav: NAV_MORE,
+  },
 ];
 
 const NAV_BOTTOM = [
@@ -1546,19 +1620,21 @@ const NavItem = (props: any) => {
   if (item.label.startsWith("-")) {
     return <div className="sep">{item.label.replace("-", "")}</div>;
   }
-  const to =
-    (props.subdir || "/") +
-    (item.url ||
-      item.label
-        .toLocaleLowerCase()
-        .replace(" ", "-")
-        .replace(" ", "-")
-        .replace("&", ""));
+  const to = item.isDefault
+    ? props.subdir
+    : (props.subdir || "/") +
+      (item.url ||
+        item.label
+          .toLocaleLowerCase()
+          .replace(" ", "-")
+          .replace(" ", "-")
+          .replace("&", ""));
 
   return (
     <li>
       <NavLink
         to={to}
+        exact={item.isDefault}
         activeClassName="active"
         onClick={(e) => {
           if (item.onClick) {

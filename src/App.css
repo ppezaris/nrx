@@ -409,7 +409,7 @@ body {
 .banner {
   background: #0e74df;
   color: white;
-  margin: 20px 0px 0px 0px;
+  margin: 0px 0px 20px 0px;
   border-radius: 4px;
   font-size: 13px;
   display: flex;
