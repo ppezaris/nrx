@@ -939,12 +939,15 @@ button.disabled {
 .comment.pinned .comment-body {
   background: #fefecc;
   background: var(--popup-bg);
+  background: var(--bg-4);
   /* background: var(--bg-2); */
-  /* box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25); */
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25); */
+  border: 1px solid var(--popup-bg);
 }
 .comment.pinned .comment-body::before {
   background: #fefecc;
   background: var(--popup-bg);
+  background: var(--bg-4);
 }
 .comment .pin {
   opacity: 0;

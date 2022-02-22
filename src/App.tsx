@@ -616,6 +616,7 @@ const Timepicker = (props: any) => {
 };
 const Explorer = (props: any) => {
   const [view, setView] = React.useState<string>("list");
+  const subtitle = props.subtitle || "All";
 
   if (view === "list" || view === "navigator" || view === "lookout") {
     return (
@@ -627,7 +628,7 @@ const Explorer = (props: any) => {
             <button className="primary round">Create a workload</button>,
           ]}
         >
-          Explorer / All
+          Explorer / {subtitle}
         </Title>
         <div
           style={{
@@ -1453,6 +1454,7 @@ const NAV = [
   { label: "Setup", icon: <VscSettingsGear /> },
   {
     label: "Explorer",
+    url: "explorer/all",
     icon: <VscGlobe />,
     extra: <VscChevronDown />,
     hover: "",
@@ -1546,11 +1548,12 @@ const NavItem = (props: any) => {
   }
   const to =
     (props.subdir || "/") +
-    item.label
-      .toLocaleLowerCase()
-      .replace(" ", "-")
-      .replace(" ", "-")
-      .replace("&", "");
+    (item.url ||
+      item.label
+        .toLocaleLowerCase()
+        .replace(" ", "-")
+        .replace(" ", "-")
+        .replace("&", ""));
 
   return (
     <li>
@@ -1939,6 +1942,36 @@ export default function App() {
               <Switch>
                 <Route exact path="/setup">
                   <Setup />
+                </Route>
+                <Route path="/explorer/last">
+                  <Explorer subtitle="Last" />
+                </Route>
+                <Route path="/explorer/favorites">
+                  <Explorer subtitle="Favorites" />
+                </Route>
+                <Route path="/explorer/saved">
+                  <Explorer subtitle="Saved" />
+                </Route>
+                <Route path="/explorer/gaps">
+                  <Explorer subtitle="Gaps" />
+                </Route>
+                <Route path="/explorer/your-system">
+                  <Explorer subtitle="Your System" />
+                </Route>
+                <Route path="/explorer/other-entities">
+                  <Explorer subtitle="Other Entities" />
+                </Route>
+                <Route path="/explorer/synthetics">
+                  <Explorer subtitle="Synthetics" />
+                </Route>
+                <Route path="/explorer/kubernetes">
+                  <Explorer subtitle="Kubernetes" />
+                </Route>
+                <Route path="/explorer/aws">
+                  <Explorer subtitle="AWS" />
+                </Route>
+                <Route path="/explorer/azure">
+                  <Explorer subtitle="Azure" />
                 </Route>
                 <Route path="/explorer">
                   <Explorer />
