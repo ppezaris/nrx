@@ -48,13 +48,17 @@
   --nav-fg-active: var(--fg-1);
   --third-nav-bg: var(--bg-3);
   --content-bg: var(--bg-2);
+  --header-button-bg: var(--button-bg);
+  --header-button-fg: var(--fg-3);
+  --header-shadow-top: #4b4e53;
+  --header-shadow-bottom: #222;
   color-scheme: dark;
 }
 .light {
   --bg-1: white;
-  --bg-2: #eee;
-  --bg-3: #ddd;
-  --bg-4: #ccc;
+  --bg-2: #f9f9f9;
+  --bg-3: #eee;
+  --bg-4: #ddd;
   --button-bg: #eee;
   --button-fg: #333;
   --popup-bg: #ddd;
@@ -141,7 +145,7 @@ body {
   color: #6fccd3 !important;
   color: black !important;
   color: var(--fg-1) !important;
-  background: var(--bg-2);
+  background: var(--content-bg);
   /* margin: 10px 0 -10px 0; */
   padding-bottom: 13px !important;
   margin-bottom: -7px;
@@ -495,10 +499,16 @@ button.rounded {
   cursor: pointer;
   position: relative;
   transition: border-radius 0.1s, margin 0.1s;
-  background: var(--button-bg);
-  color: var(--fg-3);
-  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
+  background: var(--header-button-bg);
+  color: var(--header-button-fg);
+  box-shadow: 0 -1px 0px var(--header-shadow-top),
+    0 1px 0px var(--header-shadow-bottom);
   margin: 5px 0 5px 15px;
+}
+button.rounded {
+  background: var(--button-bg);
+  color: var(--button-fg);
+  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
 }
 .header button:hover,
 button.rounded:hover {
