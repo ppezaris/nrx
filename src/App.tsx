@@ -581,6 +581,18 @@ const Setup = (props: any) => {
 </div> */
 }
 
+export const OnOff = (props: any) => {
+  const [state, setState] = React.useState("off");
+  return (
+    <div
+      className={`on-off ${state}`}
+      onClick={() => setState(state === "on" ? "off" : "on")}
+    >
+      <span className="knob" />
+    </div>
+  );
+};
+
 const Timepicker = (props: any) => {
   const [timeOpen, setTimeOpen] = React.useState(false);
   return (
@@ -645,7 +657,7 @@ const Explorer = (props: any) => {
             className="flex-grow"
             placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
           />
-          <Timepicker />
+          {view === "navigator" && <Timepicker />}
           <div className="filters" style={{ marginLeft: "10px" }}>
             <div className="group">
               <button
@@ -678,29 +690,42 @@ const Explorer = (props: any) => {
           >
             Save as view
           </button>
+          <button className="rounded primary" style={{ margin: "0 0 0 10px" }}>
+            Create a workload
+          </button>
         </div>
-        Group reporting entities by
-        <button
-          className="rounded secondary compact"
-          style={{ margin: "0 5px" }}
-        >
-          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-            language
-          </label>
-          <VscChevronDown />
-        </button>
-        and sort by
-        <button
-          className="rounded secondary compact"
-          style={{ margin: "0 5px" }}
-        >
-          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-            health
-          </label>
-          <VscChevronDown />
-        </button>
-        <br />
-        <br />
+        {view === "navigator" && (
+          <div style={{ display: "flex", marginBottom: "15px" }}>
+            <div>
+              Group reporting entities by
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  language
+                </label>
+                <VscChevronDown />
+              </button>
+              and sort by
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  health
+                </label>
+                <VscChevronDown />
+              </button>
+            </div>
+            <div style={{ marginLeft: "auto", whiteSpace: "nowrap" }}>
+              Include data <OnOff /> Show only alerting entities <OnOff />{" "}
+              <VscQuestion
+                style={{ verticalAlign: "-6px", fontSize: "20px" }}
+              />
+            </div>
+          </div>
+        )}
         {view === "list" && <List setView={setView} />}
         {view === "navigator" && <Navigator />}
       </Content>
@@ -715,7 +740,9 @@ const Explorer = (props: any) => {
             <button className="primary round">Create a workload</button>,
           ]}
         >
-          Explorer / Services - APM /
+          <span style={{ cursor: "pointer" }} onClick={() => setView("list")}>
+            Explorer / Services - APM /
+          </span>
           <Square color="green" />
           {view}
           <VscChevronDown />
@@ -809,6 +836,108 @@ const List = (props: any) => {
       <div className="box">
         <SubTitle>
           <VscChevronDown /> Services - APM
+        </SubTitle>
+        <table className="messages explorer">
+          <thead>
+            <tr>
+              <td></td>
+              <td>Name</td>
+              <td>Account</td>
+              <td>End User</td>
+              <td>Page Views</td>
+              <td>Response</td>
+              <td>Throughput</td>
+              <td>Errors</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onClick={() => handleClick("FoodMe")}>
+              <td style={{ color: "yellow" }}>
+                <VscStarFull />
+              </td>
+              <td>
+                <Square color="green" />
+                FoodMe
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+              <td style={{ color: "yellow" }}>
+                <VscStarFull />
+              </td>
+              <td>
+                <Square color="green" />
+                Kafka-admin (perf)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+              <td style={{ position: "relative" }}>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="red" />
+                Kafka-admin (stg-deep-tree)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="green" />
+                Kafka-admin (stg-tree)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+            <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+              <td>
+                <VscStarEmpty />
+              </td>
+              <td>
+                <Square color="gray" />
+                kafka-admin (stg-showy-brain)
+              </td>
+              <td>New Relic</td>
+              <td>-</td>
+              <td>-</td>
+              <td>36.14ms</td>
+              <td>4</td>
+              <td>3%</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="box">
+        <SubTitle>
+          <VscChevronDown /> Services - OpenTelemetry
         </SubTitle>
         <table className="messages explorer">
           <thead>
@@ -1892,7 +2021,7 @@ const Header = (props: any) => {
               <hr />
               <li>Support</li>
               <hr />
-              <li style={{ color: "#c00" }}>Logout</li>
+              <li style={{ color: "#f66" }}>Logout</li>
             </ul>
           </div>
         )}

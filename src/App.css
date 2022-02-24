@@ -34,6 +34,7 @@
   --fg-2: #d1d2d3;
   --fg-3: #a9a9ab;
   --fg-4: #727476;
+  --button-fg: var(--fg-3);
   --border: #3d3f42;
   --border-heavy: #3d3f42;
   --shadow-top: #4b4e53;
@@ -150,6 +151,13 @@ body {
   padding-bottom: 13px !important;
   margin-bottom: -7px;
   /* border-bottom: 2px solid var(--fg-3); */
+}
+.horizontal .bottom .links a.active {
+  padding-bottom: 5px !important;
+  margin-bottom: 0;
+  padding-top: 13px !important;
+  margin-top: -7px !important;
+  border-radius: 0 0 4px 4px;
 }
 .horizontal .links a.active:hover {
   margin-bottom: 1px;
@@ -396,6 +404,9 @@ body {
 .horizontal .bottom .links a .hover {
   border-radius: 4px 4px 4px 0;
 }
+.bottom .links {
+  margin-top: 0;
+}
 .bottom .links a .hover {
   top: auto;
   bottom: -4px;
@@ -557,10 +568,11 @@ button.rounded.active {
   /* background: var(--selected-bg); */
 }
 .header button.comment-button.active {
-  margin-bottom: -10px;
-  margin-top: 10px;
+  margin-bottom: -55px;
+  margin-top: 55px;
   z-index: 49;
   background: var(--bg-3);
+  padding-top: 0;
 }
 .header button:hover {
   /* background: #f8f8f8; */
@@ -596,8 +608,8 @@ button.rounded.active {
   margin-top: 95px;
   padding-left: 40px;
   padding-right: 40px;
-  max-height: calc(100vh - 160px);
-  min-height: calc(100vh - 160px);
+  max-height: calc(100vh - 155px);
+  min-height: calc(100vh - 155px);
 }
 .title {
   font-size: 16px;
@@ -896,13 +908,15 @@ button.disabled {
   background: var(--bg-1);
   background: var(--bg-3);
   /* background: var(--popup-bg); */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); */
   color: var(--fg-2);
   /* border-left: 1px solid #eee; */
   border-left: none;
   /* height: calc(100vh - 45px); */
   height: calc(100vh - 55px);
   top: 55px;
+  top: 95px;
+  height: calc(100vh - 134px);
   z-index: 1;
   text-align: left;
   transition: all 0.15s;
@@ -1568,4 +1582,30 @@ input[type="search"] {
   justify-content: center;
   font-size: 36px;
   color: var(--fg-4);
+}
+.on-off {
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--popup-bg);
+  position: relative;
+  vertical-align: -1px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.on-off.on {
+  background-color: var(--green-3);
+}
+.knob {
+  position: absolute;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--fg-2);
+  transition: left 0.15s, background-color 0.15s;
+}
+.on .knob {
+  left: 10px;
 }
