@@ -1717,11 +1717,29 @@ const NAV = [
   },
 ];
 
+const QueryBuilder = (props: any) => {
+  const [query, setQuery] = React.useState("");
+  return (
+    <Search
+      className="half-width"
+      autoFocus
+      placeholder="Query your data"
+      value={query}
+      onChange={(q: string) => setQuery(q)}
+    />
+  );
+};
+
 const NAV_BOTTOM = [
   { label: "Help", icon: <VscQuestion /> },
   { label: "What's New", icon: <MdOutlineWbSunny /> },
   { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
   { label: "Invite", icon: <FiUserPlus /> },
+  {
+    label: "Query",
+    // labelDiv: <QueryBuilder />,
+    icon: <VscSearch />,
+  },
 ];
 
 export const ThirdNav = (props: { items: any[]; subdir?: string }) => {
@@ -1918,7 +1936,7 @@ const Header = (props: any) => {
       >
         <label>
           <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-          <span>Search &amp; Query</span>
+          <span>Search</span>
           <div className="search-shortcut">
             <CmdK />
           </div>
@@ -1927,7 +1945,7 @@ const Header = (props: any) => {
           <div className="menu" style={{ width: "100%" }}>
             <ul>
               <hr />
-              <div style={{ padding: "5px 15px" }}>
+              <div style={{ padding: "5px 15px", display: "none" }}>
                 <div className="filters">
                   <div className="group">
                     <button className="selected">Search New Relic One</button>
@@ -1936,7 +1954,6 @@ const Header = (props: any) => {
                   </div>
                 </div>
               </div>
-              <hr />
               <li>Most recent</li>
               <li>Julian's log test account</li>
               <li>Json_logs</li>
