@@ -41,6 +41,7 @@ import {
   VscSettingsGear,
   VscCode,
   VscListUnordered,
+  VscGear,
 } from "react-icons/vsc";
 import { MdOutlineBubbleChart, MdOutlineWbSunny } from "react-icons/md";
 import { CgScreen, CgSoftwareDownload } from "react-icons/cg";
@@ -56,7 +57,7 @@ import {
   FiChevronLeft,
 } from "react-icons/fi";
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -1504,8 +1505,8 @@ export const Badge = (props: any) => {
   );
 };
 
-const CmdK = (props: any) => {
-  return <div className="keybinding">⌘ K</div>;
+const Slash = (props: any) => {
+  return <div className="keybinding">/</div>;
 };
 
 const NAV_BROWSE = [
@@ -1938,7 +1939,7 @@ const Header = (props: any) => {
           <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
           <span>Search</span>
           <div className="search-shortcut">
-            <CmdK />
+            <Slash />
           </div>
         </label>
         {searchOpen && (
@@ -2109,6 +2110,107 @@ const Header = (props: any) => {
   );
 };
 
+const CommandPanel = (props: any) => {
+  const commands = [
+    { label: "Search", key: "S", icon: <VscSearch />, url: "search" },
+    { label: "Query", key: "Q", icon: <VscQuestion />, url: "" },
+    { label: "Add Data", key: "A", icon: <VscAdd />, url: "setup" },
+    { label: "User Preferences", key: "", icon: <VscGear />, url: "" },
+    { label: "Account Settings", key: "", icon: <VscGear />, url: "" },
+    { label: "Change Theme", key: "", icon: <VscGear />, url: "" },
+    { label: "Switch Account", key: "", icon: <VscGear />, url: "" },
+    { label: "Help", icon: <VscQuestion />, url: "help" },
+    { label: "Invite", icon: <FiUserPlus />, url: "invite" },
+    { label: "What's New", icon: <MdOutlineWbSunny />, url: "whats-new" },
+    { label: "View usage", key: "", icon: <VscAdd />, url: "" },
+    { label: "Setup", key: "", icon: <VscAdd />, url: "setup" },
+    { icon: <VscCopy />, label: "Copy permalink", url: "" },
+    { icon: <VscMail />, label: "Share via Email", url: "" },
+    { icon: <BsSlack />, label: "Share to Slack", url: "" },
+    { icon: <SiMicrosoftteams />, label: "Share to MS Teams", url: "" },
+    { icon: <SiJirasoftware />, label: "Create Jira Ticket", url: "" },
+    { label: "APM", icon: <VscGraphLine />, url: "apm" },
+    { label: "Explorer", icon: <VscGlobe />, url: "explorer" },
+    { label: "Browse Data", icon: <VscCompass />, url: "browse-data" },
+    { label: "Dashboards", icon: <VscDashboard />, url: "dashboards" },
+    { label: "Alerts & AI", icon: <VscWarning />, url: "alerts--ai" },
+    { label: "Errors Inbox", icon: <VscInbox />, url: "errors-inbox" },
+    { label: "Browser", icon: <VscBrowser />, url: "browser" },
+    { label: "Infrastructure", icon: <VscServer />, url: "infrastructure" },
+    { label: "Logs", icon: <VscListFlat />, url: "logs" },
+    { label: "Mobile", icon: <VscDeviceMobile />, url: "mobile" },
+    { label: "Synthetics", icon: <VscGithubAction />, url: "synthetics" },
+    { label: "Messages", icon: <VscCommentDiscussion />, url: "messages" },
+  ];
+  const [query, setQuery] = React.useState("");
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
+
+  const activeCommands = commands.filter((c) => {
+    return !query || c.label.toLocaleLowerCase().includes(query);
+  });
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    // console.warn("COMMAND DOWN: ", e);
+    if (e.key === "ArrowDown") {
+      setSelectedIndex(selectedIndex + 1);
+    } else if (e.key === "ArrowUp") {
+      setSelectedIndex(selectedIndex - 1);
+    } else if (e.key === "Enter") {
+      props.setCommandPanelOpen(false);
+      window.location.href = activeCommands[selectedIndex].url;
+    }
+  };
+  const handleClickCommand = (e: any) => {
+    props.setCommandPanelOpen(false);
+    window.location.href = activeCommands[selectedIndex].url;
+    return false;
+  };
+
+  return (
+    <div className="popup" onClick={handleClick} onKeyDown={onKeyDown}>
+      <div className="popup-title">New Relic Command</div>
+      <hr />
+      <input
+        className="command-input"
+        type="text"
+        autoFocus
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setQuery(e.target.value);
+          setSelectedIndex(0);
+        }}
+      />
+      <div className="command-list" onClick={handleClickCommand}>
+        {activeCommands.map((c, index) => {
+          return (
+            <div
+              className={`command ${index === selectedIndex ? "hover" : ""}`}
+              onMouseEnter={(e: any) => setSelectedIndex(index)}
+            >
+              <div className="command-icon">{c.icon}</div>
+              <div className="command-title">{c.label}</div>
+              {c.key && <div className="command-key">{c.key}</div>}
+            </div>
+          );
+        })}
+        {activeCommands.length === 0 && (
+          <>
+            {" "}
+            <hr />
+            <div className="command-hint">
+              Try: "Search", "Query", "Add More Data"
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e";
 const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09";
 
@@ -2120,6 +2222,29 @@ export default function App() {
   >("horizontal");
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+  const [commandPanelOpen, setCommandPanelOpen] = React.useState(false);
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    // console.warn("DOWN: ", e);
+    if (e.key === "Escape") {
+      setCommandPanelOpen(false);
+    }
+  };
+
+  const onKeyPress = (e: KeyboardEvent) => {
+    // console.warn("PRESS: ", e);
+    if (e.key === "k") {
+      if (!commandPanelOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      setCommandPanelOpen(true);
+    }
+  };
+
+  const onClick = (e: any) => {
+    setCommandPanelOpen(false);
   };
 
   return (
@@ -2140,7 +2265,14 @@ export default function App() {
         </script>
       </Helmet>
       <Router>
-        <div className={`page ${navState} ${theme}`}>
+        <div
+          className={`page ${navState} ${theme}`}
+          id="main-page"
+          onKeyPress={onKeyPress}
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+          tabIndex={0}
+        >
           <Nav
             setCommentsState={setCommentsState}
             commentsState={commentsState}
@@ -2148,6 +2280,9 @@ export default function App() {
             navState={navState}
           />
           <div className="body">
+            {commandPanelOpen && (
+              <CommandPanel setCommandPanelOpen={setCommandPanelOpen} />
+            )}
             <Header
               toggleTheme={toggleTheme}
               commentsState={commentsState}

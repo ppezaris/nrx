@@ -28,6 +28,7 @@
   --button-fg: #737578;
   --popup-bg: #696d76;
   --popup-selected-bg: #787c84;
+  --popup-fg-2: #b4b6bb;
   --popup-border: #787c84;
   --selected-bg: #474b52;
   --fg-1: #eaeaea;
@@ -92,6 +93,9 @@ body {
 .page {
   background: var(--bg-2);
   color: var(--fg-3);
+}
+.page:focus {
+  outline: none;
 }
 .logo-wrap {
   background: #1a1a1a;
@@ -1270,7 +1274,7 @@ button.disabled {
   z-index: 500;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.75);
   background: var(--popup-bg);
-  border-radius: 4px;
+  border-radius: 5px;
 }
 .step .active button.primary {
   position: absolute;
@@ -1608,4 +1612,76 @@ input[type="search"] {
 }
 .on .knob {
   left: 10px;
+}
+.popup {
+  width: 45vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-180px);
+  z-index: 500;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.95);
+  background: var(--popup-bg);
+  border-radius: 5px;
+  color: var(--pop);
+  font-size: 15px;
+}
+.popup hr {
+  border: none;
+  border-top: 1px solid var(--popup-border);
+  margin: 0 35px;
+}
+.popup-title {
+  padding: 18px 35px;
+  text-align: left;
+  font-size: 15px;
+  color: var(--fg-1);
+}
+.command-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding: 20px 35px;
+  font-size: 22px;
+  font-family: monospace;
+}
+.command-list {
+  font-size: 16px;
+  max-height: 240px;
+  overflow: auto;
+}
+.command {
+  display: flex;
+  padding: 15px 35px;
+  color: var(--fg-3);
+  color: var(--popup-fg-2);
+}
+.command.hover {
+  color: var(--fg-1);
+  background: var(--popup-selected-bg);
+}
+.command-key {
+  margin-left: auto;
+  padding: 4px 0;
+  width: 22px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  font-size: 12px;
+}
+.command-title {
+  font-family: monospace;
+}
+.command-icon {
+  margin-right: 10px;
+  margin-top: 1.5px;
+  color: var(--fg-2);
+}
+.command:hover .command-icon {
+  color: var(--fg-1);
+}
+.command-hint {
+  text-align: left;
+  padding: 20px 35px;
+  font-family: monospace;
 }
