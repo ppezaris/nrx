@@ -42,6 +42,7 @@ import {
   VscCode,
   VscListUnordered,
   VscGear,
+  VscChevronUp,
 } from "react-icons/vsc";
 import { MdOutlineBubbleChart, MdOutlineWbSunny } from "react-icons/md";
 import { CgScreen, CgSoftwareDownload } from "react-icons/cg";
@@ -735,92 +736,106 @@ const Explorer = (props: any) => {
     return (
       <Content className="has-third-nav">
         <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
-        <Title
-          className="compactX"
-          buttonsX={[
-            <button className="primary round">Create a workload</button>,
-          ]}
-        >
-          <span style={{ cursor: "pointer" }} onClick={() => setView("list")}>
-            Explorer / Services - APM /
-          </span>
-          <Square color="green" />
-          {view}
-          <VscChevronDown />
-        </Title>
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            //   background: "var(--bg-1)",
-            //   padding: "10px",
-            borderRadius: "4px",
-            marginBottom: "15px",
-          }}
-        >
-          <Search
-            icon="filter"
-            className="flex-grow"
-            placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
-          />
-          <Timepicker />
-          <div className="filters" style={{ marginLeft: "10px" }}>
-            <div className="group">
-              <button
-                className={view === "list" ? "selected" : ""}
-                onClick={() => setView("list")}
-              >
-                <VscListUnordered />
-                List
+
+        {/*}
+        <div className="two-col">
+          <div className="left-col">
+            <div className="nav-button-group">
+              <button className="rounded" style={{ marginRight: "20px" }}>
+                <VscArrowLeft />
               </button>
+              <div className="two-buttons">
+                <button className="rounded left">
+                  <VscChevronUp />
+                </button>
+                <button className="rounded right">
+                  <VscChevronDown />
+                </button>
+              </div>
+            </div>
+            <div style={{ height: "100%", minHeight: "100vh" }}>foo</div>
+          </div>
+          <div className="right-col">
+    */}
+        <div>
+          <Title
+            className="compactX"
+            buttonsX={[
+              <button className="primary round">Create a workload</button>,
+            ]}
+          >
+            <span style={{ cursor: "pointer" }} onClick={() => setView("list")}>
+              Explorer / Services - APM /
+            </span>
+            <Square color="green" />
+            {view} <VscChevronDown />
+          </Title>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              //   background: "var(--bg-1)",
+              //   padding: "10px",
+              borderRadius: "4px",
+              marginBottom: "15px",
+            }}
+          >
+            <div>
+              {" "}
+              Transaction type
               <button
-                className={view === "navigator" ? "selected" : ""}
-                onClick={() => setView("navigator")}
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
               >
-                <BsHexagon />
-                Navigator
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  Web
+                </label>
+                <VscChevronDown />
               </button>
+              Compare with
               <button
-                className={view === "lookout" ? "selected" : ""}
-                onClick={() => setView("lookout")}
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
               >
-                <MdOutlineBubbleChart />
-                Lookout
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  none
+                </label>
+                <VscChevronDown />
+              </button>
+              Instances
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  All
+                </label>
+                <VscChevronDown />
               </button>
             </div>
+            <div style={{ marginLeft: "auto" }}>
+              <Timepicker />
+            </div>
           </div>
-          <button
-            className="rounded secondary"
-            style={{ margin: 0 }}
-            title="Disabled. Enter a filter to save."
-          >
-            Save as view
-          </button>
         </div>
-        Group reporting entities by
-        <button
-          className="rounded secondary compact"
-          style={{ margin: "0 5px" }}
-        >
-          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-            language
-          </label>
-          <VscChevronDown />
-        </button>
-        and sort by
-        <button
-          className="rounded secondary compact"
-          style={{ margin: "0 5px" }}
-        >
-          <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
-            health
-          </label>
-          <VscChevronDown />
-        </button>
-        <br />
-        <br />
-        {view === "list" && <List />}
-        {view === "navigator" && <Navigator />}
+        <div className="three-col">
+          <div className="left-col">
+            <div className="box">
+              <ul>
+                <li>Summary</li>
+                <li>Distributed tracing</li>
+                <li>Service Map</li>
+                <li>Dependencies</li>
+              </ul>
+            </div>
+          </div>
+          <div className="center-col">
+            <div className="box"></div>
+          </div>
+          <div className="right-col">
+            <div className="box"></div>
+          </div>
+        </div>
       </Content>
     );
   }
@@ -2112,36 +2127,37 @@ const Header = (props: any) => {
 
 const CommandPanel = (props: any) => {
   const commands = [
-    { label: "Search", key: "S", icon: <VscSearch />, url: "search" },
+    { label: "Search", key: "S", icon: <VscSearch />, url: "/search" },
     { label: "Query", key: "Q", icon: <VscQuestion />, url: "" },
-    { label: "Add Data", key: "A", icon: <VscAdd />, url: "setup" },
+    { label: "Add Data", key: "A", icon: <VscAdd />, url: "/setup" },
     { label: "User Preferences", key: "", icon: <VscGear />, url: "" },
     { label: "Account Settings", key: "", icon: <VscGear />, url: "" },
     { label: "Change Theme", key: "", icon: <VscGear />, url: "" },
     { label: "Switch Account", key: "", icon: <VscGear />, url: "" },
-    { label: "Help", icon: <VscQuestion />, url: "help" },
-    { label: "Invite", icon: <FiUserPlus />, url: "invite" },
-    { label: "What's New", icon: <MdOutlineWbSunny />, url: "whats-new" },
+    { label: "Help", icon: <VscQuestion />, url: "/help" },
+    { label: "Invite", icon: <FiUserPlus />, url: "/invite" },
+    { label: "What's New", icon: <MdOutlineWbSunny />, url: "/whats-new" },
     { label: "View usage", key: "", icon: <VscAdd />, url: "" },
-    { label: "Setup", key: "", icon: <VscAdd />, url: "setup" },
+    { label: "Setup", key: "", icon: <VscAdd />, url: "/setup" },
     { icon: <VscCopy />, label: "Copy permalink", url: "" },
     { icon: <VscMail />, label: "Share via Email", url: "" },
     { icon: <BsSlack />, label: "Share to Slack", url: "" },
     { icon: <SiMicrosoftteams />, label: "Share to MS Teams", url: "" },
     { icon: <SiJirasoftware />, label: "Create Jira Ticket", url: "" },
-    { label: "APM", icon: <VscGraphLine />, url: "apm" },
-    { label: "Explorer", icon: <VscGlobe />, url: "explorer" },
-    { label: "Browse Data", icon: <VscCompass />, url: "browse-data" },
-    { label: "Dashboards", icon: <VscDashboard />, url: "dashboards" },
-    { label: "Alerts & AI", icon: <VscWarning />, url: "alerts--ai" },
-    { label: "Errors Inbox", icon: <VscInbox />, url: "errors-inbox" },
-    { label: "Browser", icon: <VscBrowser />, url: "browser" },
-    { label: "Infrastructure", icon: <VscServer />, url: "infrastructure" },
-    { label: "Logs", icon: <VscListFlat />, url: "logs" },
-    { label: "Mobile", icon: <VscDeviceMobile />, url: "mobile" },
-    { label: "Synthetics", icon: <VscGithubAction />, url: "synthetics" },
-    { label: "Messages", icon: <VscCommentDiscussion />, url: "messages" },
+    { label: "APM", icon: <VscGraphLine />, url: "/apm" },
+    { label: "Explorer", icon: <VscGlobe />, url: "/explorer" },
+    { label: "Browse Data", icon: <VscCompass />, url: "/browse-data" },
+    { label: "Dashboards", icon: <VscDashboard />, url: "/dashboards" },
+    { label: "Alerts & AI", icon: <VscWarning />, url: "/alerts--ai" },
+    { label: "Errors Inbox", icon: <VscInbox />, url: "/errors-inbox" },
+    { label: "Browser", icon: <VscBrowser />, url: "/browser" },
+    { label: "Infrastructure", icon: <VscServer />, url: "/infrastructure" },
+    { label: "Logs", icon: <VscListFlat />, url: "/logs" },
+    { label: "Mobile", icon: <VscDeviceMobile />, url: "/mobile" },
+    { label: "Synthetics", icon: <VscGithubAction />, url: "/synthetics" },
+    { label: "Messages", icon: <VscCommentDiscussion />, url: "/messages" },
   ];
+
   const [query, setQuery] = React.useState("");
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const handleClick = (e: any) => {
@@ -2225,27 +2241,41 @@ export default function App() {
   };
   const [commandPanelOpen, setCommandPanelOpen] = React.useState(false);
 
-  const onKeyDown = (e: KeyboardEvent) => {
+  function onKeyDown(this: HTMLElement, ev: Event) {
     // console.warn("DOWN: ", e);
-    if (e.key === "Escape") {
+    // @ts-ignore
+    if (ev.key === "Escape") {
       setCommandPanelOpen(false);
     }
-  };
+  }
 
-  const onKeyPress = (e: KeyboardEvent) => {
-    // console.warn("PRESS: ", e);
-    if (e.key === "k") {
+  function onKeyPress(this: HTMLElement, ev: Event) {
+    // @ts-ignore
+    // console.warn("PRESS: ", ev);
+    // @ts-ignore
+    if (ev.key === "k" && ev.target.id === "main-page") {
       if (!commandPanelOpen) {
-        e.preventDefault();
-        e.stopPropagation();
+        ev.preventDefault();
+        ev.stopPropagation();
       }
       setCommandPanelOpen(true);
     }
-  };
+    return false;
+  }
 
   const onClick = (e: any) => {
     setCommandPanelOpen(false);
   };
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keypress", onKeyPress);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keypress", onKeyPress);
+    };
+  }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <>
@@ -2268,8 +2298,6 @@ export default function App() {
         <div
           className={`page ${navState} ${theme}`}
           id="main-page"
-          onKeyPress={onKeyPress}
-          onKeyDown={onKeyDown}
           onClick={onClick}
           tabIndex={0}
         >
