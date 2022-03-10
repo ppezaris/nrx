@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
 import Helmet from "react-helmet";
+import { useHistory } from "react-router-dom";
 import logo from "./logo2.svg";
 import {
   VscBell,
@@ -2158,6 +2159,7 @@ const CommandPanel = (props: any) => {
     { label: "Messages", icon: <VscCommentDiscussion />, url: "/messages" },
   ];
 
+  const history = useHistory();
   const [query, setQuery] = React.useState("");
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const handleClick = (e: any) => {
@@ -2178,12 +2180,12 @@ const CommandPanel = (props: any) => {
       setSelectedIndex(selectedIndex - 1);
     } else if (e.key === "Enter") {
       props.setCommandPanelOpen(false);
-      window.location.href = activeCommands[selectedIndex].url;
+      history.push(activeCommands[selectedIndex].url);
     }
   };
   const handleClickCommand = (e: any) => {
     props.setCommandPanelOpen(false);
-    window.location.href = activeCommands[selectedIndex].url;
+    history.push(activeCommands[selectedIndex].url);
     return false;
   };
 
