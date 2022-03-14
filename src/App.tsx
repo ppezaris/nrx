@@ -80,11 +80,45 @@ import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 // making sure things like the back button and bookmarks
 // work properly.
 
+var LAST_CONTENT_SCROLL = 0;
+var HEADER_SCROLL = 0;
 export const Content = (props: any) => {
+  const handleScroll = (e: any) => {
+    console.warn(e);
+    const $content = document.querySelector(".horizontal #content-div");
+    if ($content) {
+      const top = $content.scrollTop;
+      const delta = top - LAST_CONTENT_SCROLL;
+      if (top > LAST_CONTENT_SCROLL) {
+        if (HEADER_SCROLL < -130) {
+          // do nothing
+        } else HEADER_SCROLL -= delta;
+      } else {
+        if (HEADER_SCROLL < 0) {
+          HEADER_SCROLL -= delta;
+          if (HEADER_SCROLL > 0) HEADER_SCROLL = 0;
+        }
+      }
+      LAST_CONTENT_SCROLL = top;
+      const $header = document.querySelector("#header-div");
+      if ($header) $header.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+      const $nav = document.querySelector(".nav");
+      if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+      const $thirdNav = document.querySelector(".horizontal .thirdnav");
+      if ($thirdNav)
+        $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 95}px`);
+      if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
+        $thirdNav?.classList.remove("has-shadow");
+      else $thirdNav?.classList.add("has-shadow");
+    }
+  };
+
   return (
     <div
       onClick={props.onClick}
       className={"content " + (props.className || "")}
+      onScroll={handleScroll}
+      id="content-div"
     >
       {props.children}
     </div>
@@ -1303,6 +1337,16 @@ const ErrorsInbox = (props: any) => {
   );
 };
 
+const Help = (props: any) => {
+  return (
+    <Content>
+      <Banner />
+      <Title>Help</Title>
+      <div className="placeholder">Help goes here</div>
+    </Content>
+  );
+};
+
 const APM = (props: any) => {
   return (
     <Content>
@@ -1751,9 +1795,19 @@ const NAV_BOTTOM = [
   { label: "Help", icon: <VscQuestion /> },
   { label: "What's New", icon: <MdOutlineWbSunny /> },
   { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
-  { label: "Invite", icon: <FiUserPlus /> },
+  // { label: "Invite", icon: <FiUserPlus /> },
   {
     label: "Query",
+    labelDiv: (
+      <div
+        onClickCapture={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        Query
+      </div>
+    ),
     // labelDiv: <QueryBuilder />,
     icon: <VscSearch />,
   },
@@ -1881,6 +1935,7 @@ const Nav = (props: any) => {
           />
         ))}
       </ul>
+
       <div className="bottom">
         <ul className="links">
           {NAV_BOTTOM.map((item) => (
@@ -1935,7 +1990,7 @@ const Header = (props: any) => {
   const color = threadState == "open" ? "green" : "purple";
 
   return (
-    <div className="header">
+    <div className="header" id="header-div">
       <Comments
         threadState={threadState}
         commentThread={commentThread}
@@ -1946,7 +2001,6 @@ const Header = (props: any) => {
         setCommentsState={props.setCommentsState}
         offScreen={props.commentsState == "closed"}
       />
-
       <button
         className={searchOpen ? "active search-button" : "search-button"}
         onClick={() => setSearchOpen(!searchOpen)}
@@ -2060,6 +2114,12 @@ const Header = (props: any) => {
           </div>
         )}
       </button>
+      <button>
+        <label>
+          <FiUserPlus style={{ verticalAlign: "-2px", marginRight: "5px" }} />
+          Invite
+        </label>
+      </button>
       <button
         className={shareOpen ? "active" : ""}
         onClick={() => setShareOpen(!shareOpen)}
@@ -2094,7 +2154,7 @@ const Header = (props: any) => {
             </ul>
           </div>
         )}
-      </button>
+      </button>{" "}
       <button
         className={
           props.commentsState === "open"
@@ -2129,7 +2189,7 @@ const Header = (props: any) => {
 const CommandPanel = (props: any) => {
   const commands = [
     { label: "Search", key: "S", icon: <VscSearch />, url: "/search" },
-    { label: "Query", key: "Q", icon: <VscQuestion />, url: "" },
+    { label: "Query Your Data", key: "Q", icon: <VscQuestion />, url: "" },
     { label: "Add Data", key: "A", icon: <VscAdd />, url: "/setup" },
     { label: "User Preferences", key: "", icon: <VscGear />, url: "" },
     { label: "Account Settings", key: "", icon: <VscGear />, url: "" },
@@ -2396,6 +2456,9 @@ export default function App() {
                 <Route path="/mobile">
                   <Mobile />
                 </Route>
+                <Route path="/help">
+                  <Help />
+                </Route>
                 <Route exact path="/nrx/setup">
                   <Setup />
                 </Route>
@@ -2428,3 +2491,6 @@ export default function App() {
     </>
   );
 }
+
+// grouping dashboards
+// shared dashboard groups
