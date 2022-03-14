@@ -94,7 +94,7 @@ body {
   background: var(--bg-2);
 }
 .page {
-  background: var(--bg-1);
+  background: var(--content-bg);
   color: var(--fg-3);
 }
 .page:focus {
