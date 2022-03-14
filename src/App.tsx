@@ -90,7 +90,7 @@ export const Content = (props: any) => {
       const top = $content.scrollTop;
       const delta = top - LAST_CONTENT_SCROLL;
       if (top > LAST_CONTENT_SCROLL) {
-        if (HEADER_SCROLL < -130) {
+        if (HEADER_SCROLL < -125) {
           // do nothing
         } else HEADER_SCROLL -= delta;
       } else {
@@ -106,7 +106,7 @@ export const Content = (props: any) => {
       if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
       const $thirdNav = document.querySelector(".horizontal .thirdnav");
       if ($thirdNav)
-        $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 95}px`);
+        $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 89}px`);
       if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
         $thirdNav?.classList.remove("has-shadow");
       else $thirdNav?.classList.add("has-shadow");
