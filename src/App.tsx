@@ -44,11 +44,19 @@ import {
   VscListUnordered,
   VscGear,
   VscChevronUp,
+  VscCloseAll,
+  VscClose,
 } from "react-icons/vsc";
 import { MdOutlineBubbleChart, MdOutlineWbSunny } from "react-icons/md";
 import { CgScreen, CgSoftwareDownload } from "react-icons/cg";
 
-import { BsClock, BsHexagon, BsSlack, BsStar } from "react-icons/bs";
+import {
+  BsClock,
+  BsHexagon,
+  BsQuestion,
+  BsSlack,
+  BsStar,
+} from "react-icons/bs";
 import { SiJirasoftware, SiMicrosoftteams } from "react-icons/si";
 
 import {
@@ -85,31 +93,40 @@ var HEADER_SCROLL = 0;
 export const Content = (props: any) => {
   const handleScroll = (e: any) => {
     console.warn(e);
-    const $content = document.querySelector(".horizontal #content-div");
+    const $content = document.querySelector("#content-div");
+
     if ($content) {
       const top = $content.scrollTop;
-      const delta = top - LAST_CONTENT_SCROLL;
-      if (top > LAST_CONTENT_SCROLL) {
-        if (HEADER_SCROLL < -125) {
-          // do nothing
-        } else HEADER_SCROLL -= delta;
-      } else {
-        if (HEADER_SCROLL < 0) {
-          HEADER_SCROLL -= delta;
-          if (HEADER_SCROLL > 0) HEADER_SCROLL = 0;
-        }
-      }
-      LAST_CONTENT_SCROLL = top;
+
       const $header = document.querySelector("#header-div");
-      if ($header) $header.setAttribute("style", `top: ${HEADER_SCROLL}px`);
-      const $nav = document.querySelector(".nav");
-      if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
-      const $thirdNav = document.querySelector(".horizontal .thirdnav");
-      if ($thirdNav)
-        $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 89}px`);
-      if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
-        $thirdNav?.classList.remove("has-shadow");
-      else $thirdNav?.classList.add("has-shadow");
+      if ($header) {
+        if (top > 0) $header?.classList.add("has-shadow");
+        else $header.classList.remove("has-shadow");
+      }
+      return;
+
+      // const delta = top - LAST_CONTENT_SCROLL;
+      // if (top > LAST_CONTENT_SCROLL) {
+      //   if (HEADER_SCROLL < -125) {
+      //     // do nothing
+      //   } else HEADER_SCROLL -= delta;
+      // } else {
+      //   if (HEADER_SCROLL < 0) {
+      //     HEADER_SCROLL -= delta;
+      //     if (HEADER_SCROLL > 0) HEADER_SCROLL = 0;
+      //   }
+      // }
+      // LAST_CONTENT_SCROLL = top;
+      // // const $header = document.querySelector("#header-div");
+      // if ($header) $header.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+      // const $nav = document.querySelector(".nav");
+      // if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+      // const $thirdNav = document.querySelector(".horizontal .thirdnav");
+      // if ($thirdNav)
+      //   $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 88}px`);
+      // if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
+      //   $thirdNav?.classList.remove("has-shadow");
+      // else $thirdNav?.classList.add("has-shadow");
     }
   };
 
@@ -497,7 +514,14 @@ const Setup = (props: any) => {
         <>
           <Title
             className="compact"
-            buttons={<span onClick={() => setHide(!hide)}>hide</span>}
+            buttons={
+              <span
+                style={{ paddingLeft: "10px" }}
+                onClick={() => setHide(!hide)}
+              >
+                <VscClose />
+              </span>
+            }
           >
             Getting Started
           </Title>
@@ -638,7 +662,7 @@ const Timepicker = (props: any) => {
       style={{ margin: "0 0 0 10px" }}
       onClick={() => setTimeOpen(!timeOpen)}
     >
-      <BsClock />
+      <BsClock style={{ marginLeft: "3px" }} />
       <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
         Since 30 minutes ago
       </label>
@@ -694,7 +718,6 @@ const Explorer = (props: any) => {
             className="flex-grow"
             placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
           />
-          {view === "navigator" && <Timepicker />}
           <div className="filters" style={{ marginLeft: "10px" }}>
             <div className="group">
               <button
@@ -847,9 +870,6 @@ const Explorer = (props: any) => {
                 </label>
                 <VscChevronDown />
               </button>
-            </div>
-            <div style={{ marginLeft: "auto" }}>
-              <Timepicker />
             </div>
           </div>
         </div>
@@ -1433,7 +1453,6 @@ const Mobile = (props: any) => {
 const Alerts = (props: any) => {
   return (
     <Content className="has-third-nav">
-      <ThirdNav items={NAV_ALERTS} subdir="/alerts--ai/" />
       <Title>Alerts &amp; AI</Title>
       <div className="placeholder">Alerts &amp; AI goes here</div>
     </Content>
@@ -1496,7 +1515,6 @@ const Dashboards = (props: any) => {
                 alignItems: "center",
               }}
             >
-              <Timepicker />
               <div className="rounded-button-group">
                 <button className="rounded secondary">
                   <CgScreen />
@@ -1523,35 +1541,34 @@ const Dashboards = (props: any) => {
     return (
       <Content className="has-third-nav">
         <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
-        <Title
-          buttons={
-            <>
-              <button className="rounded secondary">
-                <label>
-                  <span
-                    style={{
-                      transform: "rotate(90deg)",
-                      width: "1em",
-                      height: "1em",
-                    }}
-                  >
-                    <CgSoftwareDownload />
-                  </span>
-                  Import dashboard
-                </label>
-              </button>
-              <button className="rounded primary">
-                <label>
-                  <VscAdd /> Create a dashboard
-                </label>
-              </button>
-            </>
-          }
+        <Title>Dashboards</Title>
+        <div
+          style={{
+            margin: "-5px 0 15px 0",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
-          Dashboards
-        </Title>
-        <div style={{ margin: "-5px 0 15px 0" }}>
           <Search placeholder="Filter by name, type,tags... (e.g. entityType = Host)" />
+          <button className="rounded secondary">
+            <label>
+              <span
+                style={{
+                  transform: "rotate(90deg)",
+                  width: "1em",
+                  height: "1em",
+                }}
+              >
+                <CgSoftwareDownload />
+              </span>
+              Import dashboard
+            </label>
+          </button>
+          <button className="rounded primary">
+            <label>
+              <VscAdd /> Create a dashboard
+            </label>
+          </button>
         </div>
         <DashboardsTable setView={setView} />
       </Content>
@@ -1569,6 +1586,10 @@ const Slash = (props: any) => {
   return <div className="keybinding">/</div>;
 };
 
+const Keybinding = (props: any) => {
+  return <div className="keybinding">{props.children}</div>;
+};
+
 const NAV_BROWSE = [
   { label: "Events", isDefault: true },
   { label: "Metrics" },
@@ -1576,11 +1597,11 @@ const NAV_BROWSE = [
   { label: "Traces" },
 ];
 
-const NAV_DASHBOARD = [
-  { label: "All", icon: <VscFeedback />, isDefault: true },
-  { label: "Last", icon: <MdOutlineWbSunny /> },
-  { label: "Favorites", icon: <VscQuestion /> },
-  { label: "Saved", icon: <FiUserPlus /> },
+const NAV_DASHBOARD: any = [
+  // { label: "All", icon: <VscFeedback />, isDefault: true },
+  // { label: "Last", icon: <MdOutlineWbSunny /> },
+  // { label: "Favorites", icon: <VscQuestion /> },
+  // { label: "Saved", icon: <FiUserPlus /> },
 ];
 
 const NAV_MORE = [
@@ -1618,25 +1639,12 @@ const NAV_MORE = [
   { label: "-Customize this list" },
 ];
 
-const NAV_ALERTS = [
-  { label: "Overview", isDefault: true },
-  { label: "Issues & activity" },
-  { label: "-Alerts" },
-  { label: "Incidents" },
-  { label: "Events" },
-  { label: "Policies" },
-  { label: "Notification channels" },
-  { label: "Muting rules" },
-  { label: "-Proactive Detection" },
-  { label: "Settings" },
-  { label: "-Incident Intelligence" },
-  { label: "Decisions" },
-  { label: "Sources" },
-  { label: "Destinations" },
-  { label: "Pathways" },
-  { label: "System settings" },
-  { label: "-Enrich & Respond" },
-  { label: "Workflows" },
+const NAV_INBOX = [
+  { label: "Issue Feed" },
+  { label: "Errors Inbox" },
+  { label: "Messages" },
+  { label: "Deviations" },
+  { label: "Alerts classic" },
 ];
 
 const NAV_FEEDBACK = [
@@ -1667,17 +1675,12 @@ const NAV_FEEDBACK = [
 ];
 
 const NAV_EXPLORER = [
-  { label: "All", icon: <VscFeedback />, isDefault: true },
-  { label: "Last", icon: <MdOutlineWbSunny /> },
-  { label: "Favorites", icon: <VscQuestion /> },
-  { label: "Saved", icon: <FiUserPlus /> },
-  { label: "Gaps", icon: <FiUserPlus /> },
-  { label: "Your system", icon: <FiUserPlus /> },
-  { label: "Other entities", icon: <FiUserPlus /> },
-  { label: "Synthetics", icon: <FiUserPlus /> },
-  { label: "Kubernetes", icon: <FiUserPlus /> },
-  { label: "AWS", icon: <FiUserPlus /> },
-  { label: "Azure", icon: <FiUserPlus /> },
+  { label: "Entities", icon: <VscFeedback />, isDefault: true },
+  { label: "Health", icon: <MdOutlineWbSunny /> },
+  { label: "Metrics", icon: <VscQuestion /> },
+  { label: "Events", icon: <FiUserPlus /> },
+  { label: "Logs", icon: <FiUserPlus /> },
+  { label: "Traces", icon: <FiUserPlus /> },
 ];
 
 const NAV_SYNTHETICS = [
@@ -1688,6 +1691,24 @@ const NAV_SYNTHETICS = [
   { label: "Secure credentials" },
   { label: "Location status" },
   { label: "Upgrade monitors" },
+];
+const NAV_APPLICATIONS = [
+  { label: "APM Services", isDefault: true },
+  { label: "Browser" },
+  { label: "Mobile" },
+  { label: "Synthetics" },
+  { label: "Serverless" },
+  { label: "ML Model Monitoring" },
+];
+
+const NAV_INFRASTRUCTURE = [
+  { label: "Hosts", isDefault: true },
+  { label: "Containers" },
+  { label: "Kubernetes" },
+  { label: "NPM" },
+  { label: "Cloud Services" },
+  { label: "Third-party services" },
+  { label: "Infrastructure classic" },
 ];
 
 const NAV_LOGS = [
@@ -1703,79 +1724,175 @@ const NAV_LOGS = [
   { label: "Create drop filter", icon: <FiUserPlus /> },
 ];
 
+const NAV_SEARCH: any = [];
+const NAV_FAVORITES = [
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "foodme",
+    labelDiv: (
+      <div>
+        <Square color="green" />
+        FoodMe
+      </div>
+    ),
+    extra: <div className="nav-extra">entity</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "kafka-admin",
+    labelDiv: (
+      <div>
+        <Square color="green" />
+        Kafka-admin (perf)
+      </div>
+    ),
+    extra: <div className="nav-extra">entity</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "kafka-2",
+    labelDiv: (
+      <div>
+        <Square color="red" />
+        Kafka-admin (stg-deep-tree)
+      </div>
+    ),
+    extra: <div className="nav-extra">entity</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "kafka-3",
+    labelDiv: (
+      <div>
+        <Square color="gray" />
+        kafka-admin (stg-showy-brain)
+      </div>
+    ),
+    extra: <div className="nav-extra">entity</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "Transactions overview",
+    extra: <div className="nav-extra">dashboard</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "Insights Home",
+    extra: <div className="nav-extra">dashboard</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "Alerts Filter Operations Dashboard",
+    extra: <div className="nav-extra">dashboard</div>,
+  },
+  {
+    className: "favorite-entities",
+    icon: <VscStarFull />,
+    label: "Customer Product Usage Tracking",
+    extra: <div className="nav-extra">dashboard</div>,
+  },
+  { label: "-Recent" },
+  {
+    className: "favorite-entities not-yellow",
+    icon: <VscStarFull />,
+    label: "kafka-4",
+    labelDiv: (
+      <div>
+        <Square color="green" />
+        Kafka-admin (stg-tree)
+      </div>
+    ),
+    extra: <div className="nav-extra">entity</div>,
+  },
+];
+
 const NAV = [
-  //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
-  { label: "Setup", icon: <VscSettingsGear /> },
+  {
+    label: "Go To...",
+    icon: <VscSearch />,
+    subnav: NAV_SEARCH,
+    menuTitle: "Go To...",
+    openCommandPalette: true,
+    keybinding: <Keybinding>K</Keybinding>,
+  },
+  {
+    label: "Favorites & Recents",
+    menuTitle: "Favorites",
+    icon: <VscStarEmpty />,
+    subnav: NAV_FAVORITES,
+  },
+  // { label: "Setup", icon: <VscSettingsGear /> },
   {
     label: "Explorer",
     icon: <VscGlobe />,
-    extra: <VscChevronDown />,
     hover: "",
     hasThirdNav: true,
     subdir: "/explorer/",
     subnav: NAV_EXPLORER,
-  },
-  {
-    label: "Browse Data",
-    icon: <VscCompass />,
-    extra: <VscChevronDown />,
-    hasThirdNav: true,
-    subnav: NAV_BROWSE,
-    subdir: "/browse-data/",
+    keybinding: <Keybinding>E</Keybinding>,
   },
   {
     label: "Dashboards",
     icon: <VscDashboard />,
-    extra: <VscChevronDown />,
     hasThirdNav: true,
+    menuTitle: "Dashboards",
     subdir: "/dashboards/",
     subnav: NAV_DASHBOARD,
+    keybinding: <Keybinding>D</Keybinding>,
   },
+  // {
+  //   label: "Issues",
+  //   icon: <VscWarning />,
+  //
+  //   subnav: NAV_ALERTS,
+  //   hasThirdNav: true,
+  //   subdir: "/alerts--ai/",
+  // },
   {
-    label: "Alerts & AI",
-    icon: <VscWarning />,
-    extra: <VscChevronDown />,
-    subnav: NAV_ALERTS,
-    hasThirdNav: true,
-    subdir: "/alerts--ai/",
+    label: "Applications",
+    icon: <VscGraphLine />,
+    subnav: NAV_APPLICATIONS,
+    subdir: "/applications/",
+    keybinding: <Keybinding>A</Keybinding>,
   },
-  { label: "Errors Inbox", icon: <VscInbox /> },
-  { label: "APM", icon: <VscGraphLine />, extra: <VscChevronDown /> },
-  { label: "Browser", icon: <VscBrowser />, extra: <VscChevronDown /> },
-  { label: "Infrastructure", icon: <VscServer />, extra: <VscChevronDown /> },
+  // { label: "Inbox", icon: <VscInbox /> },
   {
-    label: "Logs",
-    icon: <VscListFlat />,
-    hasThirdNav: true,
-    extra: <VscChevronDown />,
-    subdir: "/logs/",
-    subnav: NAV_LOGS,
+    label: "Infrastructure",
+    icon: <VscServer />,
+    subnav: NAV_INFRASTRUCTURE,
+    subdir: "/infrastructure/",
+    keybinding: <Keybinding>I</Keybinding>,
   },
-  { label: "Mobile", icon: <VscDeviceMobile />, extra: <VscChevronDown /> },
+  // {
+  //   label: "Logs",
+  //   icon: <VscListFlat />,
+  //   hasThirdNav: true,
+  //
+  //   subdir: "/logs/",
+  //   subnav: NAV_LOGS,
+  // },
   {
-    label: "Synthetics",
-    icon: <VscGithubAction />,
-    extra: <VscChevronDown />,
-    hasThirdNav: true,
-    subdir: "/synthetics",
-    subnav: NAV_SYNTHETICS,
-  },
-  {
-    label: "Messages",
+    label: "Inbox",
     labelDiv: (
       <span>
-        Messages<span style={{ padding: "0 8px" }}> </span>
+        Inbox<span style={{ padding: "0 8px" }}> </span>
       </span>
     ),
-    icon: <VscCommentDiscussion />,
+    icon: <VscInbox />,
     badge: <Badge>3</Badge>,
     noComment: true,
+    subdir: "/inbox/",
+    subnav: NAV_INBOX,
+    keybinding: <Keybinding>N</Keybinding>,
   },
-  {
-    label: "More",
-    icon: <VscEllipsis />,
-    subnav: NAV_MORE,
-  },
+  { label: "Setup", icon: <VscSettingsGear /> },
 ];
 
 const QueryBuilder = (props: any) => {
@@ -1792,28 +1909,30 @@ const QueryBuilder = (props: any) => {
 };
 
 const NAV_BOTTOM = [
-  { label: "Help", icon: <VscQuestion /> },
-  { label: "What's New", icon: <MdOutlineWbSunny /> },
-  { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
+  { label: "Help", icon: <VscQuestion />, subnav: NAV_FEEDBACK },
+  // { label: "What's New", icon: <MdOutlineWbSunny /> },
+  // { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
   // { label: "Invite", icon: <FiUserPlus /> },
-  {
-    label: "Query",
-    labelDiv: (
-      <div
-        onClickCapture={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        Query
-      </div>
-    ),
-    // labelDiv: <QueryBuilder />,
-    icon: <VscSearch />,
-  },
+  { label: "Setup", icon: <VscSettingsGear /> },
+  // {
+  //   label: "Query",
+  //   labelDiv: (
+  //     <div
+  //       onClickCapture={(e) => {
+  //         e.preventDefault();
+  //         e.stopPropagation();
+  //       }}
+  //     >
+  //       Query
+  //     </div>
+  //   ),
+  //   // labelDiv: <QueryBuilder />,
+  //   icon: <VscSearch />,
+  // },
 ];
 
 export const ThirdNav = (props: { items: any[]; subdir?: string }) => {
+  return null;
   return (
     <ul className="links thirdnav subnav">
       {props.items.map((item) => (
@@ -1823,9 +1942,26 @@ export const ThirdNav = (props: { items: any[]; subdir?: string }) => {
   );
 };
 
-export const Menu = (props: { items: any[]; subdir?: string }) => {
+export const Menu = (props: {
+  label?: string;
+  items?: any[];
+  subdir?: string;
+  keybinding?: any;
+}) => {
+  if (!props.items) return null;
+  const count = props.items.length;
   return (
-    <ul className="links submenu">
+    <ul
+      className={`${
+        count > 0 ? "with-subitems " : "no-subitems "
+      }links submenu`}
+    >
+      <li className="menu-title">
+        <div style={{ display: "flex" }}>
+          <label style={{ marginRight: "20px" }}>{props.label}</label>
+          <span style={{ marginLeft: "auto" }}> {props.keybinding}</span>
+        </div>
+      </li>
       {props.items.map((item) => (
         <NavItem item={item} subdir={props.subdir} />
       ))}
@@ -1835,6 +1971,7 @@ export const Menu = (props: { items: any[]; subdir?: string }) => {
 
 const NavItem = (props: any) => {
   const item = props.item;
+  const [expanded, setExpanded] = React.useState(false);
   if (item.label.startsWith("-")) {
     return <div className="sep">{item.label.replace("-", "")}</div>;
   }
@@ -1860,17 +1997,33 @@ const NavItem = (props: any) => {
             e.stopPropagation();
             e.preventDefault();
             return false;
+          } else if (item.openCommandPalette) {
+            props.setCommandPanelOpen(!props.commandPanelOpen);
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
-        className={item.hasThirdNav ? "has-third-nav" : ""}
+        className={item.className || ""}
       >
         {item.icon} <span className="label">{item.labelDiv || item.label}</span>
-        <span className="extra">{item.extra}</span>
+        {false && item.subnav && item.subnav.length > 0 && (
+          <span className="extra">
+            <VscChevronDown />
+          </span>
+        )}
         {item.badge && item.badge}
-        {item.subnav && (
+        {item.extra && item.extra}
+        {((item.subnav && item.subnav.length > 0) ||
+          (props.navState !== "normal" && item.menuTitle)) && (
           <span className={"hover"}>
-            <Menu items={item.subnav} subdir={item.subdir} />
+            <Menu
+              label={item.menuTitle || item.label}
+              keybinding={item.keybinding}
+              items={item.subnav}
+              subdir={item.subdir}
+            />
           </span>
         )}
       </NavLink>
@@ -1881,17 +2034,25 @@ const NavItem = (props: any) => {
 const Nav = (props: any) => {
   return (
     <div className="nav">
-      {/* collapsed ? (
-        <VscChevronRight
+      {/* <div className="resizer">
+        {props.navState == "collapsed" ? (
+          <VscChevronRight
+            className="icon icon-left"
+            onClick={() => props.setNavState("normal")}
+          />
+        ) : (
+          <VscChevronLeft
+            className="icon icon-left"
+            onClick={() => props.setNavState("collapsed")}
+          />
+        )}
+      </div>
+      <div className="resizer-horizontal">
+        <VscChevronUp
           className="icon icon-left"
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => props.setNavState("horizontal")}
         />
-      ) : (
-        <VscChevronLeft
-          className="icon icon-left"
-          onClick={() => setCollapsed(!collapsed)}
-        />
-      ) */}
+      </div> */}
       <div
         className="logo-wrap"
         onClick={() =>
@@ -1907,8 +2068,74 @@ const Nav = (props: any) => {
         }
       >
         <div className="logo">
+          <svg
+            width="124"
+            height="24"
+            viewBox="0 0 124 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.7572 8.17188V15.4349L10.3748 19.0672V23.6068L20.7495 17.7055V5.90134L16.7572 8.17188Z"
+              fill="#00AC69"
+            ></path>
+            <path
+              d="M10.3747 4.54109L16.7572 8.17188L20.7495 5.90134L10.3747 0L0 5.90134L3.99075 8.17188L10.3747 4.54109Z"
+              fill="#1CE783"
+            ></path>
+            <path
+              d="M6.384 14.0747V21.3378L10.3747 23.6068V11.8042L0 5.90134V10.4424L6.384 14.0747Z"
+              fill="#FAFBFB"
+            ></path>
+            <g className="Navigation_nav-element__Sg_wj">
+              <path
+                d="M34.9899 5.88501C32.7564 5.88501 31.6985 7.27496 31.6985 7.27496H31.5809L31.3473 6.11667H28.6421V17.9312H31.5809V11.1003C31.5809 9.59451 32.6359 8.55204 34.1671 8.55204C35.6982 8.55204 36.7532 9.59154 36.7532 11.1003V17.9312H39.692V10.8657C39.692 7.8541 37.6936 5.88501 34.9899 5.88501Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M66.6838 13.8772H66.515L64.5167 6.11667H61.5266L59.5282 13.8772H59.3609L57.361 6.11667H54.3047L57.361 17.9312H60.9403L62.9372 10.2865H63.106L65.1044 17.9312H68.6822L71.7386 6.11667H68.6822L66.6838 13.8772Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M80.7374 7.15911H80.6198L80.3847 6.11962H77.9161V17.9327H80.8549V11.1017C80.8549 9.59597 81.5603 8.901 83.0884 8.901H84.5955V6.11813H82.8473C82.4379 6.119 82.0342 6.21346 81.6681 6.39409C81.302 6.57472 80.9834 6.83659 80.7374 7.15911V7.15911Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M91.0986 5.88501C87.5735 5.88501 84.9874 8.43325 84.9874 12.0239C84.9874 15.6146 87.4273 18.1629 91.0986 18.1629C94.0721 18.1629 95.8625 16.4388 96.6085 15.1706L93.9108 14.2232C93.6441 14.7043 92.568 15.6295 91.0986 15.6295C89.385 15.6295 88.1613 14.5722 87.9262 12.9565H96.8587C96.9413 12.5759 96.9807 12.1874 96.9762 11.7982C96.9762 8.43325 94.3901 5.88501 91.0986 5.88501ZM87.9262 10.9815C88.2788 9.47571 89.3368 8.31742 91.0986 8.31742C92.7458 8.31742 93.8023 9.47571 94.0374 10.9815H87.9262Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M47.6841 5.88501C44.1575 5.88501 41.5714 8.43325 41.5714 12.0239C41.5714 15.6146 44.0068 18.1629 47.6841 18.1629C50.6575 18.1629 52.4465 16.4388 53.1925 15.1706L50.4948 14.2232C50.228 14.7043 49.1535 15.6295 47.6841 15.6295C45.9705 15.6295 44.7453 14.5722 44.5102 12.9565H53.4441C53.5267 12.5759 53.5662 12.1874 53.5617 11.7982C53.5617 8.43325 50.9755 5.88501 47.6841 5.88501ZM44.5102 10.9815C44.8628 9.47571 45.9208 8.31742 47.6841 8.31742C49.3298 8.31742 50.3878 9.47571 50.6229 10.9815H44.5102Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M107.25 1.45233H104.311V4.34806H107.25V1.45233Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M115.36 15.4988C113.596 15.4988 112.186 14.1089 112.186 12.0239C112.186 9.93902 113.596 8.54908 115.36 8.54908C117.123 8.54908 117.828 9.70736 118.063 10.4023L120.725 9.46977C120.08 7.81995 118.497 5.88501 115.36 5.88501C111.833 5.88501 109.247 8.43325 109.247 12.0239C109.247 15.6146 111.833 18.1629 115.36 18.1629C118.524 18.1629 120.107 16.1968 120.74 14.4682L118.063 13.5297C117.828 14.3405 117.123 15.4988 115.36 15.4988Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M97.3017 4.02581H98.9701V17.9312H101.909V1.45233H97.3017V4.02581Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M107.25 6.11667H104.311V17.9312H107.25V6.11667Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M122.313 15.6651C122.088 15.6619 121.868 15.7246 121.679 15.8453C121.491 15.9661 121.343 16.1393 121.254 16.3431C121.166 16.5468 121.141 16.7718 121.183 16.9895C121.225 17.2072 121.332 17.4077 121.489 17.5655C121.647 17.7233 121.849 17.8313 122.069 17.8757C122.29 17.9202 122.518 17.899 122.726 17.815C122.934 17.731 123.112 17.5879 123.238 17.4039C123.363 17.2199 123.43 17.0034 123.43 16.7818C123.435 16.6353 123.409 16.4892 123.355 16.3526C123.301 16.216 123.219 16.0917 123.115 15.9872C123.01 15.8828 122.885 15.8003 122.748 15.745C122.61 15.6896 122.462 15.6624 122.313 15.6651ZM122.313 17.7278C122.123 17.731 121.935 17.6783 121.775 17.5764C121.615 17.4744 121.49 17.3278 121.415 17.1553C121.339 16.9828 121.318 16.7921 121.353 16.6075C121.388 16.423 121.478 16.2529 121.612 16.119C121.746 15.985 121.917 15.8933 122.103 15.8555C122.29 15.8176 122.484 15.8354 122.66 15.9065C122.836 15.9775 122.987 16.0988 123.094 16.2546C123.2 16.4105 123.257 16.5941 123.257 16.7818C123.261 16.9056 123.24 17.0288 123.194 17.1441C123.148 17.2594 123.079 17.3643 122.991 17.4523C122.902 17.5403 122.797 17.6096 122.68 17.656C122.564 17.7023 122.439 17.7247 122.313 17.7218V17.7278Z"
+                fill="#FAFBFB"
+              ></path>
+              <path
+                d="M122.8 16.5754C122.8 16.5218 122.788 16.4689 122.766 16.4199C122.745 16.3708 122.713 16.3267 122.673 16.2903C122.633 16.2538 122.586 16.2258 122.535 16.2079C122.484 16.19 122.429 16.1827 122.375 16.1863H121.872V17.3506H122.045V16.9466H122.203L122.612 17.3506H122.827L122.419 16.9466C122.519 16.9467 122.615 16.9077 122.687 16.8382C122.758 16.7687 122.799 16.6743 122.8 16.5754V16.5754ZM122.047 16.7759V16.3571H122.375C122.407 16.3534 122.439 16.3562 122.469 16.3654C122.499 16.3746 122.527 16.39 122.551 16.4106C122.575 16.4312 122.594 16.4565 122.607 16.4849C122.621 16.5133 122.628 16.5441 122.628 16.5754C122.628 16.6987 122.548 16.7759 122.375 16.7759H122.047Z"
+                fill="#FAFBFB"
+              ></path>
+            </g>
+          </svg>{" "}
           {/*<VscArrowUp className="icon icon-up" />*/}
-          <img className="logo-svg" src={logo} alt="logo" />
+          {/* <img className="logo-svg" src={logo} alt="logo" /> */}
         </div>
       </div>
 
@@ -1932,11 +2159,14 @@ const Nav = (props: any) => {
             item={item}
             setCommentsState={props.setCommentsState}
             commentsState={props.commentsState}
+            setCommandPanelOpen={props.setCommandPanelOpen}
+            commandPanelOpen={props.commandPanelOpen}
+            navState={props.navState}
           />
         ))}
       </ul>
 
-      <div className="bottom">
+      {/* <div className="bottom">
         <ul className="links">
           {NAV_BOTTOM.map((item) => (
             <NavItem
@@ -1950,7 +2180,7 @@ const Nav = (props: any) => {
             style={{ width: "1px", height: "0px" }}
           />
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -1989,6 +2219,7 @@ const Header = (props: any) => {
 
   const color = threadState == "open" ? "green" : "purple";
 
+  const hasTimepicker = pathname.includes("explore");
   return (
     <div className="header" id="header-div">
       <Comments
@@ -2004,6 +2235,7 @@ const Header = (props: any) => {
       <button
         className={searchOpen ? "active search-button" : "search-button"}
         onClick={() => setSearchOpen(!searchOpen)}
+        style={{ display: "none" }}
       >
         <label>
           <VscSearch style={{ verticalAlign: "-2px", marginRight: "5px" }} />
@@ -2050,6 +2282,9 @@ const Header = (props: any) => {
       Maximize
     </button>
     */}
+      <div style={{ marginLeft: "auto", alignSelf: "center" }}>
+        {hasTimepicker && <Timepicker />}
+      </div>
       <button
         className={accountOpen ? "active" : ""}
         onClick={() => setAccountOpen(!accountOpen)}
@@ -2086,6 +2321,7 @@ const Header = (props: any) => {
       <button
         className={userOpen ? "active" : ""}
         onClick={() => setUserOpen(!userOpen)}
+        style={{ display: "none" }}
       >
         <label>
           <img src="https://i.imgur.com/jSrZwhT.jpg" />
@@ -2114,19 +2350,17 @@ const Header = (props: any) => {
           </div>
         )}
       </button>
-      <button>
+      <button className="rounded">
         <label>
-          <FiUserPlus style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-          Invite
+          <FiUserPlus style={{ verticalAlign: "-2px" }} />
         </label>
       </button>
       <button
-        className={shareOpen ? "active" : ""}
+        className={shareOpen ? "active rounded" : "rounded"}
         onClick={() => setShareOpen(!shareOpen)}
       >
         <label>
-          <FiShare2 style={{ verticalAlign: "-2px", marginRight: "5px" }} />
-          Share
+          <FiShare2 style={{ verticalAlign: "-2px" }} />
         </label>
         {shareOpen && (
           <div className="menu">
@@ -2158,8 +2392,8 @@ const Header = (props: any) => {
       <button
         className={
           props.commentsState === "open"
-            ? "comment-button active"
-            : "comment-button"
+            ? "comment-button active rounded"
+            : "comment-button rounded"
         }
         onClick={() =>
           props.commentsState === "closed"
@@ -2176,11 +2410,13 @@ const Header = (props: any) => {
         ) : location.pathname.endsWith("mobile") ? (
           <Badge className={color}>4</Badge>
         ) : (
-          <FiMessageSquare
-            style={{ verticalAlign: "-2px", marginRight: "5px" }}
-          />
+          <FiMessageSquare style={{ verticalAlign: "-2px" }} />
         )}
-        Commments
+      </button>
+      <button className="rounded">
+        <label>
+          <BsQuestion style={{ verticalAlign: "-2px" }} />
+        </label>
       </button>
     </div>
   );
@@ -2251,7 +2487,7 @@ const CommandPanel = (props: any) => {
 
   return (
     <div className="popup" onClick={handleClick} onKeyDown={onKeyDown}>
-      <div className="popup-title">New Relic Command</div>
+      <div className="popup-title">Go To...</div>
       <hr />
       <input
         className="command-input"
@@ -2297,7 +2533,7 @@ export default function App() {
   const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
-  >("horizontal");
+  >("normal");
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
@@ -2368,6 +2604,8 @@ export default function App() {
             commentsState={commentsState}
             setNavState={setNavState}
             navState={navState}
+            setCommandPanelOpen={setCommandPanelOpen}
+            commandPanelOpen={commandPanelOpen}
           />
           <div className="body">
             {commandPanelOpen && (
@@ -2390,17 +2628,20 @@ export default function App() {
                 <Route exact path="/setup">
                   <Setup />
                 </Route>
-                <Route path="/explorer/last">
-                  <Explorer subtitle="Last" />
+                <Route path="/explorer/health">
+                  <Explorer subtitle="Health" />
                 </Route>
-                <Route path="/explorer/favorites">
-                  <Explorer subtitle="Favorites" />
+                <Route path="/explorer/metrics">
+                  <Explorer subtitle="Metrics" />
                 </Route>
-                <Route path="/explorer/saved">
-                  <Explorer subtitle="Saved" />
+                <Route path="/explorer/events">
+                  <Explorer subtitle="Events" />
                 </Route>
-                <Route path="/explorer/gaps">
-                  <Explorer subtitle="Gaps" />
+                <Route path="/explorer/logs">
+                  <Explorer subtitle="Logs" />
+                </Route>
+                <Route path="/explorer/traces">
+                  <Explorer subtitle="Traces" />
                 </Route>
                 <Route path="/explorer/your-system">
                   <Explorer subtitle="Your System" />
@@ -2435,7 +2676,7 @@ export default function App() {
                 <Route path="/alerts--ai">
                   <Alerts />
                 </Route>
-                <Route path="/errors-inbox">
+                <Route path="/inbox/errors-inbox">
                   <ErrorsInbox />
                 </Route>
                 <Route path="/apm">
@@ -2450,7 +2691,7 @@ export default function App() {
                 <Route path="/synthetics">
                   <Synthetics />
                 </Route>
-                <Route path="/messages">
+                <Route path="/inbox/messages">
                   <Messages setCommentsState={setCommentsState} />
                 </Route>
                 <Route path="/mobile">
