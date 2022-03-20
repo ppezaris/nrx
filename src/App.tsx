@@ -78,6 +78,7 @@ import {
 import { Messages, Square, Unread } from "./Messages";
 import { Comments } from "./Comments";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import { RightPane } from "./RightPane";
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -505,52 +506,43 @@ const Category = (props: any) => {
     </div>
   );
 };
-const Setup = (props: any) => {
+
+const GettingStarted = (props: any) => {
+  return (
+    <Content>
+      <Title className="compact">Getting Started</Title>
+      <div className="getting-started">
+        <Step title="Add your data" number="1">
+          Connect your data to New Relic and gain insights in 5 minutes.
+        </Step>
+        <Step title="Explore your data" number="2">
+          Traverse your entire stack in one place.
+        </Step>
+        <Step title="Monitor workflows" number="3">
+          Detect outages and poor performance before your users notice.
+        </Step>
+        <Step title="Configure an alert" number="4">
+          Configure an alert and we'll tell you when to worry.
+        </Step>
+        <Step title="Query your data" number="5">
+          Write your first query in our powerful New Relic Query Language.
+        </Step>
+        <Step title="Set up a dashboard" number="6">
+          Create and share dashboards that matter to you and your team.
+        </Step>
+        <Step title="Invite your team" number="7">
+          Create and share dashboards that matter to you and your team.
+        </Step>
+      </div>
+    </Content>
+  );
+};
+
+const AddData = (props: any) => {
   const [hide, setHide] = React.useState(false);
   const [query, setQuery] = React.useState("");
   return (
     <Content>
-      {!hide && (
-        <>
-          <Title
-            className="compact"
-            buttons={
-              <span
-                style={{ paddingLeft: "10px" }}
-                onClick={() => setHide(!hide)}
-              >
-                <VscClose />
-              </span>
-            }
-          >
-            Getting Started
-          </Title>
-          <div className="getting-started">
-            <Step title="Add your data" number="1">
-              Connect your data to New Relic and gain insights in 5 minutes.
-            </Step>
-            <Step title="Explore your data" number="2">
-              Traverse your entire stack in one place.
-            </Step>
-            <Step title="Monitor workflows" number="3">
-              Detect outages and poor performance before your users notice.
-            </Step>
-            <Step title="Configure an alert" number="4">
-              Configure an alert and we'll tell you when to worry.
-            </Step>
-            <Step title="Query your data" number="5">
-              Write your first query in our powerful New Relic Query Language.
-            </Step>
-            <Step title="Set up a dashboard" number="6">
-              Create and share dashboards that matter to you and your team.
-            </Step>
-            <Step title="Invite your team" number="7">
-              Create and share dashboards that matter to you and your team.
-            </Step>
-          </div>
-        </>
-      )}
-      <div style={{ height: "50px" }} />
       <Title className="compact centered">Add Your Data to New Relic</Title>
       <div className="subtle centered search-description">
         Browse pre-built resources to get you started or improve how you monitor
@@ -1724,6 +1716,17 @@ const NAV_LOGS = [
   { label: "Create drop filter", icon: <FiUserPlus /> },
 ];
 
+const NAV_CONFIGURE = [
+  { label: "Add Data", icon: <VscAdd />, isDefault: true },
+  { label: "Detection Configuration", icon: <MdOutlineWbSunny /> },
+  { label: "Issue Configuration", icon: <VscFeedback /> },
+  { label: "Errors Configuration", icon: <FiUserPlus /> },
+  { label: "API Keys", icon: <FiUserPlus /> },
+  { label: "Integrations", icon: <FiUserPlus /> },
+  { label: "Manage Insights Data", icon: <FiUserPlus /> },
+  { label: "Administration", icon: <FiUserPlus /> },
+];
+
 const NAV_SEARCH: any = [];
 const NAV_FAVORITES = [
   {
@@ -1827,6 +1830,7 @@ const NAV = [
     menuTitle: "Favorites",
     icon: <VscStarEmpty />,
     subnav: NAV_FAVORITES,
+    keybinding: <Keybinding>F</Keybinding>,
   },
   // { label: "Setup", icon: <VscSettingsGear /> },
   {
@@ -1892,7 +1896,20 @@ const NAV = [
     subnav: NAV_INBOX,
     keybinding: <Keybinding>N</Keybinding>,
   },
-  { label: "Setup", icon: <VscSettingsGear /> },
+  {
+    label: "Configure",
+    icon: <VscSettingsGear />,
+    keybinding: <Keybinding>C</Keybinding>,
+    subdir: "/configure/",
+    subnav: NAV_CONFIGURE,
+  },
+  {
+    label: "Getting Started",
+    menuTitle: "Getting Started",
+    icon: <div className="donut" />,
+    keybinding: <Keybinding>G</Keybinding>,
+    subnav: [],
+  },
 ];
 
 const QueryBuilder = (props: any) => {
@@ -2157,6 +2174,7 @@ const Nav = (props: any) => {
         {NAV.map((item) => (
           <NavItem
             item={item}
+            topLevel
             setCommentsState={props.setCommentsState}
             commentsState={props.commentsState}
             setCommandPanelOpen={props.setCommandPanelOpen}
@@ -2220,6 +2238,7 @@ const Header = (props: any) => {
   const color = threadState == "open" ? "green" : "purple";
 
   const hasTimepicker = pathname.includes("explore");
+  const hasAccountpicker = pathname.includes("explore");
   return (
     <div className="header" id="header-div">
       <Comments
@@ -2232,6 +2251,36 @@ const Header = (props: any) => {
         setCommentsState={props.setCommentsState}
         offScreen={props.commentsState == "closed"}
       />
+      <RightPane paneState={props.helpState}>
+        <div className="placeholder">Contextual help goes here</div>
+      </RightPane>
+      <RightPane paneState={props.inviteState}>
+        <div className="placeholder">Invite goes here</div>
+      </RightPane>
+      <RightPane paneState={props.shareState}>
+        <div className="button-list">
+          <button>
+            <VscCopy />
+            Copy permalink
+          </button>
+          <button>
+            <VscMail />
+            Share via Email
+          </button>
+          <button>
+            <BsSlack />
+            Share to Slack
+          </button>
+          <button>
+            <SiMicrosoftteams />
+            Share to MS Teams
+          </button>
+          <button>
+            <SiJirasoftware />
+            Create Jira Ticket
+          </button>
+        </div>
+      </RightPane>
       <button
         className={searchOpen ? "active search-button" : "search-button"}
         onClick={() => setSearchOpen(!searchOpen)}
@@ -2285,39 +2334,41 @@ const Header = (props: any) => {
       <div style={{ marginLeft: "auto", alignSelf: "center" }}>
         {hasTimepicker && <Timepicker />}
       </div>
-      <button
-        className={accountOpen ? "active" : ""}
-        onClick={() => setAccountOpen(!accountOpen)}
-      >
-        <label>
-          Account: Sunstone Staging{" "}
-          <VscChevronDown style={{ verticalAlign: "-2px" }} />
-        </label>
-        {accountOpen && (
-          <div className="menu" style={{ width: "100%" }}>
-            <ul>
-              <hr />
-              <li>
-                <VscSearch /> Search
-              </li>
-              <hr />
-              <li>Most recent</li>
-              <li>Julian's log test account</li>
-              <li>Json_logs</li>
-              <li>Cell Logging Testing 7</li>
-              <li>Account with suffixed license dt</li>
-              <hr />
-              <li>AAA Research</li>
-              <li>abrunner</li>
-              <li>abuchanan</li>
-              <li>Account-Nerdlet</li>
-              <li>Acct_test</li>
-              <li>ace</li>
-              <li>ace: eu-production</li>
-            </ul>
-          </div>
-        )}
-      </button>
+      {hasAccountpicker && (
+        <button
+          className={accountOpen ? "active" : ""}
+          onClick={() => setAccountOpen(!accountOpen)}
+        >
+          <label>
+            Account: Sunstone Staging{" "}
+            <VscChevronDown style={{ verticalAlign: "-2px" }} />
+          </label>
+          {accountOpen && (
+            <div className="menu" style={{ width: "100%" }}>
+              <ul>
+                <hr />
+                <li>
+                  <VscSearch /> Search
+                </li>
+                <hr />
+                <li>Most recent</li>
+                <li>Julian's log test account</li>
+                <li>Json_logs</li>
+                <li>Cell Logging Testing 7</li>
+                <li>Account with suffixed license dt</li>
+                <hr />
+                <li>AAA Research</li>
+                <li>abrunner</li>
+                <li>abuchanan</li>
+                <li>Account-Nerdlet</li>
+                <li>Acct_test</li>
+                <li>ace</li>
+                <li>ace: eu-production</li>
+              </ul>
+            </div>
+          )}
+        </button>
+      )}
       <button
         className={userOpen ? "active" : ""}
         onClick={() => setUserOpen(!userOpen)}
@@ -2350,44 +2401,43 @@ const Header = (props: any) => {
           </div>
         )}
       </button>
-      <button className="rounded">
+      <button
+        className={
+          props.inviteState === "open"
+            ? "comment-button active rounded"
+            : "comment-button rounded"
+        }
+        onClick={() => {
+          props.setShareState("closed");
+          props.setHelpState("closed");
+          props.setCommentsState("closed");
+          props.inviteState === "closed"
+            ? props.setInviteState("open")
+            : props.setInviteState("closed");
+        }}
+      >
         <label>
           <FiUserPlus style={{ verticalAlign: "-2px" }} />
         </label>
       </button>
       <button
-        className={shareOpen ? "active rounded" : "rounded"}
-        onClick={() => setShareOpen(!shareOpen)}
+        className={
+          props.shareState === "open"
+            ? "comment-button active rounded"
+            : "comment-button rounded"
+        }
+        onClick={() => {
+          props.setInviteState("closed");
+          props.setHelpState("closed");
+          props.setCommentsState("closed");
+          props.shareState === "closed"
+            ? props.setShareState("open")
+            : props.setShareState("closed");
+        }}
       >
         <label>
           <FiShare2 style={{ verticalAlign: "-2px" }} />
         </label>
-        {shareOpen && (
-          <div className="menu">
-            <ul>
-              <li>
-                <VscCopy />
-                Copy permalink
-              </li>
-              <li>
-                <VscMail />
-                Share via Email
-              </li>
-              <li>
-                <BsSlack />
-                Share to Slack
-              </li>
-              <li>
-                <SiMicrosoftteams />
-                Share to MS Teams
-              </li>
-              <li>
-                <SiJirasoftware />
-                Create Jira Ticket
-              </li>
-            </ul>
-          </div>
-        )}
       </button>{" "}
       <button
         className={
@@ -2395,11 +2445,14 @@ const Header = (props: any) => {
             ? "comment-button active rounded"
             : "comment-button rounded"
         }
-        onClick={() =>
+        onClick={() => {
+          props.setInviteState("closed");
+          props.setShareState("closed");
+          props.setHelpState("closed");
           props.commentsState === "closed"
             ? props.setCommentsState("open")
-            : props.setCommentsState("closed")
-        }
+            : props.setCommentsState("closed");
+        }}
       >
         {location.pathname.endsWith("browse-data") ? (
           <Badge className={color}>5</Badge>
@@ -2413,7 +2466,21 @@ const Header = (props: any) => {
           <FiMessageSquare style={{ verticalAlign: "-2px" }} />
         )}
       </button>
-      <button className="rounded">
+      <button
+        className={
+          props.helpState === "open"
+            ? "comment-button active rounded"
+            : "comment-button rounded"
+        }
+        onClick={() => {
+          props.setInviteState("closed");
+          props.setShareState("closed");
+          props.setCommentsState("closed");
+          props.helpState === "closed"
+            ? props.setHelpState("open")
+            : props.setHelpState("closed");
+        }}
+      >
         <label>
           <BsQuestion style={{ verticalAlign: "-2px" }} />
         </label>
@@ -2424,9 +2491,9 @@ const Header = (props: any) => {
 
 const CommandPanel = (props: any) => {
   const commands = [
-    { label: "Search", key: "S", icon: <VscSearch />, url: "/search" },
+    // { label: "Search", key: "S", icon: <VscSearch />, url: "/search" },
     { label: "Query Your Data", key: "Q", icon: <VscQuestion />, url: "" },
-    { label: "Add Data", key: "A", icon: <VscAdd />, url: "/setup" },
+    { label: "Add Data", key: "A", icon: <VscAdd />, url: "/add-data" },
     { label: "User Preferences", key: "", icon: <VscGear />, url: "" },
     { label: "Account Settings", key: "", icon: <VscGear />, url: "" },
     { label: "Change Theme", key: "", icon: <VscGear />, url: "" },
@@ -2435,7 +2502,7 @@ const CommandPanel = (props: any) => {
     { label: "Invite", icon: <FiUserPlus />, url: "/invite" },
     { label: "What's New", icon: <MdOutlineWbSunny />, url: "/whats-new" },
     { label: "View usage", key: "", icon: <VscAdd />, url: "" },
-    { label: "Setup", key: "", icon: <VscAdd />, url: "/setup" },
+    { label: "Setup", key: "", icon: <VscAdd />, url: "/add-data" },
     { icon: <VscCopy />, label: "Copy permalink", url: "" },
     { icon: <VscMail />, label: "Share via Email", url: "" },
     { icon: <BsSlack />, label: "Share to Slack", url: "" },
@@ -2530,6 +2597,9 @@ const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09";
 
 export default function App() {
   const [commentsState, setCommentsState] = React.useState("closed");
+  const [helpState, setHelpState] = React.useState("closed");
+  const [inviteState, setInviteState] = React.useState("closed");
+  const [shareState, setShareState] = React.useState("closed");
   const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
@@ -2615,18 +2685,35 @@ export default function App() {
               toggleTheme={toggleTheme}
               commentsState={commentsState}
               setCommentsState={setCommentsState}
-              navState={navState}
+              helpState={helpState}
+              setHelpState={setHelpState}
+              shareState={shareState}
+              setShareState={setShareState}
+              inviteState={inviteState}
+              setInviteState={setInviteState}
             />
             <div
               style={{
-                paddingRight: commentsState === "open" ? "300px" : "0",
+                paddingRight:
+                  commentsState === "open" ||
+                  helpState === "open" ||
+                  inviteState === "open" ||
+                  shareState === "open"
+                    ? "300px"
+                    : "0",
                 position: "relative",
                 transition: "padding-right 0.2s",
               }}
             >
               <Switch>
-                <Route exact path="/setup">
-                  <Setup />
+                <Route exact path="/getting-started">
+                  <GettingStarted />
+                </Route>
+                <Route exact path="/add-data">
+                  <AddData />
+                </Route>
+                <Route exact path="/configure">
+                  <AddData />
                 </Route>
                 <Route path="/explorer/health">
                   <Explorer subtitle="Health" />
@@ -2700,8 +2787,8 @@ export default function App() {
                 <Route path="/help">
                   <Help />
                 </Route>
-                <Route exact path="/nrx/setup">
-                  <Setup />
+                <Route exact path="/nrx/add-data">
+                  <AddData />
                 </Route>
                 <Route exact path="/nrx/explorer">
                   <Explorer />
