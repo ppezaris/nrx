@@ -2655,7 +2655,7 @@ export default function App() {
   const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
-  >("normal");
+  >("collapsed");
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
