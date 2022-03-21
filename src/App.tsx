@@ -2866,6 +2866,9 @@ export default function App() {
                 <Route path="/nrx/mobile">
                   <Mobile />
                 </Route>
+                <Route path="/nrx">
+                  <Explorer />
+                </Route>
               </Switch>
             </div>
           </div>
