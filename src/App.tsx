@@ -507,6 +507,47 @@ const Category = (props: any) => {
   );
 };
 
+const Tabs = (props: any) => {
+  return <div className="tabs">{props.children}</div>;
+};
+
+const Tab = (props: any) => {
+  return (
+    <div
+      onClick={props.onClick}
+      className={`tab ${props.selected ? "selected" : ""}`}
+    >
+      {props.title}
+    </div>
+  );
+};
+
+const DetectionConfiguration = (props: any) => {
+  const [selected, setSelected] = React.useState(0);
+  return (
+    <Content>
+      <Title className="compact">Detection Configuration</Title>
+      <Tabs>
+        <Tab
+          onClick={() => setSelected(0)}
+          selected={selected == 0}
+          title="Anomaly detection"
+        ></Tab>
+        <Tab
+          onClick={() => setSelected(1)}
+          selected={selected == 1}
+          title="Alert conditions"
+        ></Tab>
+        <Tab
+          onClick={() => setSelected(2)}
+          selected={selected == 2}
+          title="Alert policies"
+        ></Tab>
+      </Tabs>
+    </Content>
+  );
+};
+
 const GettingStarted = (props: any) => {
   return (
     <Content>
@@ -680,8 +721,14 @@ const Timepicker = (props: any) => {
   );
 };
 const Explorer = (props: any) => {
-  const [view, setView] = React.useState<string>("list");
-  const subtitle = props.subtitle || "All";
+  const [view, setTheView] = React.useState<string>("list");
+  const history = useHistory();
+  const subtitle = props.subtitle || "Entities";
+
+  const setView = (view: string) => {
+    setTheView(view);
+    history.push("/explorer/" + view);
+  };
 
   if (view === "list" || view === "navigator" || view === "lookout") {
     return (
@@ -737,12 +784,12 @@ const Explorer = (props: any) => {
           </div>
           <button
             className="rounded secondary"
-            style={{ margin: 0 }}
+            style={{ margin: 0, display: "none" }}
             title="Disabled. Enter a filter to save."
           >
             Save as view
           </button>
-          <button className="rounded primary" style={{ margin: "0 0 0 10px" }}>
+          <button className="rounded primary" style={{ margin: "0 0 0 0" }}>
             Create a workload
           </button>
         </div>
@@ -894,6 +941,7 @@ const Star = (props: any) => {
 
 const List = (props: any) => {
   const handleClick = (view: string) => props.setView(view);
+  const history = useHistory();
   return (
     <>
       <div className="box">
@@ -1362,7 +1410,7 @@ const Help = (props: any) => {
 const APM = (props: any) => {
   return (
     <Content>
-      <Title>APM</Title>
+      <Title>APM Services</Title>
       <div className="placeholder">APM goes here</div>
     </Content>
   );
@@ -1494,7 +1542,11 @@ const Banner = (props: any) => {
 };
 
 const Dashboards = (props: any) => {
-  const [view, setView] = React.useState("list");
+  const [view, setTheView] = React.useState("list");
+  //   const history = useHistory();
+  const setView = (view: string) => {
+    setTheView(view);
+  };
   if (view === "dashboard") {
     return (
       <Content className="has-third-nav">
@@ -1633,8 +1685,8 @@ const NAV_MORE = [
 
 const NAV_INBOX = [
   { label: "Issue Feed" },
-  { label: "Errors Inbox" },
-  { label: "Messages" },
+  { label: "Errors Inbox", badge: <Badge>1</Badge> },
+  { label: "Messages", badge: <Badge>2</Badge> },
   { label: "Deviations" },
   { label: "Alerts classic" },
 ];
@@ -1925,12 +1977,12 @@ const QueryBuilder = (props: any) => {
   );
 };
 
-const NAV_BOTTOM = [
-  { label: "Help", icon: <VscQuestion />, subnav: NAV_FEEDBACK },
+const NAV_BOTTOM: any[] = [
+  //   { label: "Help", icon: <VscQuestion />, subnav: NAV_FEEDBACK },
   // { label: "What's New", icon: <MdOutlineWbSunny /> },
   // { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
   // { label: "Invite", icon: <FiUserPlus /> },
-  { label: "Setup", icon: <VscSettingsGear /> },
+  //   { label: "Setup", icon: <VscSettingsGear /> },
   // {
   //   label: "Query",
   //   labelDiv: (
@@ -2184,7 +2236,7 @@ const Nav = (props: any) => {
         ))}
       </ul>
 
-      {/* <div className="bottom">
+      <div className="bottom">
         <ul className="links">
           {NAV_BOTTOM.map((item) => (
             <NavItem
@@ -2198,7 +2250,7 @@ const Nav = (props: any) => {
             style={{ width: "1px", height: "0px" }}
           />
         </ul>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -2237,7 +2289,7 @@ const Header = (props: any) => {
 
   const color = threadState == "open" ? "green" : "purple";
 
-  const hasTimepicker = pathname.includes("explore");
+  const hasTimepicker = pathname.includes("explorer/K");
   const hasAccountpicker = pathname.includes("explore");
   return (
     <div className="header" id="header-div">
@@ -2508,7 +2560,7 @@ const CommandPanel = (props: any) => {
     { icon: <BsSlack />, label: "Share to Slack", url: "" },
     { icon: <SiMicrosoftteams />, label: "Share to MS Teams", url: "" },
     { icon: <SiJirasoftware />, label: "Create Jira Ticket", url: "" },
-    { label: "APM", icon: <VscGraphLine />, url: "/apm" },
+    { label: "APM", icon: <VscGraphLine />, url: "/applications" },
     { label: "Explorer", icon: <VscGlobe />, url: "/explorer" },
     { label: "Browse Data", icon: <VscCompass />, url: "/browse-data" },
     { label: "Dashboards", icon: <VscDashboard />, url: "/dashboards" },
@@ -2766,7 +2818,7 @@ export default function App() {
                 <Route path="/inbox/errors-inbox">
                   <ErrorsInbox />
                 </Route>
-                <Route path="/apm">
+                <Route path="/applications">
                   <APM />
                 </Route>
                 <Route path="/browser">
@@ -2786,6 +2838,9 @@ export default function App() {
                 </Route>
                 <Route path="/help">
                   <Help />
+                </Route>
+                <Route path="/configure/detection-configuration">
+                  <DetectionConfiguration />
                 </Route>
                 <Route exact path="/nrx/add-data">
                   <AddData />
