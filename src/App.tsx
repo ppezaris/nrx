@@ -46,8 +46,15 @@ import {
   VscChevronUp,
   VscCloseAll,
   VscClose,
+  VscHome,
+  VscPinned,
+  VscPin,
 } from "react-icons/vsc";
-import { MdOutlineBubbleChart, MdOutlineWbSunny } from "react-icons/md";
+import {
+  MdGridView,
+  MdOutlineBubbleChart,
+  MdOutlineWbSunny,
+} from "react-icons/md";
 import { CgScreen, CgSoftwareDownload } from "react-icons/cg";
 
 import {
@@ -79,6 +86,7 @@ import { Messages, Square, Unread } from "./Messages";
 import { Comments } from "./Comments";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import { RightPane } from "./RightPane";
+var Reorder = require("react-reorder");
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -214,14 +222,105 @@ const Step = (props: any) => {
 
 const Plugin = (props: any) => {
   const { plugin = {} } = props;
+  const item = plugin;
+  const to = plugin.isDefault
+    ? props.subdir
+    : (props.subdir || "/") +
+      (plugin.url ||
+        plugin.title
+          .toLocaleLowerCase()
+          .replace(" ", "-")
+          .replace(" ", "-")
+          .replace("&", ""));
   return (
     <div className="plugin">
       <div className="plugin-icon">
         <img src={plugin.icon} />
       </div>
-      <div className="plugin-title">{plugin.title}</div>
-      <div className="plugin-body">{plugin.body}</div>
-      <div className="plugin-author">{plugin.author}</div>
+      <div>
+        <div className="plugin-title">{plugin.title}</div>
+        <div className="plugin-body">{plugin.body}</div>
+        <NavLink
+          to={to}
+          activeClassName="active"
+          onClick={(e) => {
+            if (item.onClick) {
+              item.onClick();
+              e.stopPropagation();
+              e.preventDefault();
+              return false;
+            } else if (item.openCommandPalette) {
+              props.setCommandPanelOpen(!props.commandPanelOpen);
+              e.stopPropagation();
+              e.preventDefault();
+              return false;
+            }
+            if (item.noComment) props.setCommentsState("closed");
+          }}
+          className={props.className || item.className || ""}
+        >
+          <span className="label">View</span>
+          {item.extra && item.extra}
+        </NavLink>{" "}
+        | Docs |{" "}
+        <a
+          onClick={() =>
+            props.pin({
+              ...plugin,
+              label: plugin.title,
+              icon: <img src={plugin.icon} />,
+            })
+          }
+        >
+          Pin
+        </a>
+      </div>
+    </div>
+  );
+};
+
+const Capability = (props: any) => {
+  const { capability = {} } = props;
+  const item = capability;
+  const to = capability.isDefault
+    ? props.subdir
+    : (props.subdir || "/") +
+      (capability.url ||
+        capability.label
+          .toLocaleLowerCase()
+          .replace(" ", "-")
+          .replace(" ", "-")
+          .replace("&", ""));
+  return (
+    <div className="capability">
+      <div className="capability-icon">{capability.icon}</div>
+      <div>
+        <div className="capability-title">{capability.label}</div>
+        <div className="capability-body">{capability.body}</div>
+        <NavLink
+          to={to}
+          activeClassName="active"
+          onClick={(e) => {
+            if (item.onClick) {
+              item.onClick();
+              e.stopPropagation();
+              e.preventDefault();
+              return false;
+            } else if (item.openCommandPalette) {
+              props.setCommandPanelOpen(!props.commandPanelOpen);
+              e.stopPropagation();
+              e.preventDefault();
+              return false;
+            }
+            if (item.noComment) props.setCommentsState("closed");
+          }}
+          className={props.className || item.className || ""}
+        >
+          <span className="label">View</span>
+          {item.extra && item.extra}
+        </NavLink>{" "}
+        | Docs | <a onClick={() => props.pin(capability)}>Pin</a>
+      </div>
     </div>
   );
 };
@@ -230,10 +329,12 @@ const Plugins = (props: any) => {
   const [scrolled, setScrolled] = React.useState(false);
   const query = (props.q || "").toLocaleLowerCase();
   const plugins = (props.plugins || []).filter((p: any) => {
+    const title = p.title || p.label || "";
+    const body = p.body || p.label || "";
     return (
       !query ||
-      p.title.toLocaleLowerCase().includes(query) ||
-      p.body.toLocaleLowerCase().includes(query)
+      title.toLocaleLowerCase().includes(query) ||
+      body.toLocaleLowerCase().includes(query)
     );
   });
   if (plugins.length === 0) return null;
@@ -251,9 +352,8 @@ const Plugins = (props: any) => {
         }`}
       >
         {plugins.map((p: any) => (
-          <Plugin plugin={p} />
+          <Plugin plugin={p} pin={props.pin} />
         ))}
-        {!query && plugins.map((p: any) => <Plugin plugin={p} />)}
         <div className="scroll-right" onClick={() => setScrolled(!scrolled)}>
           <FiChevronRight />
         </div>
@@ -262,6 +362,29 @@ const Plugins = (props: any) => {
             <FiChevronLeft />
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+const Capabilities = (props: any) => {
+  const query = (props.q || "").toLocaleLowerCase();
+  const capabilities = (props.capabilities || []).filter((p: any) => {
+    const title = p.title || p.label || "";
+    const body = p.body || p.label || "";
+    return (
+      !query ||
+      title.toLocaleLowerCase().includes(query) ||
+      body.toLocaleLowerCase().includes(query)
+    );
+  });
+  if (capabilities.length === 0) return null;
+  return (
+    <div className="capabilities-wrapper">
+      <div className={`capabilities ${props.className || ""}`}>
+        {capabilities.map((p: any) => (
+          <Capability capability={p} pin={props.pin} />
+        ))}
       </div>
     </div>
   );
@@ -444,7 +567,6 @@ const PLUGINS = {
       body: "Open source and multi-platform Log Processor and Forwarder which allows you to collect data/logs from different sources.",
     },
   ],
-  popular: [],
   trending: [
     {
       title: "Amazon CloudWatch Metric Streams",
@@ -476,27 +598,23 @@ const PLUGINS = {
       icon: "https://nr3.nr-ext.net/artifact-index-production/49566445-b583-4794-b46d-81ff3cdb1c5b/1.0.2/49566445-b583-4794-b46d-81ff3cdb1c5b.png",
       body: "Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.",
     },
-    {
-      title: "",
-      icon: "",
-      body: "",
-    },
   ],
 };
 
 const CATEGORIES = [
-  "Application monitoring",
-  "Infrastructure & OS",
-  "Browser & mobile",
-  "Simulate Traffic",
-  "Logging",
-  "Kubernetes & Containers",
-  "Amazon Web Services",
-  "Azure",
-  "Google Cloud Platform",
-  "Open source monitoring",
-  "Machine learning ops",
-  "Notifications",
+  { label: "All", isDefault: true },
+  { label: "Application monitoring" },
+  { label: "Infrastructure & OS" },
+  { label: "Browser & mobile" },
+  { label: "Simulate Traffic" },
+  { label: "Logging" },
+  { label: "Kubernetes & Containers" },
+  { label: "Amazon Web Services" },
+  { label: "Azure" },
+  { label: "Google Cloud Platform" },
+  { label: "Open source monitoring" },
+  { label: "Machine learning ops" },
+  { label: "Notifications" },
 ];
 
 const Category = (props: any) => {
@@ -530,17 +648,17 @@ const DetectionConfiguration = (props: any) => {
       <Tabs>
         <Tab
           onClick={() => setSelected(0)}
-          selected={selected == 0}
+          active={selected == 0}
           title="Anomaly detection"
         ></Tab>
         <Tab
           onClick={() => setSelected(1)}
-          selected={selected == 1}
+          active={selected == 1}
           title="Alert conditions"
         ></Tab>
         <Tab
           onClick={() => setSelected(2)}
-          selected={selected == 2}
+          active={selected == 2}
           title="Alert policies"
         ></Tab>
       </Tabs>
@@ -582,55 +700,59 @@ const GettingStarted = (props: any) => {
 const AddData = (props: any) => {
   const [hide, setHide] = React.useState(false);
   const [query, setQuery] = React.useState("");
+
+  const location = useLocation();
+
+  const [pathname, setPathname] = React.useState<string>(location.pathname);
+
+  React.useEffect(() => {
+    setQuery(location.pathname.split("add-data/")[1]);
+  }, [location.pathname]);
+
   return (
-    <Content>
-      <Title className="compact centered">Add Your Data to New Relic</Title>
-      <div className="subtle centered search-description">
-        Browse pre-built resources to get you started or improve how you monitor
-        your environment. Install visualizations, apps, or quickstarts filled
-        with resources like dashboards, instrumentation, and alerts.
-      </div>
+    <Content className="has-third-nav">
+      <Title className="compact">Add Your Data to New Relic</Title>
       <Search
-        className="half-width"
         autoFocus
         placeholder="Search for any environment or data source"
         value={query}
         onChange={(q: string) => setQuery(q)}
       />
-      <Plugins
+      <ThirdNav title="Data Types" items={CATEGORIES} subdir="/add-data/" />
+
+      {/* <Plugins
         title="Installed"
         className="installed"
         plugins={PLUGINS.installed}
         q={query}
+      /> */}
+      <Plugins
+        pin={props.pin}
+        title="Recommended"
+        plugins={PLUGINS.recommended}
+        q={query}
       />
-      <Plugins title="Recommended" plugins={PLUGINS.recommended} q={query} />
-      <Plugins title="Featured" plugins={PLUGINS.featured} q={query} />
-      <Plugins title="Trending" plugins={PLUGINS.trending} q={query} />
-      <Plugins title="Most Popular" plugins={PLUGINS.popular} q={query} />
-      <Plugins title="Recently Added" plugins={PLUGINS.recent} q={query} />
-      <Plugins title="APM" plugins={PLUGINS.apm} q={query} />
-      <Plugins title="Infrastructure &amp; OS" q={query} />
-      <Plugins title="Browser &amp; Mobile" q={query} />
-      <SubTitle>Filter by Category</SubTitle>
-      <div className="categories">
-        {CATEGORIES.map((category: any) => {
-          return (
-            <Category onClick={() => setQuery(category)}>{category}</Category>
-          );
-        })}
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <Plugins
+        pin={props.pin}
+        title="Featured"
+        plugins={PLUGINS.featured}
+        q={query}
+      />
+      <Plugins
+        pin={props.pin}
+        title="Trending"
+        plugins={PLUGINS.trending}
+        q={query}
+      />
+      <Plugins
+        pin={props.pin}
+        title="Recently Added"
+        plugins={PLUGINS.recent}
+        q={query}
+      />
+      <Plugins pin={props.pin} title="APM" plugins={PLUGINS.apm} q={query} />
+      <Plugins pin={props.pin} title="Infrastructure &amp; OS" q={query} />
+      <Plugins pin={props.pin} title="Browser &amp; Mobile" q={query} />
       <br />
       <br />
       <br />
@@ -638,6 +760,30 @@ const AddData = (props: any) => {
   );
 };
 
+const AllCapabilities = (props: any) => {
+  const [query, setQuery] = React.useState("");
+  return (
+    <Content>
+      <Title className="compact">All Capabilities</Title>
+      <Search
+        autoFocus
+        placeholder="Search capabilities"
+        value={query}
+        onChange={(q: string) => setQuery(q)}
+      />
+      <Capabilities
+        title="Recommended"
+        capabilities={CAPABILITIES}
+        q={query}
+        pin={props.pin}
+      />
+      <br />
+      <br />
+      <br />
+      <br />
+    </Content>
+  );
+};
 {
   /* <div className="filters">
 <div className="group">
@@ -680,7 +826,11 @@ export const OnOff = (props: any) => {
   return (
     <div
       className={`on-off ${state}`}
-      onClick={() => setState(state === "on" ? "off" : "on")}
+      onClick={() => {
+        const newState = state === "on" ? "off" : "on";
+        setState(newState);
+        if (props.onChange) props.onChange(newState);
+      }}
     >
       <span className="knob" />
     </div>
@@ -720,27 +870,35 @@ const Timepicker = (props: any) => {
     </button>
   );
 };
+
 const Explorer = (props: any) => {
-  const [view, setTheView] = React.useState<string>("list");
+  //   const [view, setTheView] = React.useState<string>("list");
   const history = useHistory();
+  const location = useLocation();
   const subtitle = props.subtitle || "Entities";
 
   const setView = (view: string) => {
-    setTheView(view);
-    history.push("/explorer/" + view);
+    // setTheView(view);
+    history.push("/entities/" + view);
   };
 
-  if (view === "list" || view === "navigator" || view === "lookout") {
+  const view = props.subtitle;
+  if (
+    props.subtitle === "All Entities" ||
+    view === "list" ||
+    view === "navigator" ||
+    view === "lookout"
+  ) {
     return (
-      <Content className="has-third-nav">
-        <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
+      <Content>
+        {/* <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" /> */}
         <Title
           className="compactX"
           buttonsX={[
             <button className="primary round">Create a workload</button>,
           ]}
         >
-          Explorer / {subtitle}
+          {subtitle}
         </Title>
         <div
           style={{
@@ -825,14 +983,16 @@ const Explorer = (props: any) => {
             </div>
           </div>
         )}
-        {view === "list" && <List setView={setView} />}
+        {(view === "list" || props.subtitle === "All Entities") && (
+          <List setView={setView} />
+        )}
         {view === "navigator" && <Navigator />}
       </Content>
     );
   } else {
     return (
-      <Content className="has-third-nav">
-        <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" />
+      <Content>
+        {/* <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" /> */}
 
         {/*}
         <div className="two-col">
@@ -861,11 +1021,12 @@ const Explorer = (props: any) => {
               <button className="primary round">Create a workload</button>,
             ]}
           >
-            <span style={{ cursor: "pointer" }} onClick={() => setView("list")}>
-              Explorer / Services - APM /
-            </span>
+            <div className="breadcrumb">
+              <NavLink to="/entities">All Entities</NavLink> &gt;
+              <NavLink to="/apm">APM</NavLink>
+            </div>
             <Square color="green" />
-            {view} <VscChevronDown />
+            {view}
           </Title>
           <div
             style={{
@@ -944,329 +1105,319 @@ const List = (props: any) => {
   const history = useHistory();
   return (
     <>
-      <div className="box">
-        <SubTitle>
-          <VscChevronDown /> Services - APM
-        </SubTitle>
-        <table className="messages explorer">
-          <thead>
-            <tr>
-              <td></td>
-              <td>Name</td>
-              <td>Account</td>
-              <td>End User</td>
-              <td>Page Views</td>
-              <td>Response</td>
-              <td>Throughput</td>
-              <td>Errors</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr onClick={() => handleClick("FoodMe")}>
-              <td style={{ color: "yellow" }}>
-                <VscStarFull />
-              </td>
-              <td>
-                <Square color="green" />
-                FoodMe
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (perf)")}>
-              <td style={{ color: "yellow" }}>
-                <VscStarFull />
-              </td>
-              <td>
-                <Square color="green" />
-                Kafka-admin (perf)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
-              <td style={{ position: "relative" }}>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="red" />
-                Kafka-admin (stg-deep-tree)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="green" />
-                Kafka-admin (stg-tree)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="gray" />
-                kafka-admin (stg-showy-brain)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="box">
-        <SubTitle>
-          <VscChevronDown /> Services - OpenTelemetry
-        </SubTitle>
-        <table className="messages explorer">
-          <thead>
-            <tr>
-              <td></td>
-              <td>Name</td>
-              <td>Account</td>
-              <td>End User</td>
-              <td>Page Views</td>
-              <td>Response</td>
-              <td>Throughput</td>
-              <td>Errors</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr onClick={() => handleClick("FoodMe")}>
-              <td style={{ color: "yellow" }}>
-                <VscStarFull />
-              </td>
-              <td>
-                <Square color="green" />
-                FoodMe
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (perf)")}>
-              <td style={{ color: "yellow" }}>
-                <VscStarFull />
-              </td>
-              <td>
-                <Square color="green" />
-                Kafka-admin (perf)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
-              <td style={{ position: "relative" }}>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="red" />
-                Kafka-admin (stg-deep-tree)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="green" />
-                Kafka-admin (stg-tree)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="gray" />
-                kafka-admin (stg-showy-brain)
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="box">
-        <SubTitle>
-          <VscChevronDown /> Hosts
-        </SubTitle>
-        <table className="messages explorer">
-          <thead>
-            <tr>
-              <td></td>
-              <td>Name</td>
-              <td>Account</td>
-              <td>Provider</td>
-              <td>Response</td>
-              <td>Throughput</td>
-              <td>Errors</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              onClick={() =>
-                handleClick("pd-mailin-10-101-0-230.codestream.us")
-              }
-            >
-              <td style={{ color: "yellow" }}>
-                <VscStarFull />
-              </td>
-              <td>
-                <Square color="green" />
-                pd-mailin-10-101-0-230.codestream.us
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr
-              onClick={() =>
-                handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
-              }
-            >
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="green" />
-                ip-172-31-11-129.eu-central-1.compute.internal
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr
-              onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}
-            >
-              <td style={{ position: "relative" }}>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="red" />
-                pd-api-20-101-0-237.codestream.us
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr
-              onClick={() =>
-                handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
-              }
-            >
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="red" />
-                ip-172-31-19-164.eu-central-1.compute.internal
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-            <tr
-              onClick={() =>
-                handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
-              }
-            >
-              <td>
-                <VscStarEmpty />
-              </td>
-              <td>
-                <Square color="gray" />
-                ip-172-31-24-116.eu-central-1.compute.internal
-              </td>
-              <td>New Relic</td>
-              <td>-</td>
-              <td>-</td>
-              <td>36.14ms</td>
-              <td>4</td>
-              <td>3%</td>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <SubTitle>
+        <VscChevronDown /> Services - APM
+      </SubTitle>
+      <table className="messages explorer">
+        <thead>
+          <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Account</td>
+            <td>End User</td>
+            <td>Page Views</td>
+            <td>Response</td>
+            <td>Throughput</td>
+            <td>Errors</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onClick={() => handleClick("FoodMe")}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>
+              <Square color="green" />
+              FoodMe
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>
+              <Square color="green" />
+              Kafka-admin (perf)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+            <td style={{ position: "relative" }}>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="red" />
+              Kafka-admin (stg-deep-tree)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="green" />
+              Kafka-admin (stg-tree)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="gray" />
+              kafka-admin (stg-showy-brain)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+      <SubTitle>
+        <VscChevronDown /> Services - OpenTelemetry
+      </SubTitle>
+      <table className="messages explorer">
+        <thead>
+          <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Account</td>
+            <td>End User</td>
+            <td>Page Views</td>
+            <td>Response</td>
+            <td>Throughput</td>
+            <td>Errors</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onClick={() => handleClick("FoodMe")}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>
+              <Square color="green" />
+              FoodMe
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>
+              <Square color="green" />
+              Kafka-admin (perf)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+            <td style={{ position: "relative" }}>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="red" />
+              Kafka-admin (stg-deep-tree)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="green" />
+              Kafka-admin (stg-tree)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="gray" />
+              kafka-admin (stg-showy-brain)
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+      <SubTitle>
+        <VscChevronDown /> Hosts
+      </SubTitle>
+      <table className="messages explorer">
+        <thead>
+          <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Account</td>
+            <td>Provider</td>
+            <td>Response</td>
+            <td>Throughput</td>
+            <td>Errors</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            onClick={() => handleClick("pd-mailin-10-101-0-230.codestream.us")}
+          >
+            <td style={{ color: "yellow" }}>
+              <VscStarFull />
+            </td>
+            <td>
+              <Square color="green" />
+              pd-mailin-10-101-0-230.codestream.us
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr
+            onClick={() =>
+              handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
+            }
+          >
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="green" />
+              ip-172-31-11-129.eu-central-1.compute.internal
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}>
+            <td style={{ position: "relative" }}>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="red" />
+              pd-api-20-101-0-237.codestream.us
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr
+            onClick={() =>
+              handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
+            }
+          >
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="red" />
+              ip-172-31-19-164.eu-central-1.compute.internal
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+          <tr
+            onClick={() =>
+              handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
+            }
+          >
+            <td>
+              <VscStarEmpty />
+            </td>
+            <td>
+              <Square color="gray" />
+              ip-172-31-24-116.eu-central-1.compute.internal
+            </td>
+            <td>New Relic</td>
+            <td>-</td>
+            <td>-</td>
+            <td>36.14ms</td>
+            <td>4</td>
+            <td>3%</td>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 };
@@ -1274,72 +1425,70 @@ const List = (props: any) => {
 const DashboardsTable = (props: any) => {
   const handleClick = () => props.setView("dashboard");
   return (
-    <div className="box">
-      <table className="messages dashboards">
-        <thead>
-          <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Account</td>
-            <td>Created By</td>
-            <td>Last Edited</td>
-            <td>Created On</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr onClick={handleClick}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>Alerts Filter Operations Dashboard (Production) copy</td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-          </tr>
-          <tr onClick={handleClick}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>.NET Agent (based on UI views)</td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-          </tr>
-          <tr onClick={handleClick}>
-            <td style={{ position: "relative" }}>
-              <VscStarEmpty />
-            </td>
-            <td>Adobe User Engagement Export</td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-          </tr>
-          <tr onClick={handleClick}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>04162021-DEMPLA-PagSeguro Perf Testing</td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-          </tr>
-          <tr onClick={handleClick}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>[KPT] Kafka Cluster (stg-itchy-salt-kafka)</td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table className="messages dashboards">
+      <thead>
+        <tr>
+          <td></td>
+          <td>Name</td>
+          <td>Account</td>
+          <td>Created By</td>
+          <td>Last Edited</td>
+          <td>Created On</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onClick={handleClick}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>Alerts Filter Operations Dashboard (Production) copy</td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+        </tr>
+        <tr onClick={handleClick}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>.NET Agent (based on UI views)</td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+        </tr>
+        <tr onClick={handleClick}>
+          <td style={{ position: "relative" }}>
+            <VscStarEmpty />
+          </td>
+          <td>Adobe User Engagement Export</td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+        </tr>
+        <tr onClick={handleClick}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>04162021-DEMPLA-PagSeguro Perf Testing</td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+        </tr>
+        <tr onClick={handleClick}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>[KPT] Kafka Cluster (stg-itchy-salt-kafka)</td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
@@ -1397,6 +1546,18 @@ const ErrorsInbox = (props: any) => {
   );
 };
 
+const Me = (props: any) => {
+  return (
+    <Content>
+      <Title>Peter Pezaris</Title>
+      <div onClick={props.toggleTheme}>Theme</div>
+      <br />
+      Show NRQL Console{" "}
+      <OnOff onChange={(value: any) => props.setConsole(value)} />
+    </Content>
+  );
+};
+
 const Help = (props: any) => {
   return (
     <Content>
@@ -1425,11 +1586,21 @@ const Infrastructure = (props: any) => {
   );
 };
 
+const Tabgroup = (props: any) => {
+  return (
+    <ul className="tabs">
+      {props.items.map((item: any) => (
+        <NavItem noEllipsis className="tab" item={item} subdir={props.subdir} />
+      ))}
+    </ul>
+  );
+};
+
 const Synthetics = (props: any) => {
   const [view, setView] = React.useState<string>("list");
   return (
-    <Content className="has-third-nav">
-      <ThirdNav items={NAV_SYNTHETICS} subdir="/synthetics/" />
+    <Content>
+      <Tabgroup items={NAV_SYNTHETICS} subdir="/synthetics/" />
       <Title>Synthetics</Title>
       <div
         style={{
@@ -1490,10 +1661,28 @@ const Mobile = (props: any) => {
   // <img src="https://i.imgur.com/FVcAiJC.png" style={{ width: "100%" }} />
 };
 
+const NAV_ALERTS = [
+  { label: "Overview" },
+  { label: "Issues" },
+  { label: "Incidents" },
+  { label: "Events" },
+  { label: "Policies" },
+  { label: "Notifications" },
+  { label: "Muting" },
+  { label: "Settings" },
+  { label: "Decisions" },
+  { label: "Sources" },
+  { label: "Destinations" },
+  { label: "Pathways" },
+  //   { label: "System settings" },
+  { label: "Workflows" },
+];
+
 const Alerts = (props: any) => {
   return (
-    <Content className="has-third-nav">
+    <Content>
       <Title>Alerts &amp; AI</Title>
+      <Tabgroup items={NAV_ALERTS} subdir="/alerts--ai/" />
       <div className="placeholder">Alerts &amp; AI goes here</div>
     </Content>
   );
@@ -1502,8 +1691,8 @@ const Alerts = (props: any) => {
 
 const Logs = (props: any) => {
   return (
-    <Content className="has-third-nav">
-      <ThirdNav items={NAV_LOGS} subdir="/logs/" />
+    <Content>
+      {/* <ThirdNav items={NAV_LOGS} subdir="/logs/" /> */}
       <Title>Logs</Title>
       <div className="placeholder">Logs goes here</div>
     </Content>
@@ -1513,8 +1702,8 @@ const Logs = (props: any) => {
 
 const BrowseData = (props: any) => {
   return (
-    <Content className="has-third-nav">
-      <ThirdNav items={NAV_BROWSE} subdir="/browse-data/" />
+    <Content>
+      {/* <ThirdNav items={NAV_BROWSE} subdir="/browse-data/" /> */}
       <Title>Browse Data</Title>
       <div className="placeholder">Browse data goes here</div>
     </Content>
@@ -1541,6 +1730,19 @@ const Banner = (props: any) => {
   );
 };
 
+const Breadcrumb = (props: any) => {
+  const { item } = props;
+  const to = item.isDefault
+    ? props.subdir
+    : (props.subdir || "/") +
+      (item.url ||
+        item.label
+          .toLocaleLowerCase()
+          .replace(" ", "-")
+          .replace(" ", "-")
+          .replace("&", ""));
+  return <NavLink to={to}>{props.label}</NavLink>;
+};
 const Dashboards = (props: any) => {
   const [view, setTheView] = React.useState("list");
   //   const history = useHistory();
@@ -1549,8 +1751,9 @@ const Dashboards = (props: any) => {
   };
   if (view === "dashboard") {
     return (
-      <Content className="has-third-nav">
-        <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
+      <Content>
+        {/* <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" /> */}
+        {/* <Breadcrumb to={"dashboards"}>Dashboards</Breadcrumb> */}
         <Title
           buttons={
             <div
@@ -1576,24 +1779,28 @@ const Dashboards = (props: any) => {
             </div>
           }
         >
-          Dashboards / Adobe User Engagement Export
+          Adobe User Engagement Export
         </Title>
         <img src="https://i.imgur.com/nQhZTwi.png" style={{ width: "100%" }} />
       </Content>
     );
   } else {
     return (
-      <Content className="has-third-nav">
-        <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" />
+      <Content>
+        {/* <ThirdNav items={NAV_DASHBOARD} subdir="/dashboards/" /> */}
         <Title>Dashboards</Title>
         <div
           style={{
             margin: "-5px 0 15px 0",
             display: "flex",
             alignItems: "center",
+            width: "100%",
           }}
         >
-          <Search placeholder="Filter by name, type,tags... (e.g. entityType = Host)" />
+          <Search
+            icon="filter"
+            placeholder="Filter by name, type,tags... (e.g. entityType = Host)"
+          />
           <button className="rounded secondary">
             <label>
               <span
@@ -1756,17 +1963,17 @@ const NAV_INFRASTRUCTURE = [
 ];
 
 const NAV_LOGS = [
-  { label: "All", icon: <VscQuestion />, isDefault: true },
-  { label: "Attributes", icon: <MdOutlineWbSunny /> },
-  { label: "Patterns", icon: <VscFeedback /> },
-  { label: "Livetail", icon: <FiUserPlus /> },
-  { label: "Query", icon: <FiUserPlus /> },
-  { label: "Drop Filters", icon: <FiUserPlus /> },
-  { label: "Parsing", icon: <FiUserPlus /> },
-  { label: "Data partitions", icon: <FiUserPlus /> },
-  { label: "Create alert condition", icon: <FiUserPlus /> },
-  { label: "Create drop filter", icon: <FiUserPlus /> },
-];
+  // { label: "All", icon: <VscListFlat /> },
+  { label: "Attributes", icon: <VscListFlat /> },
+  { label: "Patterns", icon: <VscListFlat /> },
+  { label: "Livetail", icon: <VscListFlat /> },
+  { label: "Query", icon: <VscListFlat /> },
+  { label: "Drop Filters", icon: <VscListFlat /> },
+  { label: "Parsing", icon: <VscListFlat /> },
+  { label: "Data partitions", icon: <VscListFlat /> },
+  { label: "Create alert condition", icon: <VscListFlat /> },
+  { label: "Create drop filter", icon: <VscListFlat /> },
+] as any[];
 
 const NAV_CONFIGURE = [
   { label: "Add Data", icon: <VscAdd />, isDefault: true },
@@ -1877,92 +2084,107 @@ const NAV = [
     openCommandPalette: true,
     keybinding: <Keybinding>K</Keybinding>,
   },
-  {
-    label: "Favorites & Recents",
-    menuTitle: "Favorites",
-    icon: <VscStarEmpty />,
-    subnav: NAV_FAVORITES,
-    keybinding: <Keybinding>F</Keybinding>,
-  },
-  // { label: "Setup", icon: <VscSettingsGear /> },
-  {
-    label: "Explorer",
-    icon: <VscGlobe />,
-    hover: "",
-    hasThirdNav: true,
-    subdir: "/explorer/",
-    subnav: NAV_EXPLORER,
-    keybinding: <Keybinding>E</Keybinding>,
-  },
+  { label: "Home", menuTitle: "Home", subnav: [], icon: <VscHome /> },
   {
     label: "Dashboards",
     icon: <VscDashboard />,
-    hasThirdNav: true,
-    menuTitle: "Dashboards",
+    subnav: [],
     subdir: "/dashboards/",
-    subnav: NAV_DASHBOARD,
-    keybinding: <Keybinding>D</Keybinding>,
+    menuTitle: "Dashboards",
+    //   subnav: NAV_DASHBOARD,
+  },
+  {
+    label: "All Entities",
+    menuTitle: "All Entities",
+    subnav: [],
+
+    url: "entities",
+    icon: <VscGlobe />,
+    hover: "",
+    //   hasThirdNav: true,
+    //   subdir: "/entities/",
+    //   subnav: NAV_EXPLORER,
   },
   // {
-  //   label: "Issues",
-  //   icon: <VscWarning />,
-  //
-  //   subnav: NAV_ALERTS,
+  //   label: "Browse Data",
+  //   icon: <VscCompass />,
   //   hasThirdNav: true,
-  //   subdir: "/alerts--ai/",
+  //   //   subnav: NAV_BROWSE,
+  //   subdir: "/browse-data/",
   // },
+  { label: "APM", menuTitle: "APM", subnav: [], icon: <VscGraphLine /> },
   {
-    label: "Applications",
-    icon: <VscGraphLine />,
-    subnav: NAV_APPLICATIONS,
-    subdir: "/applications/",
-    keybinding: <Keybinding>A</Keybinding>,
+    label: "Mobile",
+    menuTitle: "Mobile",
+    subnav: [],
+    icon: <VscDeviceMobile />,
   },
-  // { label: "Inbox", icon: <VscInbox /> },
+  {
+    label: "Browser",
+    menuTitle: "Browser",
+    subnav: [],
+    icon: <VscBrowser />,
+  },
   {
     label: "Infrastructure",
+    menuTitle: "Infrastructure",
+    subnav: [],
+
     icon: <VscServer />,
-    subnav: NAV_INFRASTRUCTURE,
-    subdir: "/infrastructure/",
-    keybinding: <Keybinding>I</Keybinding>,
   },
-  // {
-  //   label: "Logs",
-  //   icon: <VscListFlat />,
-  //   hasThirdNav: true,
-  //
-  //   subdir: "/logs/",
-  //   subnav: NAV_LOGS,
-  // },
   {
-    label: "Inbox",
+    label: "Alerts & AI",
+    menuTitle: "Alerts & AI",
+    subnav: [],
+
+    icon: <VscWarning />,
+    //   subnav: NAV_ALERTS,
+    hasThirdNav: true,
+    subdir: "/alerts--ai/",
+  },
+  {
+    label: "Errors Inbox",
+    menuTitle: "Errors Inbox",
+    subnav: [],
+    icon: <VscInbox />,
+  },
+  {
+    label: "Logs",
+    menuTitle: "Logs",
+    subnav: [],
+
+    icon: <VscListFlat />,
+    hasThirdNav: true,
+    subdir: "/logs/",
+    //   subnav: NAV_LOGS,
+  },
+  {
+    label: "Synthetics",
+    menuTitle: "Synthetics",
+    subnav: [],
+
+    icon: <VscGithubAction />,
+    hasThirdNav: true,
+    subdir: "/synthetics",
+    //   subnav: NAV_SYNTHETICS,
+  },
+  {
+    label: "Messages",
+    menuTitle: "Messages",
+    subnav: [],
+
     labelDiv: (
       <span>
-        Inbox<span style={{ padding: "0 8px" }}> </span>
+        Messages<span style={{ padding: "0 8px" }}> </span>
       </span>
     ),
-    icon: <VscInbox />,
+    icon: <VscCommentDiscussion />,
     badge: <Badge>3</Badge>,
     noComment: true,
-    subdir: "/inbox/",
-    subnav: NAV_INBOX,
-    keybinding: <Keybinding>N</Keybinding>,
-  },
-  {
-    label: "Configure",
-    icon: <VscSettingsGear />,
-    keybinding: <Keybinding>C</Keybinding>,
-    subdir: "/configure/",
-    subnav: NAV_CONFIGURE,
-  },
-  {
-    label: "Getting Started",
-    menuTitle: "Getting Started",
-    icon: <div className="donut" />,
-    keybinding: <Keybinding>G</Keybinding>,
-    subnav: [],
   },
 ];
+
+const CAPABILITIES = [...NAV, ...NAV_LOGS];
 
 const QueryBuilder = (props: any) => {
   const [query, setQuery] = React.useState("");
@@ -1978,7 +2200,12 @@ const QueryBuilder = (props: any) => {
 };
 
 const NAV_BOTTOM: any[] = [
-  //   { label: "Help", icon: <VscQuestion />, subnav: NAV_FEEDBACK },
+  {
+    label: "Peter Pezaris",
+    icon: <img className="svg" src="https://i.imgur.com/jSrZwhT.jpg" />,
+    url: "me",
+    // subnav: NAV_FEEDBACK,
+  },
   // { label: "What's New", icon: <MdOutlineWbSunny /> },
   // { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
   // { label: "Invite", icon: <FiUserPlus /> },
@@ -2000,14 +2227,21 @@ const NAV_BOTTOM: any[] = [
   // },
 ];
 
-export const ThirdNav = (props: { items: any[]; subdir?: string }) => {
-  return null;
+export const ThirdNav = (props: {
+  title?: string;
+  items: any[];
+  subdir?: string;
+}) => {
+  //   return null;
   return (
-    <ul className="links thirdnav subnav">
-      {props.items.map((item) => (
-        <NavItem item={item} subdir={props.subdir} />
-      ))}
-    </ul>
+    <>
+      <ul className="links thirdnav subnav">
+        {props.title && <li className="third-nav-title">{props.title}</li>}
+        {props.items.map((item) => (
+          <NavItem item={item} subdir={props.subdir} />
+        ))}
+      </ul>
+    </>
   );
 };
 
@@ -2041,18 +2275,24 @@ export const Menu = (props: {
 const NavItem = (props: any) => {
   const item = props.item;
   const [expanded, setExpanded] = React.useState(false);
-  if (item.label.startsWith("-")) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const label = item.label || item.title;
+  if (label.startsWith("-")) {
     return <div className="sep">{item.label.replace("-", "")}</div>;
   }
   const to = item.isDefault
     ? props.subdir
     : (props.subdir || "/") +
       (item.url ||
-        item.label
+        label
           .toLocaleLowerCase()
           .replace(" ", "-")
           .replace(" ", "-")
           .replace("&", ""));
+
+  const unPin = () => {
+    if (props.unPin) props.unPin(props.item);
+  };
 
   return (
     <li>
@@ -2074,18 +2314,41 @@ const NavItem = (props: any) => {
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
-        className={item.className || ""}
+        className={props.className || item.className || ""}
       >
         {item.icon} <span className="label">{item.labelDiv || item.label}</span>
-        {false && item.subnav && item.subnav.length > 0 && (
-          <span className="extra">
-            <VscChevronDown />
+        {!props.noEllipsis && (
+          <span
+            className="ellipsis extra"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setMenuOpen(!menuOpen);
+            }}
+          >
+            <VscEllipsis />
           </span>
+        )}
+        {menuOpen && (
+          <div
+            className="menu ellipsis"
+            style={{ width: "100%" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setMenuOpen(false);
+            }}
+          >
+            <ul>
+              <li onClick={() => unPin()}>
+                <VscPinned /> Unpin from menu
+              </li>
+            </ul>
+          </div>
         )}
         {item.badge && item.badge}
         {item.extra && item.extra}
-        {((item.subnav && item.subnav.length > 0) ||
-          (props.navState !== "normal" && item.menuTitle)) && (
+        {props.navState !== "normal" && item.menuTitle && (
           <span className={"hover"}>
             <Menu
               label={item.menuTitle || item.label}
@@ -2101,6 +2364,7 @@ const NavItem = (props: any) => {
 };
 
 const Nav = (props: any) => {
+  const { nav } = props;
   return (
     <div className="nav">
       {/* <div className="resizer">
@@ -2130,15 +2394,15 @@ const Nav = (props: any) => {
               ? "collapsed"
               : props.navState == "collapsed"
               ? "hidden"
-              : props.navState == "hidden"
-              ? "horizontal"
-              : "normal"
+              : //   : props.navState == "hidden"
+                //   ? "horizontal"
+                "normal"
           )
         }
       >
         <div className="logo">
           <svg
-            width="124"
+            width="85"
             height="24"
             viewBox="0 0 124 24"
             fill="none"
@@ -2219,11 +2483,11 @@ const Nav = (props: any) => {
             zIndex: 400,
             cursor: "pointer",
           }}
-          onClick={() => props.setNavState("horizontal")}
+          onClick={() => props.setNavState("normal")}
         />
       )}
-      <ul className="links" style={{ marginTop: 0 }}>
-        {NAV.map((item) => (
+      <ul className="links scroll" style={{ marginTop: 0 }}>
+        {nav.map((item: any) => (
           <NavItem
             item={item}
             topLevel
@@ -2232,6 +2496,7 @@ const Nav = (props: any) => {
             setCommandPanelOpen={props.setCommandPanelOpen}
             commandPanelOpen={props.commandPanelOpen}
             navState={props.navState}
+            unPin={props.unPin}
           />
         ))}
       </ul>
@@ -2644,6 +2909,9 @@ const CommandPanel = (props: any) => {
   );
 };
 
+const Console = (props: any) => {
+  return <div className="console">Type your query here...</div>;
+};
 const USERSNAP_GLOBAL_API_KEY = "890302de-964c-40fc-bde6-458b2c3f709e";
 const USERSNAP_API_KEY = "829c6c2b-293d-4dc1-8863-6df644dbfd09";
 
@@ -2653,9 +2921,10 @@ export default function App() {
   const [inviteState, setInviteState] = React.useState("closed");
   const [shareState, setShareState] = React.useState("closed");
   const [theme, setTheme] = React.useState("dark");
+  const [console, setConsole] = React.useState("off");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
-  >("collapsed");
+  >("normal");
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
@@ -2697,6 +2966,136 @@ export default function App() {
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
+  const unPin = (item: any) => {
+    const index = nav.findIndex((i) => i.label === item.label);
+
+    if (index > -1) {
+      const newNav = [...nav];
+      newNav.splice(index, 1);
+      setNav(newNav);
+    }
+  };
+  const pin = (item: any) => {
+    setNav([...nav, item]);
+  };
+  const [nav, setNav] = React.useState([
+    //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
+    {
+      label: "Go To...",
+      icon: <VscSearch />,
+      subnav: NAV_SEARCH,
+      menuTitle: "Go To...",
+      openCommandPalette: true,
+      keybinding: <Keybinding>K</Keybinding>,
+    },
+    { label: "Home", menuTitle: "Home", subnav: [], icon: <VscHome /> },
+    {
+      label: "Dashboards",
+      icon: <VscDashboard />,
+      subnav: [],
+      subdir: "/dashboards/",
+      menuTitle: "Dashboards",
+      //   subnav: NAV_DASHBOARD,
+    },
+    {
+      label: "All Entities",
+      menuTitle: "All Entities",
+      subnav: [],
+
+      url: "entities",
+      icon: <VscGlobe />,
+      hover: "",
+      //   hasThirdNav: true,
+      //   subdir: "/entities/",
+      //   subnav: NAV_EXPLORER,
+    },
+    // {
+    //   label: "Browse Data",
+    //   icon: <VscCompass />,
+    //   hasThirdNav: true,
+    //   //   subnav: NAV_BROWSE,
+    //   subdir: "/browse-data/",
+    // },
+    { label: "APM", menuTitle: "APM", subnav: [], icon: <VscGraphLine /> },
+    {
+      label: "Mobile",
+      menuTitle: "Mobile",
+      subnav: [],
+      icon: <VscDeviceMobile />,
+    },
+    {
+      label: "Browser",
+      menuTitle: "Browser",
+      subnav: [],
+      icon: <VscBrowser />,
+    },
+    {
+      label: "Infrastructure",
+      menuTitle: "Infrastructure",
+      subnav: [],
+
+      icon: <VscServer />,
+    },
+    {
+      label: "Alerts & AI",
+      menuTitle: "Alerts & AI",
+      subnav: [],
+
+      icon: <VscWarning />,
+      //   subnav: NAV_ALERTS,
+      hasThirdNav: true,
+      subdir: "/alerts--ai/",
+    },
+    {
+      label: "Errors Inbox",
+      menuTitle: "Errors Inbox",
+      subnav: [],
+      icon: <VscInbox />,
+    },
+    {
+      label: "Logs",
+      menuTitle: "Logs",
+      subnav: [],
+
+      icon: <VscListFlat />,
+      hasThirdNav: true,
+      subdir: "/logs/",
+      //   subnav: NAV_LOGS,
+    },
+    {
+      label: "Synthetics",
+      menuTitle: "Synthetics",
+      subnav: [],
+
+      icon: <VscGithubAction />,
+      hasThirdNav: true,
+      subdir: "/synthetics",
+      //   subnav: NAV_SYNTHETICS,
+    },
+    {
+      label: "Messages",
+      menuTitle: "Messages",
+      subnav: [],
+
+      labelDiv: (
+        <span>
+          Messages<span style={{ padding: "0 8px" }}> </span>
+        </span>
+      ),
+      icon: <VscCommentDiscussion />,
+      badge: <Badge>3</Badge>,
+      noComment: true,
+    },
+    {
+      label: "All Capabilities",
+      menuTitle: "All Capabilities",
+      subnav: [],
+
+      icon: <MdGridView />,
+    },
+    { label: "Add Data", menuTitle: "Add Data", subnav: [], icon: <VscAdd /> },
+  ]);
+
   return (
     <>
       {" "}
@@ -2716,7 +3115,7 @@ export default function App() {
       </Helmet>
       <Router>
         <div
-          className={`page ${navState} ${theme}`}
+          className={`page ${navState} ${theme} console-${console}`}
           id="main-page"
           onClick={onClick}
           tabIndex={0}
@@ -2728,6 +3127,8 @@ export default function App() {
             navState={navState}
             setCommandPanelOpen={setCommandPanelOpen}
             commandPanelOpen={commandPanelOpen}
+            nav={nav}
+            unPin={unPin}
           />
           <div className="body">
             {commandPanelOpen && (
@@ -2761,11 +3162,23 @@ export default function App() {
                 <Route exact path="/getting-started">
                   <GettingStarted />
                 </Route>
-                <Route exact path="/add-data">
-                  <AddData />
+                <Route exact path="/home">
+                  <GettingStarted />
+                </Route>
+                <Route path="/add-data">
+                  <AddData pin={pin} />
+                </Route>
+                <Route exact path="/all-capabilities">
+                  <AllCapabilities pin={pin} />
                 </Route>
                 <Route exact path="/configure">
                   <AddData />
+                </Route>
+                <Route exact path="/entities">
+                  <Explorer subtitle="All Entities" />
+                </Route>
+                <Route path="/entities/all">
+                  <Explorer subtitle="All Entities" />
                 </Route>
                 <Route path="/explorer/health">
                   <Explorer subtitle="Health" />
@@ -2801,7 +3214,7 @@ export default function App() {
                   <Explorer subtitle="Azure" />
                 </Route>
                 <Route path="/explorer">
-                  <Explorer />
+                  <Explorer subtitle="All Entities" />
                 </Route>
                 <Route path="/browse-data">
                   <BrowseData />
@@ -2815,10 +3228,10 @@ export default function App() {
                 <Route path="/alerts--ai">
                   <Alerts />
                 </Route>
-                <Route path="/inbox/errors-inbox">
+                <Route path="/errors-inbox">
                   <ErrorsInbox />
                 </Route>
-                <Route path="/applications">
+                <Route path="/apm">
                   <APM />
                 </Route>
                 <Route path="/browser">
@@ -2830,7 +3243,7 @@ export default function App() {
                 <Route path="/synthetics">
                   <Synthetics />
                 </Route>
-                <Route path="/inbox/messages">
+                <Route path="/messages">
                   <Messages setCommentsState={setCommentsState} />
                 </Route>
                 <Route path="/mobile">
@@ -2869,9 +3282,18 @@ export default function App() {
                 <Route path="/nrx">
                   <Explorer />
                 </Route>
+                <Route path="/me">
+                  <Me
+                    toggleTheme={toggleTheme}
+                    setConsole={setConsole}
+                    console={console}
+                    theme={theme}
+                  />
+                </Route>
               </Switch>
             </div>
           </div>
+          <Console />
         </div>
       </Router>
     </>

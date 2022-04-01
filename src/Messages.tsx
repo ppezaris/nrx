@@ -87,7 +87,7 @@ export const Messages = (props: any) => {
           New Message
         </button>
       </div>
-      <div className="box" style={{ marginTop: "20px" }}>
+      <div className="x-box" style={{ marginTop: "20px" }}>
         <table className="messages">
           <thead>
             <tr className="noheight">
