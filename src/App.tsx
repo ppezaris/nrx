@@ -929,6 +929,25 @@ const Capabilities = (props: any) => {
   return (
     <div className="capabilities-wrapper">
       <div className={`capabilities ${props.className || ""}`}>
+        <div className="capability">
+          <div className="capability-icon">
+            <VscAdd />
+          </div>
+          <div>
+            <div className="capability-title">Create your own</div>
+            <div className="capability-body"></div>
+            Get Started |{" "}
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                props.docs("add new");
+              }}
+            >
+              Docs
+            </a>
+          </div>
+        </div>
         {capabilities.map((p: any) => (
           <Capability
             capability={p}
@@ -2490,6 +2509,7 @@ const QueryBuilder = (props: any) => {
 };
 
 const NAV_BOTTOM: any[] = [
+  { label: "Invite", icon: <FiUserPlus /> },
   {
     label: "Peter Pezaris",
     icon: <img className="svg" src="https://i.imgur.com/jSrZwhT.jpg" />,
@@ -2803,6 +2823,7 @@ const Nav = (props: any) => {
               item={item}
               setCommentsState={props.setCommentsState}
               commentsState={props.commentsState}
+              noEllipsis
             />
           ))}
           <img

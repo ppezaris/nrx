@@ -467,7 +467,7 @@ export const RightPane = (props: any) => {
         <div
           className="comments-header"
           style={{
-            display: "flex",
+            display: "none",
             position: props.paneState === "float" ? "sticky" : "relative",
             top: 0,
           }}

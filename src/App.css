@@ -1278,6 +1278,11 @@ button.disabled {
   overflow-y: auto;
   border-radius: 20px 0 0 0;
   box-shadow: 0 -1px 0px var(--shadow-top-2), 0 5px 10px rgba(0, 0, 0, 0.4);
+
+  background: var(--content-bg);
+  box-shadow: none;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
 }
 .react-draggable-dragging {
   transition: none !important;
@@ -1293,6 +1298,10 @@ button.disabled {
   border: 1px solid var(--border);
   border: none;
   z-index: 30;
+}
+.right-pane.float,
+.comments.float {
+  background-color: var(--comments-bg);
 }
 .right-pane.off-screen,
 .comments.off-screen {
@@ -2041,7 +2050,7 @@ input[type="search"] {
 }
 .right-pane .placeholder {
   font-size: 20px;
-  margin: 20px;
+  margin: 0 20px 20px 20px;
   /* padding: 20px; */
   width: auto;
   height: auto;
