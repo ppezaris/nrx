@@ -191,6 +191,532 @@ export const Search = (props: any) => {
   );
 };
 
+const APMEntities = (props: any) => {
+  const handleClick = (type?: string) => {
+    if (props.handleClick) props.handleClick(type);
+  };
+  return (
+    <table className="messages explorer">
+      <thead>
+        <tr className="no-border">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan={2} className="table-title">
+            {!props.noTitle && (
+              <>
+                <VscChevronDown /> Services - APM
+              </>
+            )}
+          </td>
+          <td>Account</td>
+          <td>End User</td>
+          <td>Page Views</td>
+          <td>Response</td>
+          <td>Throughput</td>
+          <td>Errors</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onClick={() => handleClick("FoodMe")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            FoodMe
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (perf)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>4%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+          <td style={{ position: "relative" }}>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="red" />
+            Kafka-admin (stg-deep-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>2.3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (stg-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>7.1%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            kafka-admin (stg-showy-brain)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>5%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
+
+const OpenTelemetryEntities = (props: any) => {
+  const handleClick = (type?: string) => {
+    if (props.handleClick) props.handleClick(type);
+  };
+  return (
+    <table className="messages explorer">
+      <thead>
+        <tr className="no-border">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan={2} className="table-title">
+            {!props.noTitle && (
+              <>
+                <VscChevronDown /> Services - OpenTelemetry
+              </>
+            )}
+          </td>
+          <td>Account</td>
+          <td>End User</td>
+          <td>Page Views</td>
+          <td>Response</td>
+          <td>Throughput</td>
+          <td>Errors</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onClick={() => handleClick("FoodMe")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            FoodMe
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (perf)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+          <td style={{ position: "relative" }}>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="red" />
+            Kafka-admin (stg-deep-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (stg-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            kafka-admin (stg-showy-brain)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
+
+const MobileEntities = (props: any) => {
+  const handleClick = (type?: string) => {
+    if (props.handleClick) props.handleClick(type);
+  };
+  return (
+    <table className="messages explorer">
+      <thead>
+        <tr className="no-border">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan={2} className="table-title">
+            {!props.noTitle && (
+              <>
+                <VscChevronDown /> Mobile
+              </>
+            )}
+          </td>
+          <td>Account</td>
+          <td>End User</td>
+          <td>Page Views</td>
+          <td>Response</td>
+          <td>Throughput</td>
+          <td>Errors</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onClick={() => handleClick("FoodMe")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            FoodMe
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (perf)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+          <td style={{ position: "relative" }}>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="red" />
+            Kafka-admin (stg-deep-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="green" />
+            Kafka-admin (stg-tree)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            kafka-admin (stg-showy-brain)
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
+
+const HostsEntities = (props: any) => {
+  const handleClick = (type?: string) => {
+    if (props.handleClick) props.handleClick(type);
+  };
+  return (
+    <table className="messages explorer">
+      <thead>
+        <tr className="no-border">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan={2} className="table-title">
+            {!props.noTitle && (
+              <>
+                <VscChevronDown /> Hosts
+              </>
+            )}
+          </td>
+          <td>Account</td>
+          <td>Provider</td>
+          <td>Response</td>
+          <td>Throughput</td>
+          <td>Errors</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onClick={() => handleClick("pd-mailin-10-101-0-230.codestream.us")}>
+          <td style={{ color: "yellow" }}>
+            <VscStarFull />
+          </td>
+          <td>
+            <Square color="green" />
+            pd-mailin-10-101-0-230.codestream.us
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr
+          onClick={() =>
+            handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
+          }
+        >
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="green" />
+            ip-172-31-11-129.eu-central-1.compute.internal
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}>
+          <td style={{ position: "relative" }}>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="red" />
+            pd-api-20-101-0-237.codestream.us
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr
+          onClick={() =>
+            handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
+          }
+        >
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="red" />
+            ip-172-31-19-164.eu-central-1.compute.internal
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr
+          onClick={() =>
+            handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
+          }
+        >
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            ip-172-31-24-116.eu-central-1.compute.internal
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
 const Step = (props: any) => {
   const [active, setActive] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
@@ -224,7 +750,7 @@ const Plugin = (props: any) => {
   const { plugin = {} } = props;
   const item = plugin;
   const to = plugin.isDefault
-    ? props.subdir
+    ? props.subdir || "/"
     : (props.subdir || "/") +
       (plugin.url ||
         plugin.title
@@ -257,7 +783,9 @@ const Plugin = (props: any) => {
             }
             if (item.noComment) props.setCommentsState("closed");
           }}
-          className={props.className || item.className || ""}
+          className={
+            (props.className || item.className || "") + item.isNew ? " new" : ""
+          }
         >
           <span className="label">View</span>
           {item.extra && item.extra}
@@ -282,46 +810,65 @@ const Plugin = (props: any) => {
 const Capability = (props: any) => {
   const { capability = {} } = props;
   const item = capability;
-  const to = capability.isDefault
-    ? props.subdir
-    : (props.subdir || "/") +
-      (capability.url ||
-        capability.label
-          .toLocaleLowerCase()
-          .replace(" ", "-")
-          .replace(" ", "-")
-          .replace("&", ""));
+  const to =
+    capability.isDefault && props.subdir
+      ? props.subdir
+      : (props.subdir || "/") +
+        (capability.url ||
+          capability.label
+            .toLocaleLowerCase()
+            .replace(" ", "-")
+            .replace(" ", "-")
+            .replace("&", ""));
+  const index = props.nav.findIndex((i: any) => i.label === capability.label);
   return (
-    <div className="capability">
-      <div className="capability-icon">{capability.icon}</div>
-      <div>
-        <div className="capability-title">{capability.label}</div>
-        <div className="capability-body">{capability.body}</div>
-        <NavLink
-          to={to}
-          activeClassName="active"
-          onClick={(e) => {
-            if (item.onClick) {
-              item.onClick();
-              e.stopPropagation();
+    <NavLink
+      to={to}
+      activeClassName="active"
+      onClick={(e) => {
+        if (item.onClick) {
+          item.onClick();
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        } else if (item.openCommandPalette) {
+          props.setCommandPanelOpen(!props.commandPanelOpen);
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+        if (item.noComment) props.setCommentsState("closed");
+      }}
+      className="capability-link"
+    >
+      <div className="capability">
+        <div className="capability-icon">{capability.icon}</div>
+        <div>
+          <div className="capability-title">{capability.label}</div>
+          <div className="capability-body">{capability.body}</div>
+          <a>View</a> |{" "}
+          <a
+            onClick={(e) => {
               e.preventDefault();
-              return false;
-            } else if (item.openCommandPalette) {
-              props.setCommandPanelOpen(!props.commandPanelOpen);
               e.stopPropagation();
+              props.docs(capability);
+            }}
+          >
+            Docs
+          </a>{" "}
+          |{" "}
+          <a
+            onClick={(e) => {
               e.preventDefault();
-              return false;
-            }
-            if (item.noComment) props.setCommentsState("closed");
-          }}
-          className={props.className || item.className || ""}
-        >
-          <span className="label">View</span>
-          {item.extra && item.extra}
-        </NavLink>{" "}
-        | Docs | <a onClick={() => props.pin(capability)}>Pin</a>
+              e.stopPropagation();
+              props.pin(capability);
+            }}
+          >
+            {index > -1 ? "Unpin" : "Pin"}
+          </a>
+        </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 
@@ -383,7 +930,12 @@ const Capabilities = (props: any) => {
     <div className="capabilities-wrapper">
       <div className={`capabilities ${props.className || ""}`}>
         {capabilities.map((p: any) => (
-          <Capability capability={p} pin={props.pin} />
+          <Capability
+            capability={p}
+            pin={props.pin}
+            docs={props.docs}
+            nav={props.nav}
+          />
         ))}
       </div>
     </div>
@@ -776,6 +1328,8 @@ const AllCapabilities = (props: any) => {
         capabilities={CAPABILITIES}
         q={query}
         pin={props.pin}
+        docs={props.docs}
+        nav={props.nav}
       />
       <br />
       <br />
@@ -890,7 +1444,8 @@ const Explorer = (props: any) => {
     view === "lookout"
   ) {
     return (
-      <Content>
+      <Content className="has-third-nav">
+        <ThirdNav title="Entity Types" items={CATEGORIES} subdir="/entities/" />
         {/* <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" /> */}
         <Title
           className="compactX"
@@ -1105,319 +1660,13 @@ const List = (props: any) => {
   const history = useHistory();
   return (
     <>
-      <SubTitle>
-        <VscChevronDown /> Services - APM
-      </SubTitle>
-      <table className="messages explorer">
-        <thead>
-          <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Account</td>
-            <td>End User</td>
-            <td>Page Views</td>
-            <td>Response</td>
-            <td>Throughput</td>
-            <td>Errors</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr onClick={() => handleClick("FoodMe")}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>
-              <Square color="green" />
-              FoodMe
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (perf)")}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>
-              <Square color="green" />
-              Kafka-admin (perf)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
-            <td style={{ position: "relative" }}>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="red" />
-              Kafka-admin (stg-deep-tree)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="green" />
-              Kafka-admin (stg-tree)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="gray" />
-              kafka-admin (stg-showy-brain)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-        </tbody>
-      </table>
-      <SubTitle>
-        <VscChevronDown /> Services - OpenTelemetry
-      </SubTitle>
-      <table className="messages explorer">
-        <thead>
-          <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Account</td>
-            <td>End User</td>
-            <td>Page Views</td>
-            <td>Response</td>
-            <td>Throughput</td>
-            <td>Errors</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr onClick={() => handleClick("FoodMe")}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>
-              <Square color="green" />
-              FoodMe
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (perf)")}>
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>
-              <Square color="green" />
-              Kafka-admin (perf)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
-            <td style={{ position: "relative" }}>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="red" />
-              Kafka-admin (stg-deep-tree)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="green" />
-              Kafka-admin (stg-tree)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="gray" />
-              kafka-admin (stg-showy-brain)
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-        </tbody>
-      </table>
-      <SubTitle>
-        <VscChevronDown /> Hosts
-      </SubTitle>
-      <table className="messages explorer">
-        <thead>
-          <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Account</td>
-            <td>Provider</td>
-            <td>Response</td>
-            <td>Throughput</td>
-            <td>Errors</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            onClick={() => handleClick("pd-mailin-10-101-0-230.codestream.us")}
-          >
-            <td style={{ color: "yellow" }}>
-              <VscStarFull />
-            </td>
-            <td>
-              <Square color="green" />
-              pd-mailin-10-101-0-230.codestream.us
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr
-            onClick={() =>
-              handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
-            }
-          >
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="green" />
-              ip-172-31-11-129.eu-central-1.compute.internal
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}>
-            <td style={{ position: "relative" }}>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="red" />
-              pd-api-20-101-0-237.codestream.us
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr
-            onClick={() =>
-              handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
-            }
-          >
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="red" />
-              ip-172-31-19-164.eu-central-1.compute.internal
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-          <tr
-            onClick={() =>
-              handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
-            }
-          >
-            <td>
-              <VscStarEmpty />
-            </td>
-            <td>
-              <Square color="gray" />
-              ip-172-31-24-116.eu-central-1.compute.internal
-            </td>
-            <td>New Relic</td>
-            <td>-</td>
-            <td>-</td>
-            <td>36.14ms</td>
-            <td>4</td>
-            <td>3%</td>
-            <td>...</td>
-          </tr>
-        </tbody>
-      </table>
+      <APMEntities handleClick={handleClick} />
+      <SubTitle></SubTitle>
+      <OpenTelemetryEntities handleClick={handleClick} />
+      <SubTitle></SubTitle>
+      <MobileEntities handleClick={handleClick} />
+      <SubTitle></SubTitle>
+      <HostsEntities handleClick={handleClick} />
     </>
   );
 };
@@ -1552,8 +1801,8 @@ const Me = (props: any) => {
       <Title>Peter Pezaris</Title>
       <div onClick={props.toggleTheme}>Theme</div>
       <br />
-      Show NRQL Console{" "}
-      <OnOff onChange={(value: any) => props.setConsole(value)} />
+      {/* Show NRQL Console{" "}
+      <OnOff onChange={(value: any) => props.setConsole(value)} /> */}
     </Content>
   );
 };
@@ -1572,7 +1821,13 @@ const APM = (props: any) => {
   return (
     <Content>
       <Title>APM Services</Title>
-      <div className="placeholder">APM goes here</div>
+      <Search
+        icon="filter"
+        className="flex-grow"
+        placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+      />
+      <div style={{ height: "10px" }} />
+      <APMEntities noTitle />
     </Content>
   );
 };
@@ -1581,7 +1836,8 @@ const Infrastructure = (props: any) => {
   return (
     <Content>
       <Title>Infrastructure</Title>
-      <div className="placeholder">Infrastructure goes here</div>
+      <Tabgroup items={NAV_INFRASTRUCTURE} subdir="/infrastructure/" />
+      <HostsEntities noTitle />
     </Content>
   );
 };
@@ -1646,7 +1902,13 @@ const Browser = (props: any) => {
   return (
     <Content>
       <Title>Browser</Title>
-      <div className="placeholder">Browser goes here</div>
+      <Search
+        icon="filter"
+        className="flex-grow"
+        placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+      />
+      <div style={{ height: "10px" }} />
+      <HostsEntities noTitle />
     </Content>
   );
 };
@@ -1655,14 +1917,20 @@ const Mobile = (props: any) => {
   return (
     <Content>
       <Title>Mobile</Title>
-      <div className="placeholder">Mobile goes here</div>
+      <Search
+        icon="filter"
+        className="flex-grow"
+        placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
+      />
+      <div style={{ height: "10px" }} />
+      <MobileEntities noTitle />
     </Content>
   );
   // <img src="https://i.imgur.com/FVcAiJC.png" style={{ width: "100%" }} />
 };
 
 const NAV_ALERTS = [
-  { label: "Overview" },
+  { label: "Overview", isDefault: true, subdir: "/ai--alerts" },
   { label: "Issues" },
   { label: "Incidents" },
   { label: "Events" },
@@ -1887,7 +2155,6 @@ const NAV_MORE = [
   { label: "Service Maps" },
   { label: "Traces" },
   { label: "Workload views" },
-  { label: "-Customize this list" },
 ];
 
 const NAV_INBOX = [
@@ -1950,16 +2217,16 @@ const NAV_APPLICATIONS = [
   { label: "Synthetics" },
   { label: "Serverless" },
   { label: "ML Model Monitoring" },
-];
+] as any[];
 
 const NAV_INFRASTRUCTURE = [
-  { label: "Hosts", isDefault: true },
-  { label: "Containers" },
-  { label: "Kubernetes" },
-  { label: "NPM" },
-  { label: "Cloud Services" },
-  { label: "Third-party services" },
-  { label: "Infrastructure classic" },
+  { label: "Hosts", icon: <VscServer /> },
+  { label: "Containers", icon: <VscServer /> },
+  { label: "Kubernetes", icon: <VscServer /> },
+  { label: "NPM", icon: <VscServer /> },
+  { label: "Cloud Services", icon: <VscServer /> },
+  { label: "Third-party services", icon: <VscServer /> },
+  { label: "Infrastructure classic", icon: <VscServer /> },
 ];
 
 const NAV_LOGS = [
@@ -2083,14 +2350,22 @@ const NAV = [
     menuTitle: "Go To...",
     openCommandPalette: true,
     keybinding: <Keybinding>K</Keybinding>,
+    noUnpin: true,
   },
-  { label: "Home", menuTitle: "Home", subnav: [], icon: <VscHome /> },
+  // {
+  //   label: "Home",
+  //   menuTitle: "Home",
+  //   subnav: [],
+  //   icon: <VscHome />,
+  //   noUnpin: true,
+  // },
   {
     label: "Dashboards",
     icon: <VscDashboard />,
     subnav: [],
     subdir: "/dashboards/",
     menuTitle: "Dashboards",
+    noUnpin: true,
     //   subnav: NAV_DASHBOARD,
   },
   {
@@ -2101,6 +2376,7 @@ const NAV = [
     url: "entities",
     icon: <VscGlobe />,
     hover: "",
+    noUnpin: true,
     //   hasThirdNav: true,
     //   subdir: "/entities/",
     //   subnav: NAV_EXPLORER,
@@ -2184,7 +2460,21 @@ const NAV = [
   },
 ];
 
-const CAPABILITIES = [...NAV, ...NAV_LOGS];
+const CAPABILITIES = [
+  {
+    label: "Home",
+    menuTitle: "Home",
+    subnav: [],
+    icon: <VscHome />,
+    noEllipsis: true,
+  },
+  ...NAV,
+  ...NAV_LOGS,
+  ...NAV_ALERTS,
+  ...NAV_INBOX,
+  ...NAV_MORE,
+  ...NAV_INFRASTRUCTURE,
+];
 
 const QueryBuilder = (props: any) => {
   const [query, setQuery] = React.useState("");
@@ -2236,6 +2526,7 @@ export const ThirdNav = (props: {
   return (
     <>
       <ul className="links thirdnav subnav">
+        <div className="hidebutton"></div>
         {props.title && <li className="third-nav-title">{props.title}</li>}
         {props.items.map((item) => (
           <NavItem item={item} subdir={props.subdir} />
@@ -2280,15 +2571,17 @@ const NavItem = (props: any) => {
   if (label.startsWith("-")) {
     return <div className="sep">{item.label.replace("-", "")}</div>;
   }
-  const to = item.isDefault
-    ? props.subdir
-    : (props.subdir || "/") +
-      (item.url ||
-        label
-          .toLocaleLowerCase()
-          .replace(" ", "-")
-          .replace(" ", "-")
-          .replace("&", ""));
+  const to =
+    item.isDefault && props.subdir
+      ? props.subdir
+      : (props.subdir || "/") +
+        (item.url ||
+          label
+            .toLocaleLowerCase()
+            .replace(" ", "-")
+            .replace(" ", "-")
+            .replace("&", ""));
+  console.warn("TO IS: ", to);
 
   const unPin = () => {
     if (props.unPin) props.unPin(props.item);
@@ -2314,10 +2607,12 @@ const NavItem = (props: any) => {
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
-        className={props.className || item.className || ""}
+        className={
+          (props.className || item.className || "") + (item.isNew ? " new" : "")
+        }
       >
         {item.icon} <span className="label">{item.labelDiv || item.label}</span>
-        {!props.noEllipsis && (
+        {!props.noEllipsis && !item.noEllipsis && (
           <span
             className="ellipsis extra"
             onClick={(e) => {
@@ -2402,8 +2697,8 @@ const Nav = (props: any) => {
       >
         <div className="logo">
           <svg
-            width="85"
-            height="24"
+            width="95"
+            height="27"
             viewBox="0 0 124 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -2555,7 +2850,7 @@ const Header = (props: any) => {
   const color = threadState == "open" ? "green" : "purple";
 
   const hasTimepicker = pathname.includes("explorer/K");
-  const hasAccountpicker = pathname.includes("explore");
+  const hasAccountpicker = pathname.includes("explore") || true;
   return (
     <div className="header" id="header-div">
       <Comments
@@ -2720,6 +3015,25 @@ const Header = (props: any) => {
       </button>
       <button
         className={
+          props.consoleState === "open"
+            ? "comment-button active rounded"
+            : "comment-button rounded"
+        }
+        onClick={() => {
+          props.consoleState === "closed"
+            ? props.setConsoleState("open")
+            : props.setConsoleState("closed");
+        }}
+      >
+        <label>
+          <VscChevronRight
+            style={{ verticalAlign: "-2px" }}
+            title="Query console"
+          />
+        </label>
+      </button>
+      {/* <button
+        className={
           props.inviteState === "open"
             ? "comment-button active rounded"
             : "comment-button rounded"
@@ -2736,7 +3050,7 @@ const Header = (props: any) => {
         <label>
           <FiUserPlus style={{ verticalAlign: "-2px" }} />
         </label>
-      </button>
+      </button> */}
       <button
         className={
           props.shareState === "open"
@@ -2920,8 +3234,8 @@ export default function App() {
   const [helpState, setHelpState] = React.useState("closed");
   const [inviteState, setInviteState] = React.useState("closed");
   const [shareState, setShareState] = React.useState("closed");
+  const [consoleState, setConsoleState] = React.useState("closed");
   const [theme, setTheme] = React.useState("dark");
-  const [console, setConsole] = React.useState("off");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
   >("normal");
@@ -2976,7 +3290,16 @@ export default function App() {
     }
   };
   const pin = (item: any) => {
-    setNav([...nav, item]);
+    const index = nav.findIndex((i) => i.label === item.label);
+
+    const newNav = [...nav];
+    if (index > -1) {
+      newNav.splice(index, 1);
+      setNav(newNav);
+    } else setNav([...newNav, { ...item, isNew: true }]);
+  };
+  const docs = () => {
+    setHelpState("open");
   };
   const [nav, setNav] = React.useState([
     //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
@@ -2987,8 +3310,29 @@ export default function App() {
       menuTitle: "Go To...",
       openCommandPalette: true,
       keybinding: <Keybinding>K</Keybinding>,
+      noEllipsis: true,
     },
-    { label: "Home", menuTitle: "Home", subnav: [], icon: <VscHome /> },
+    {
+      label: "Add Data",
+      menuTitle: "Add Data",
+      subnav: [],
+      icon: <VscAdd />,
+      noEllipsis: true,
+    },
+    {
+      label: "All Capabilities",
+      menuTitle: "All Capabilities",
+      subnav: [],
+      icon: <MdGridView />,
+      noEllipsis: true,
+    },
+    // {
+    //   label: "Home",
+    //   menuTitle: "Home",
+    //   subnav: [],
+    //   icon: <VscHome />,
+    //   noEllipsis: true,
+    // },
     {
       label: "Dashboards",
       icon: <VscDashboard />,
@@ -3086,14 +3430,6 @@ export default function App() {
       badge: <Badge>3</Badge>,
       noComment: true,
     },
-    {
-      label: "All Capabilities",
-      menuTitle: "All Capabilities",
-      subnav: [],
-
-      icon: <MdGridView />,
-    },
-    { label: "Add Data", menuTitle: "Add Data", subnav: [], icon: <VscAdd /> },
   ]);
 
   return (
@@ -3115,7 +3451,7 @@ export default function App() {
       </Helmet>
       <Router>
         <div
-          className={`page ${navState} ${theme} console-${console}`}
+          className={`page ${navState} ${theme} console-${consoleState}`}
           id="main-page"
           onClick={onClick}
           tabIndex={0}
@@ -3144,6 +3480,8 @@ export default function App() {
               setShareState={setShareState}
               inviteState={inviteState}
               setInviteState={setInviteState}
+              consoleState={consoleState}
+              setConsoleState={setConsoleState}
             />
             <div
               style={{
@@ -3169,25 +3507,13 @@ export default function App() {
                   <AddData pin={pin} />
                 </Route>
                 <Route exact path="/all-capabilities">
-                  <AllCapabilities pin={pin} />
+                  <AllCapabilities pin={pin} docs={docs} nav={nav} />
                 </Route>
                 <Route exact path="/configure">
                   <AddData />
                 </Route>
-                <Route exact path="/entities">
+                <Route path="/entities">
                   <Explorer subtitle="All Entities" />
-                </Route>
-                <Route path="/entities/all">
-                  <Explorer subtitle="All Entities" />
-                </Route>
-                <Route path="/explorer/health">
-                  <Explorer subtitle="Health" />
-                </Route>
-                <Route path="/explorer/metrics">
-                  <Explorer subtitle="Metrics" />
-                </Route>
-                <Route path="/explorer/events">
-                  <Explorer subtitle="Events" />
                 </Route>
                 <Route path="/explorer/logs">
                   <Explorer subtitle="Logs" />
@@ -3283,12 +3609,7 @@ export default function App() {
                   <Explorer />
                 </Route>
                 <Route path="/me">
-                  <Me
-                    toggleTheme={toggleTheme}
-                    setConsole={setConsole}
-                    console={console}
-                    theme={theme}
-                  />
+                  <Me toggleTheme={toggleTheme} theme={theme} />
                 </Route>
               </Switch>
             </div>

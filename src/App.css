@@ -2,7 +2,7 @@
   --green-1: #1a3c34;
   --green-2: #007853;
   --green-3: #00ac69;
-  --green-4: #00ce7c;
+  --green-4: rgb(0, 206, 124);
   --green-5: #1ce783;
   --green-6: #00ff8c;
   --black: #000000;
@@ -43,6 +43,7 @@
   --border: #3d3f42;
   --border-heavy: #3d3f42;
   --shadow-top: #4b4e53;
+  --shadow-top-2: #36393e;
   --shadow-bottom: #222;
   --shadow-top-selected: #787c84;
   --shadow-bottom-selected: #222;
@@ -68,6 +69,7 @@
   color-scheme: dark;
   --horizontal-top: 45px;
   --nav-width: 120px;
+  --console-height: 45px;
 }
 .light {
   --bg-1: white;
@@ -125,7 +127,7 @@ body {
   height: 50px;
 }
 .logo {
-  padding: 14px 8px 10px 10px;
+  padding: 12px 8px 10px 10px;
   text-align: center;
   position: relative;
   display: flex;
@@ -135,7 +137,7 @@ body {
 }
 .collapsed .logo-wrap {
   overflow: hidden;
-  width: 25px;
+  width: 27px;
 }
 .collapsed .logo,
 .hidden .logo {
@@ -234,6 +236,21 @@ body {
 .hidden .thirdnav {
   /* display: none; */
 }
+@keyframes highlight-fade {
+  50% {
+    color: var(--fg-0);
+    background: rgba(0, 206, 124, 0.25);
+    /* border-color: orange; */
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.highlight-pulse {
+  animation: highlight-fade 1.25s ease 1;
+}
+
 .links a {
   /* color: #6fccd3 !important; */
   /* color: var(--green-4) !important; */
@@ -250,6 +267,9 @@ body {
   overflow: hidden;
   font-size: 0.9em;
   padding: 5px 25px 5px 10px;
+}
+.links a.new {
+  animation: highlight-fade 0.75s ease 1;
 }
 .collapsed .links:not(.subnav) > li > a {
   padding: 5px 10px;
@@ -319,6 +339,7 @@ body {
 .horizontal .links .submenu a .label {
   display: block;
 }
+
 .horizontal .links a svg {
   margin: 7px;
 }
@@ -431,6 +452,9 @@ body {
   height: 100vh;
   z-index: 10;
 }
+.console-open .nav {
+  height: calc(100vh - var(--console-height));
+}
 .normal .nav {
   /* overflow-y: auto; */
 }
@@ -449,7 +473,7 @@ body {
   left: 20px;
 }
 .hidden .nav {
-  height: 47px;
+  height: 45px;
   width: 28px;
   overflow: hidden;
   position: fixed;
@@ -540,7 +564,7 @@ body {
   margin: -5px;
 }
 .header .active .badge {
-  border-radius: 4px 4px 0 0;
+  /* border-radius: 4px 4px 0 0; */
   height: 26px;
   margin-top: -6px;
   margin-bottom: -6px;
@@ -734,7 +758,7 @@ x.links a .hover::before {
 .header {
   text-align: right;
   margin: 0 0 20px 0;
-  padding: 12px 20px 8px 10px;
+  padding: 7px 20px 5px 10px;
   display: flex;
   /* border-bottom: 1px solid #ddd; */
   /* background: #f0f3f4; */
@@ -747,12 +771,13 @@ x.links a .hover::before {
   z-index: 5;
   position: fixed;
   right: 0;
-  transition: left 0.15s;
+  transition: left 0.15s, background-color 0.15s;
   /* left: 0; */
   /* border-bottom: 1px solid var(--border); */
   height: 35px;
 }
 .header.has-shadow {
+  background: var(--bg-1-5);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
 .horizontal .header {
@@ -855,13 +880,14 @@ button.rounded.active {
   /* background: var(--selected-bg); */
 }
 .header button.comment-button.active {
-  margin-bottom: -45px;
+  /* margin-bottom: -45px;
   margin-top: 45px;
   margin-top: 15px;
-  margin-bottom: -10px;
+  margin-bottom: -10px; */
   z-index: 49;
-  background: var(--comments-bg);
-  padding-top: 0;
+  background: var(--popup-bg);
+  /* padding-top: 0; */
+  border-radius: 50%;
 }
 .header button:hover {
   /* background: #f8f8f8; */
@@ -876,7 +902,7 @@ button.rounded.active {
 .content {
   text-align: left;
   margin-top: 40px;
-  padding-top: 20px;
+  padding-top: 10px;
   overflow: auto;
   max-height: calc(100vh - 65px);
   padding-left: calc(var(--nav-width) + 60px);
@@ -913,14 +939,17 @@ button.rounded.active {
   display: flex;
   align-items: center;
   position: fixed;
-  top: 17px;
+  top: 12px;
   left: 180px;
   z-index: 50;
 }
 .third-nav-title {
   color: var(--fg-1);
   font-size: 18px;
-  margin: -35px 0 10px 10px;
+  margin: -38px 0 15px 10px;
+}
+.hidden .third-nav-title {
+  display: none;
 }
 .title.centered {
   position: relative;
@@ -952,7 +981,7 @@ button.rounded.active {
 }
 .subtitle {
   font-size: 16px;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
   color: var(--fg-2);
   /* color: var(--green-4); */
@@ -990,6 +1019,14 @@ button.rounded.active {
 .messages thead tr.noheight {
   height: 0;
 }
+.messages thead .no-border td {
+  border: none !important;
+  height: 0;
+  padding: 0 !important;
+}
+.messages thead td {
+  color: var(--fg-1);
+}
 .messages thead tr.noheight td {
   padding: 0;
 }
@@ -998,6 +1035,10 @@ button.rounded.active {
   border-top: none;
   border-bottom: 1px solid var(--bg-2);
   white-space: nowrap;
+}
+.messages .table-title {
+  text-align: left !important;
+  padding-left: 0px !important;
 }
 .messages td:nth-of-type(1) {
   width: 20px;
@@ -1161,7 +1202,7 @@ button.round {
   top: 25px;
 }
 .comments-header button.active {
-  border-radius: 4px 4px 0 0;
+  /* border-radius: 4px 4px 0 0; */
   z-index: 10;
 }
 .filters button.selected {
@@ -1226,8 +1267,8 @@ button.disabled {
   /* border-left: 1px solid #eee; */
   border-left: none;
   /* height: calc(100vh - 45px); */
-  height: calc(100vh - 55px);
-  top: 55px;
+  height: calc(100vh - 50px);
+  top: 50px;
   /* top: 89px; */
   /* top: 135px; */
   /* height: calc(100vh - 133px); */
@@ -1235,6 +1276,8 @@ button.disabled {
   text-align: left;
   transition: all 0.15s;
   overflow-y: auto;
+  border-radius: 20px 0 0 0;
+  box-shadow: 0 -1px 0px var(--shadow-top-2), 0 5px 10px rgba(0, 0, 0, 0.4);
 }
 .react-draggable-dragging {
   transition: none !important;
@@ -1638,9 +1681,7 @@ button.disabled {
 }
 .plugin {
   padding: 10px;
-  width: 180px !important;
   height: 200px;
-  flex-basis: 180px;
   flex-shrink: 0;
   position: relative;
   margin: 10px 0;
@@ -1648,7 +1689,7 @@ button.disabled {
 .capability,
 .plugin {
   padding: 10px;
-  width: 180px !important;
+  width: 90% !important;
   height: 40px;
   flex-basis: 280px !important;
   flex-shrink: 0;
@@ -1699,6 +1740,12 @@ button.disabled {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   color: var(--fg-3);
+}
+.capability-link {
+  text-decoration: none;
+}
+.capability a:hover {
+  color: var(--fg-0);
 }
 .step .dupe {
   position: absolute;
@@ -2197,6 +2244,9 @@ input[type="search"] {
 .tabs {
   display: flex;
 }
+.tabs a svg {
+  display: none;
+}
 a.tab {
   color: var(--fg-2);
   text-decoration: none;
@@ -2206,6 +2256,7 @@ a.tab {
   font-size: 15px;
   padding-bottom: 4px;
   cursor: pointer;
+  border-bottom: 2px solid transparent;
 }
 .tab + .tab,
 .tabs li + li {
@@ -2248,6 +2299,16 @@ img.svg {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
   transition: left 0.15s;
 }
+.thirdnav .hidebutton {
+  position: absolute;
+  right: -7px;
+  top: 18px;
+  width: 15px;
+  height: 15px;
+  background: var(--button-bg);
+  border-radius: 50%;
+  display: none;
+}
 .collapsed .thirdnav {
   left: 32px;
 }
@@ -2279,17 +2340,23 @@ img.svg {
   z-index: 6;
   background: var(--bg-0);
   color: var(--fg-3);
-  height: 45px;
+  height: var(--console-height);
   display: flex;
   align-items: center;
   padding-left: 20px;
+  font-family: "Andale Mono", monospace;
+  color: var(--green-5);
   left: calc(var(--nav-width) + 35px);
+  left: 0;
   transition: bottom 0.15s;
 }
-.console-on .bottom {
+.collapsed .console {
+  /* left: 30px; */
+}
+.console-open .bottom {
   /* padding-bottom: 35px; */
 }
-.console-on .console {
+.console-open .console {
   bottom: 0;
 }
 .plugin a,
