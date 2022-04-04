@@ -904,11 +904,11 @@ button.rounded.active {
   margin-top: 40px;
   padding-top: 10px;
   overflow: auto;
-  max-height: calc(100vh - 65px);
+  max-height: calc(100vh - 50px);
   padding-left: calc(var(--nav-width) + 60px);
   padding-right: 20px;
   transition: padding 0.15s;
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 50px);
   background: var(--content-bg);
 }
 .hidden .content {

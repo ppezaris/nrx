@@ -2371,6 +2371,13 @@ const NAV = [
     keybinding: <Keybinding>K</Keybinding>,
     noUnpin: true,
   },
+  {
+    label: "Getting Started",
+    menuTitle: "Getting Started",
+    icon: <div className="donut" />,
+    keybinding: <Keybinding>G</Keybinding>,
+    noUnpin: true,
+  },
   // {
   //   label: "Home",
   //   menuTitle: "Home",
@@ -3354,6 +3361,13 @@ export default function App() {
     //   icon: <VscHome />,
     //   noEllipsis: true,
     // },
+    {
+      label: "Getting Started",
+      menuTitle: "Getting Started",
+      icon: <div className="donut" />,
+      keybinding: <Keybinding>G</Keybinding>,
+      noEllipsis: true,
+    },
     {
       label: "Dashboards",
       icon: <VscDashboard />,
