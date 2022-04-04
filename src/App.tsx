@@ -489,7 +489,7 @@ const MobileEntities = (props: any) => {
           </td>
           <td>
             <Square color="green" />
-            FoodMe
+            Rox mobile app
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -507,7 +507,7 @@ const MobileEntities = (props: any) => {
           </td>
           <td>
             <Square color="green" />
-            Kafka-admin (perf)
+            Rafka React Native
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -525,7 +525,7 @@ const MobileEntities = (props: any) => {
           </td>
           <td>
             <Square color="red" />
-            Kafka-admin (stg-deep-tree)
+            Shu Mobile
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -561,7 +561,43 @@ const MobileEntities = (props: any) => {
           </td>
           <td>
             <Square color="gray" />
-            kafka-admin (stg-showy-brain)
+            Tango Training Mobile App
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            Filmore Mobile
+          </td>
+          <td>New Relic</td>
+          <td>-</td>
+          <td>-</td>
+          <td>36.14ms</td>
+          <td>4</td>
+          <td>3%</td>
+          <td>
+            <VscEllipsis />
+          </td>
+        </tr>
+        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+          <td>
+            <VscStarEmpty />
+          </td>
+          <td>
+            <Square color="gray" />
+            Wizards
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -1686,6 +1722,9 @@ const List = (props: any) => {
       <MobileEntities handleClick={handleClick} />
       <SubTitle></SubTitle>
       <HostsEntities handleClick={handleClick} />
+      <br />
+      <br />
+      <br />
     </>
   );
 };
