@@ -1496,7 +1496,8 @@ const Explorer = (props: any) => {
     props.subtitle === "All Entities" ||
     view === "list" ||
     view === "navigator" ||
-    view === "lookout"
+    view === "lookout" ||
+    !view
   ) {
     return (
       <Content className="has-third-nav">
@@ -3400,13 +3401,13 @@ export default function App() {
     //   icon: <VscHome />,
     //   noEllipsis: true,
     // },
-    {
-      label: "Getting Started",
-      menuTitle: "Getting Started",
-      icon: <div className="donut" />,
-      keybinding: <Keybinding>G</Keybinding>,
-      noEllipsis: true,
-    },
+    // {
+    //   label: "Getting Started",
+    //   menuTitle: "Getting Started",
+    //   icon: <div className="donut" />,
+    //   keybinding: <Keybinding>G</Keybinding>,
+    //   noEllipsis: true,
+    // },
     {
       label: "Dashboards",
       icon: <VscDashboard />,
