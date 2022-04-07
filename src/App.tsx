@@ -3681,7 +3681,7 @@ export default function App() {
                   <Mobile />
                 </Route>
                 <Route path="/nrx">
-                  <Explorer />
+                  <Explorer view="all"/>
                 </Route>
                 <Route path="/me">
                   <Me toggleTheme={toggleTheme} theme={theme} />
