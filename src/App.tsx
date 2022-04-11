@@ -11,6 +11,7 @@ import {
   VscSearch,
   VscGlobe,
   VscMail,
+  VscTag,
   VscArrowUp,
   VscArrowLeft,
   VscDashboard,
@@ -1078,6 +1079,16 @@ const PLUGINS = {
       body: "Learn more about .NET Framework, the importance of monitoring .NET, the ideal features of a .NET monitor, and the unique value of New Relic's .NET quickstart.",
       author: "New Relic",
     },
+    {
+      title: "F5",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/f5/logo.svg",
+      body: "Monitor your F5 BIG-IP with New Relic.",
+    },
+    {
+      title: "Apigee API Distributed Tracing",
+      icon: "https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/gcp/apigee-api/logo.svg",
+      body: "Monitor Apigee API Flows with New Relic's Trace API.",
+    },
   ],
   featured: [
     {
@@ -1743,6 +1754,24 @@ const Explorer = (props: any) => {
                 <li>Distributed tracing</li>
                 <li>Service Map</li>
                 <li>Dependencies</li>
+                <li>Transactions</li>
+                <li>Databases</li>
+                <li>External services</li>
+                <li>Ruby VMs</li>
+                <li>Kubernetes</li>
+                <li></li>
+                <li>Errors Inbox</li>
+                <li>Logs</li>
+                <li></li>
+                <li>Errors</li>
+                <li>Issues &amp; Activity</li>
+                <li>Deployments</li>
+                <li>Thread profiler</li>
+                <li></li>
+                <li>SLA</li>
+                <li>Service levels</li>
+                <li>Scalability</li>
+                <li>Capacity</li>
               </ul>
             </div>
           </div>
@@ -1758,15 +1787,157 @@ const Explorer = (props: any) => {
   }
 };
 
+const Entity = (props: any) => {
+  const history = useHistory();
+  const location = useLocation();
+  const [a, b, entity] = location.pathname.split("/");
+    return (
+      <Content>
+        {/* <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" /> */}
+
+        {/*}
+        <div className="two-col">
+          <div className="left-col">
+            <div className="nav-button-group">
+              <button className="rounded" style={{ marginRight: "20px" }}>
+                <VscArrowLeft />
+              </button>
+              <div className="two-buttons">
+                <button className="rounded left">
+                  <VscChevronUp />
+                </button>
+                <button className="rounded right">
+                  <VscChevronDown />
+                </button>
+              </div>
+            </div>
+            <div style={{ height: "100%", minHeight: "100vh" }}>foo</div>
+          </div>
+          <div className="right-col">
+    */}
+        <div>
+          <Title
+            className="compactX"
+            buttonsX={[
+              <button className="primary round">Create a workload</button>,
+            ]}
+          >
+            <div className="breadcrumb">
+              <NavLink to="/entities">All Entities</NavLink> &gt;
+              <NavLink to="/apm">APM</NavLink>
+            </div>
+            <div style={{display: "flex", alignItems: "center"}}>
+            <Square color="green" />{" "}
+            {entity} 
+            <div className="metadata">
+            New Relic Terraform Provider Acceptance Testing
+            <div className="vsep" />
+            <VscTag /> 7
+            <div className="vsep" />
+            <VscTag /> 21
+            </div>
+            </div>
+          </Title>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              //   background: "var(--bg-1)",
+              //   padding: "10px",
+              borderRadius: "4px",
+              marginTop: "10px",
+              marginBottom: "15px",
+            }}
+          >
+            <div>
+              {" "}
+              Transaction type
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  Web
+                </label>
+                <VscChevronDown />
+              </button>
+              Compare with
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  none
+                </label>
+                <VscChevronDown />
+              </button>
+              Instances
+              <button
+                className="rounded secondary compact"
+                style={{ margin: "0 5px" }}
+              >
+                <label style={{ verticalAlign: "1px", padding: "0 5px" }}>
+                  All
+                </label>
+                <VscChevronDown />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="three-col">
+          <div className="left-col">
+            <div className="box">
+            <div className="links">
+              <ul>
+                <li className="active">Summary</li>
+                <div className="sep"><VscChevronDown /> Monitor</div>
+                <li>Distributed tracing</li>
+                <li>Service Map</li>
+                <li>Dependencies</li>
+                <li>Transactions</li>
+                <li>Databases</li>
+                <li>External services</li>
+                <li>Ruby VMs</li>
+                <li>Kubernetes</li>
+                <div className="sep"><VscChevronDown /> Triage</div>
+                <li>Errors Inbox</li>
+                <li>Logs</li>
+                <div className="sep"><VscChevronDown /> Events </div>
+                <li>Errors</li>
+                <li>Issues &amp; Activity</li>
+                <li>Deployments</li>
+                <li>Thread profiler</li>
+                <div className="sep"><VscChevronDown /> Reports</div>
+                <li>SLA</li>
+                <li>Service levels</li>
+                <li>Scalability</li>
+                <li>Capacity</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          <div className="center-col">
+            <div className="box"></div>
+          </div>
+          <div className="right-col">
+            <div className="box"></div>
+          </div>
+        </div>
+      </Content>
+    );
+
+};
+
 const Star = (props: any) => {
   return <VscStarEmpty />;
 };
 
 const EntityDetail = (props: any) => {
+  const history = useHistory();
   return (<div className="detail-pane">
         <div className="detail-body">
           <div className="close-button" onClick={() => props.handleClick("")}><VscClose /></div>
-          <div className="entity-title">{props.entity}</div>
+          <div onClick={() => history.push("/entity/" + props.entity)} className="entity-title">{props.entity}</div>
         </div>
        </div>);
 };
@@ -1965,11 +2136,22 @@ const APM = (props: any) => {
 };
 
 const Infrastructure = (props: any) => {
+  const history = useHistory();
+  const location = useLocation();
+  const [a, b, tab, entity] = location.pathname.split("/");
+  const handleClick = (value: string) => {
+      history.push("/infrastructure/" + (tab || "") + "/" + (value || ""));
+  };
   return (
     <Content>
       <Title>Infrastructure</Title>
       <Tabgroup items={NAV_INFRASTRUCTURE} subdir="/infrastructure/" />
-      <HostsEntities noTitle />
+    <div style={{display: "flex"}}>
+    <div>
+      <HostsEntities noTitle handleClick={handleClick} entity={entity} />
+      </div>
+      {entity && <EntityDetail handleClick={handleClick} filter={""} entity={entity} />}
+      </div>
     </Content>
   );
 };
@@ -2031,6 +2213,12 @@ const Synthetics = (props: any) => {
 };
 
 const Browser = (props: any) => {
+  const history = useHistory();
+  const location = useLocation();
+  const [a, b, entity] = location.pathname.split("/");
+  const handleClick = (value: string) => {
+      history.push("/browser/" + (value || ""));
+  };
   return (
     <Content>
       <Title>Browser</Title>
@@ -2040,12 +2228,23 @@ const Browser = (props: any) => {
         placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
       />
       <div style={{ height: "10px" }} />
-      <HostsEntities noTitle />
+    <div style={{display: "flex"}}>
+    <div>
+      <HostsEntities noTitle handleClick={handleClick} entity={entity} />
+      </div>
+      {entity && <EntityDetail handleClick={handleClick} filter={""} entity={entity} />}
+      </div>
     </Content>
   );
 };
 
 const Mobile = (props: any) => {
+  const history = useHistory();
+  const location = useLocation();
+  const [a, b, entity] = location.pathname.split("/");
+  const handleClick = (value: string) => {
+      history.push("/mobile/" + (value || ""));
+  };
   return (
     <Content>
       <Title>Mobile</Title>
@@ -2055,7 +2254,12 @@ const Mobile = (props: any) => {
         placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
       />
       <div style={{ height: "10px" }} />
-      <MobileEntities noTitle />
+    <div style={{display: "flex"}}>
+    <div>
+      <MobileEntities noTitle handleClick={handleClick} entity={entity} />
+      </div>
+      {entity && <EntityDetail handleClick={handleClick} filter={""} entity={entity} />}
+      </div>
     </Content>
   );
   // <img src="https://i.imgur.com/FVcAiJC.png" style={{ width: "100%" }} />
@@ -2256,10 +2460,10 @@ const NAV_DASHBOARD: any = [
 ];
 
 const NAV_MORE = [
-  { label: "AWS Lamba Setup" },
+  { label: "AWS Lamba Setup", icon: <img className="svg" src="https://raw.githubusercontent.com/newrelic/newrelic-quickstarts/v0.101.0/quickstarts/aws/amazon-cloudwatch-metric-streams/logo.svg" /> },
   { label: "Key Transactions" },
   { label: "Kubernetes" },
-  { label: "Legacy custom dashboards" },
+  { label: "Legacy custom dashboards", icon: <VscDashboard /> },
   { label: "Lookout" },
   {
     label: "Manage Insights data",
@@ -2996,7 +3200,7 @@ const Header = (props: any) => {
 
   const color = threadState == "open" ? "green" : "purple";
 
-  const hasTimepicker = pathname.includes("explorer/K");
+  const hasTimepicker = pathname.includes("entity/");
   const hasAccountpicker = pathname.includes("explore") || true;
   return (
     <div className="header" id="header-div">
@@ -3798,6 +4002,9 @@ export default function App() {
                 </Route>
                 <Route path="/me">
                   <Me toggleTheme={toggleTheme} theme={theme} />
+                </Route>
+                <Route path="/entity">
+                  <Entity />
                 </Route>
               </Switch>
             </div>

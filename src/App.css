@@ -62,7 +62,7 @@
   --nav-bg: var(--bg-2);
   --nav-fg: var(--fg-3-5);
   --comments-bg: var(--bg-2);
-  --comment-body-bg: var(--bg-3);
+  --comment-body-bg: var(--bg-2);
   --nav-fg-active: var(--fg-1);
   --third-nav-bg: var(--bg-3);
   --content-bg: var(--bg-1);
@@ -1009,6 +1009,10 @@ button.rounded.active {
   z-index: 50;
   transition: left 0.15s;
 }
+.entity-title {
+  font-size: 16px;
+  cursor: pointer;
+}
 .third-nav-title {
   color: var(--fg-1);
   font-size: 18px;
@@ -1391,9 +1395,8 @@ button.disabled {
 .dragging .detail-pane {
   transition: none;
 }
-
 .detail-body {
-  padding: 20px;
+  padding: 75px 20px 20px 20px;
 }
 .has-fourth-nav .flex-right {
   margin-right: 10px !important;
@@ -1677,7 +1680,7 @@ button.disabled {
 .plugins,
 .capabilities {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 .plugins,
 .categories {
@@ -2129,7 +2132,7 @@ input[type="search"] {
   flex-grow: 5;
 }
 .box {
-  background: var(--bg-3);
+  background: var(--bg-0-5);
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -2322,15 +2325,29 @@ input[type="search"] {
   list-style-type: none;
   margin: 0;
   padding-left: 0;
-  padding: 5px 0;
+  padding: 0px 0;
 }
 .box li {
   margin: 0;
-  padding: 8px 20px;
+  padding: 5px 20px;
   cursor: pointer;
+  position: relative;
 }
 .box li:hover {
   background: var(--selected-bg);
+}
+.box li.active {
+  background: var(--selected-nav-link);
+}
+.box li.active::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  background-color: var(--green-3);
+  content: "";
+  bottom: 0;
+  height: auto;
 }
 .links a.favorite-entities {
   display: flex;
@@ -2421,16 +2438,20 @@ a.tab {
   border-bottom: 2px solid var(--green-3);
 }
 .breadcrumb {
-  font-size: 10px;
+  font-size: 11px;
   left: calc(var(--nav-width) + 60px);
   z-index: 500;
-  margin-top: -8px;
+  margin-top: -5px;
   color: var(--fg-3);
-  margin-bottom: 2px;
+  margin-bottom: 5px;
+  display: none;
 }
 .breadcrumb a {
   color: var(--fg-3);
   text-decoration: none;
+}
+.title .square {
+  margin: 0 8px 0 0;
 }
 img.svg {
   width: 16px;
@@ -2581,4 +2602,24 @@ img.svg {
 .capability a {
   text-decoration: none;
   color: var(--fg-3);
+}
+.metadata {
+  display: flex;
+  background: var(--bg-0-5);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--fg-4);
+}
+.metadata svg {
+  margin-right: 3px;
+}
+.metadata .vsep {
+  height: 17px;
+  width: 1px;
+  background: var(--border);
+  margin: -2px 8px;
 }
