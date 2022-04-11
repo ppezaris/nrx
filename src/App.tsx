@@ -3,6 +3,7 @@ import "./App.css";
 import Helmet from "react-helmet";
 import { useHistory } from "react-router-dom";
 import logo from "./logo2.svg";
+import Draggable from "react-draggable";
 import {
   VscBell,
   VscAccount,
@@ -191,6 +192,11 @@ export const Search = (props: any) => {
   );
 };
 
+const trClass = (entity: string, current: string) => {
+  if (entity === current) return "active";
+  else return "";
+}
+
 const APMEntities = (props: any) => {
   const handleClick = (type?: string) => {
     if (props.handleClick) props.handleClick(type);
@@ -225,7 +231,7 @@ const APMEntities = (props: any) => {
         </tr>
       </thead>
       <tbody>
-        <tr onClick={() => handleClick("FoodMe")}>
+        <tr className={trClass("FoodMe", props.entity)} onClick={() => handleClick("FoodMe")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
@@ -243,7 +249,7 @@ const APMEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+        <tr className={trClass("Kafka-admin (perf)", props.entity)} onClick={() => handleClick("Kafka-admin (perf)")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
@@ -261,7 +267,7 @@ const APMEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+        <tr className={trClass("Kafka-admin (stg-deep-tree)", props.entity)} onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
           <td style={{ position: "relative" }}>
             <VscStarEmpty />
           </td>
@@ -279,7 +285,7 @@ const APMEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+        <tr className={trClass("Kafka-admin (stg-tree)", props.entity)} onClick={() => handleClick("Kafka-admin (stg-tree)")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -297,7 +303,7 @@ const APMEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+        <tr className={trClass("kafka-admin (stg-showy-brain)", props.entity)} onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -354,13 +360,13 @@ const OpenTelemetryEntities = (props: any) => {
         </tr>
       </thead>
       <tbody>
-        <tr onClick={() => handleClick("FoodMe")}>
+        <tr className={trClass("BeerMe", props.entity)} onClick={() => handleClick("BeerMe")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
           <td>
             <Square color="green" />
-            FoodMe
+            BeerMe
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -372,13 +378,13 @@ const OpenTelemetryEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+        <tr className={trClass("K2-admin (perf)", props.entity)} onClick={() => handleClick("K2-admin (perf)")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
           <td>
             <Square color="green" />
-            Kafka-admin (perf)
+            K2-admin (perf)
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -390,13 +396,13 @@ const OpenTelemetryEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+        <tr className={trClass("K2-admin (stg-deep-tree)", props.entity)} onClick={() => handleClick("K2-admin (stg-deep-tree)")}>
           <td style={{ position: "relative" }}>
             <VscStarEmpty />
           </td>
           <td>
             <Square color="red" />
-            Kafka-admin (stg-deep-tree)
+            K2-admin (stg-deep-tree)
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -408,13 +414,13 @@ const OpenTelemetryEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+        <tr className={trClass("K2-admin (stg-tree)", props.entity)} onClick={() => handleClick("K2-admin (stg-tree)")}>
           <td>
             <VscStarEmpty />
           </td>
           <td>
             <Square color="green" />
-            Kafka-admin (stg-tree)
+            K2-admin (stg-tree)
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -426,13 +432,13 @@ const OpenTelemetryEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+        <tr className={trClass("K2-admin (stg-showy-brain)", props.entity)} onClick={() => handleClick("K2-admin (stg-showy-brain)")}>
           <td>
             <VscStarEmpty />
           </td>
           <td>
             <Square color="gray" />
-            kafka-admin (stg-showy-brain)
+            K2-admin (stg-showy-brain)
           </td>
           <td>New Relic</td>
           <td>-</td>
@@ -483,7 +489,7 @@ const MobileEntities = (props: any) => {
         </tr>
       </thead>
       <tbody>
-        <tr onClick={() => handleClick("FoodMe")}>
+        <tr className={trClass("Rox mobile app", props.entity)} onClick={() => handleClick("Rox mobile app")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
@@ -501,7 +507,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (perf)")}>
+        <tr className={trClass("Rafka React Native", props.entity)} onClick={() => handleClick("Rafka React Native")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
@@ -519,7 +525,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-deep-tree)")}>
+        <tr className={trClass("Shu Mobile", props.entity)} onClick={() => handleClick("Shu Mobile")}>
           <td style={{ position: "relative" }}>
             <VscStarEmpty />
           </td>
@@ -537,7 +543,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("Kafka-admin (stg-tree)")}>
+        <tr className={trClass("Kafka-admin (stg-tree)", props.entity)} onClick={() => handleClick("Kafka-admin (stg-tree)")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -555,7 +561,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+        <tr className={trClass("Tango Training Mobile App", props.entity)} onClick={() => handleClick("Tango Training Mobile App")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -573,7 +579,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+        <tr className={trClass("Filmore Mobile", props.entity)} onClick={() => handleClick("Filmore Mobile")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -591,7 +597,7 @@ const MobileEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("kafka-admin (stg-showy-brain)")}>
+        <tr className={trClass("Wizards", props.entity)} onClick={() => handleClick("Wizards")}>
           <td>
             <VscStarEmpty />
           </td>
@@ -647,7 +653,7 @@ const HostsEntities = (props: any) => {
         </tr>
       </thead>
       <tbody>
-        <tr onClick={() => handleClick("pd-mailin-10-101-0-230.codestream.us")}>
+        <tr className={trClass("pd-mailin-10-101-0-230.codestream.us", props.entity)} onClick={() => handleClick("pd-mailin-10-101-0-230.codestream.us")}>
           <td style={{ color: "yellow" }}>
             <VscStarFull />
           </td>
@@ -666,6 +672,7 @@ const HostsEntities = (props: any) => {
           </td>
         </tr>
         <tr
+        className={trClass("ip-172-31-11-129.eu-central-1.compute.internal", props.entity)} 
           onClick={() =>
             handleClick("ip-172-31-11-129.eu-central-1.compute.internal")
           }
@@ -687,7 +694,7 @@ const HostsEntities = (props: any) => {
             <VscEllipsis />
           </td>
         </tr>
-        <tr onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}>
+        <tr className={trClass("pd-api-20-101-0-237.codestream.us", props.entity)} onClick={() => handleClick("pd-api-20-101-0-237.codestream.us")}>
           <td style={{ position: "relative" }}>
             <VscStarEmpty />
           </td>
@@ -706,6 +713,7 @@ const HostsEntities = (props: any) => {
           </td>
         </tr>
         <tr
+        className={trClass("ip-172-31-19-164.eu-central-1.compute.internal", props.entity)} 
           onClick={() =>
             handleClick("ip-172-31-19-164.eu-central-1.compute.internal")
           }
@@ -728,6 +736,7 @@ const HostsEntities = (props: any) => {
           </td>
         </tr>
         <tr
+        className={trClass("ip-172-31-24-116.eu-central-1.compute.internal", props.entity)} 
           onClick={() =>
             handleClick("ip-172-31-24-116.eu-central-1.compute.internal")
           }
@@ -900,7 +909,7 @@ const Capability = (props: any) => {
               props.pin(capability);
             }}
           >
-            {index > -1 ? "Unpin" : "Pin"}
+            {(index > -1 && !props.nav[index].hidden) ? "Unpin" : "Pin"}
           </a>
         </div>
       </div>
@@ -1224,6 +1233,34 @@ const CATEGORIES = [
   { label: "Notifications" },
 ];
 
+const ENTITY_TYPES = [
+  { label: "All", subdir: "/entities/all", noExact: true, icon: <MdGridView /> },
+  { label: "-Your System", icon: <VscChevronDown />},
+  { label: "APM", icon: <VscGraphLine /> },
+  { label: "OpenTelemetry", icon: <VscGraphLine /> },
+  { label: "Hosts", icon: <VscServer /> },
+  { label: "Containers", icon: <VscServer /> },
+  { label: "Mobile", icon: <VscDeviceMobile /> },
+  { label: "Browser", icon: <VscBrowser /> },
+  { label: "-Other entities", icon: <VscChevronDown /> },
+  { label: "Fastly datacenters", icon: <VscBrowser /> },
+  { label: "Redis clusters", icon: <VscBrowser /> },
+  { label: "-Synthetics", icon: <VscChevronDown /> },
+  { label: "Private locations", icon: <VscBrowser /> },
+  { label: "Secure credentials", icon: <VscBrowser /> },
+  { label: "-Kubernetes", icon: <VscChevronDown /> },
+  { label: "Kubernetes API servers", icon: <VscBrowser /> },
+  { label: "Kubernetes clusters", icon: <VscBrowser /> },
+  { label: "Kubernetes deployments", icon: <VscBrowser /> },
+  { label: "Kubernetes pods", icon: <VscBrowser /> },
+  { label: "Kubernetes statefulsets", icon: <VscBrowser /> },
+  // { label: "Azure" },
+  // { label: "Google Cloud Platform" },
+  // { label: "Open source monitoring" },
+  // { label: "Machine learning ops" },
+  // { label: "Notifications" },
+];
+
 const Category = (props: any) => {
   return (
     <div className="category" onClick={props.onClick}>
@@ -1325,7 +1362,7 @@ const AddData = (props: any) => {
         value={query}
         onChange={(q: string) => setQuery(q)}
       />
-      <ThirdNav title="Data Types" items={CATEGORIES} subdir="/add-data/" />
+      <ThirdNav title="Data Types" items={CATEGORIES} subdir="/add-data/" thirdNavState={props.thirdNavState} setThirdNavState={props.setThirdNavState}/>
 
       {/* <Plugins
         title="Installed"
@@ -1484,29 +1521,43 @@ const Explorer = (props: any) => {
   //   const [view, setTheView] = React.useState<string>("list");
   const history = useHistory();
   const location = useLocation();
-  const subtitle = props.subtitle || "Entities";
+  const [a, b, filter = "all", entity, view] = location.pathname.split("/");
+  // console.warn("PATH IS: " + location.pathname.split("/"));
 
-  const setView = (view: string) => {
+  const subtitles = {
+    apm: "APM",
+    opentelemetry: "Open Telemetry",
+    hosts: "Hosts",
+    containers: "Containers",
+    mobile: "Mobile",
+    browser: "Browser",
+    synthetics: "Synthetics"
+  } as any;
+  const subtitle = props.subtitle || subtitles[filter] || "All Entities";
+
+  const setView = (value: string) => {
     // setTheView(view);
-    history.push("/entities/" + view);
+    if (value === "list" || value === "navigator" || value === "lookout")
+      history.push("/entities/" + (filter || "all") + "/" + (entity || "") + "/" + value);
+    else
+      history.push("/entities/" + (filter || "all") + "/" + (value || "") + "/" + (view || "list"));
   };
 
-  const view = props.subtitle;
   if (
-    props.subtitle === "All Entities" ||
+    subtitle === "All Entities" ||
     view === "list" ||
     view === "navigator" ||
     view === "lookout" ||
     !view
   ) {
     return (
-      <Content className="has-third-nav">
-        <ThirdNav title="Entity Types" items={CATEGORIES} subdir="/entities/" />
+      <Content className={`has-third-nav${entity ? " has-fourth-nav" : ""}`}>
+        <ThirdNav title="Entity Types" items={ENTITY_TYPES} subdir="/entities/" thirdNavState={props.thirdNavState} setThirdNavState={props.setThirdNavState}/>
         {/* <ThirdNav items={NAV_EXPLORER} subdir="/explorer/" /> */}
         <Title
           className="compactX"
           buttonsX={[
-            <button className="primary round">Create a workload</button>,
+            <button className=" round">Save view</button>,
           ]}
         >
           {subtitle}
@@ -1526,10 +1577,10 @@ const Explorer = (props: any) => {
             className="flex-grow"
             placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
           />
-          <div className="filters" style={{ marginLeft: "10px" }}>
+          <div className="filters" style={{ marginLeft: "10px", flexShrink: 0 }}>
             <div className="group">
               <button
-                className={view === "list" ? "selected" : ""}
+                className={(!view || view === "list") ? "selected" : ""}
                 onClick={() => setView("list")}
               >
                 <VscListUnordered />
@@ -1558,8 +1609,8 @@ const Explorer = (props: any) => {
           >
             Save as view
           </button>
-          <button className="rounded primary" style={{ margin: "0 0 0 0" }}>
-            Create a workload
+          <button className="rounded flex-right" style={{ margin: "0 0 0 0", flexShrink: 0  }}>
+            Save view
           </button>
         </div>
         {view === "navigator" && (
@@ -1594,8 +1645,8 @@ const Explorer = (props: any) => {
             </div>
           </div>
         )}
-        {(view === "list" || props.subtitle === "All Entities") && (
-          <List setView={setView} />
+        {(view === "list" || !view) && (
+          <EntityList setView={setView} filter={filter} entity={entity}/>
         )}
         {view === "navigator" && <Navigator />}
       </Content>
@@ -1711,22 +1762,32 @@ const Star = (props: any) => {
   return <VscStarEmpty />;
 };
 
-const List = (props: any) => {
+const EntityDetail = (props: any) => {
+  return (<div className="detail-pane">
+        <div className="detail-body">
+          <div className="close-button" onClick={() => props.handleClick("")}><VscClose /></div>
+          <div className="entity-title">{props.entity}</div>
+        </div>
+       </div>);
+};
+
+const EntityList = (props: any) => {
   const handleClick = (view: string) => props.setView(view);
-  const history = useHistory();
+  const filter = props.filter || "all";
+  const entity = props.entity;
   return (
-    <>
-      <APMEntities handleClick={handleClick} />
-      <SubTitle></SubTitle>
-      <OpenTelemetryEntities handleClick={handleClick} />
-      <SubTitle></SubTitle>
-      <MobileEntities handleClick={handleClick} />
-      <SubTitle></SubTitle>
-      <HostsEntities handleClick={handleClick} />
+    <div style={{display: "flex"}}>
+    <div>
+      {(filter === "apm" || filter === "all") && <APMEntities noTitle={filter !== "all"} handleClick={handleClick} entity={entity} />}
+      {(filter === "opentelemetry" || filter === "all") && <OpenTelemetryEntities noTitle={filter !== "all"} handleClick={handleClick} entity={entity} />}
+      {(filter === "mobile" || filter === "all") && <MobileEntities noTitle={filter !== "all"} handleClick={handleClick} entity={entity} />}
+      {(filter === "hosts" || filter === "all") && <HostsEntities noTitle={filter !== "all"} handleClick={handleClick} entity={entity} />}
       <br />
       <br />
       <br />
-    </>
+    </div>
+      {entity && <EntityDetail handleClick={handleClick} filter={props.filter} entity={props.entity} />}
+    </div>
   );
 };
 
@@ -1877,6 +1938,13 @@ const Help = (props: any) => {
 };
 
 const APM = (props: any) => {
+  const history = useHistory();
+  const location = useLocation();
+  const [a, b, entity] = location.pathname.split("/");
+  const handleClick = (value: string) => {
+    // setTheView(view);
+      history.push("/apm/" + (value || ""));
+  };
   return (
     <Content>
       <Title>APM Services</Title>
@@ -1886,7 +1954,12 @@ const APM = (props: any) => {
         placeholder="Filter by name, type, tags... (e.g. entityType = Host)"
       />
       <div style={{ height: "10px" }} />
-      <APMEntities noTitle />
+    <div style={{display: "flex"}}>
+    <div>
+      <APMEntities noTitle handleClick={handleClick} entity={entity} />
+      </div>
+      {entity && <EntityDetail handleClick={handleClick} filter={""} entity={entity} />}
+      </div>
     </Content>
   );
 };
@@ -2279,7 +2352,7 @@ const NAV_APPLICATIONS = [
 ] as any[];
 
 const NAV_INFRASTRUCTURE = [
-  { label: "Hosts", icon: <VscServer /> },
+  { label: "Hosts", icon: <VscServer />, isDefault: true, subdir: "/infrastructure" },
   { label: "Containers", icon: <VscServer /> },
   { label: "Kubernetes", icon: <VscServer /> },
   { label: "NPM", icon: <VscServer /> },
@@ -2588,12 +2661,17 @@ export const ThirdNav = (props: {
   title?: string;
   items: any[];
   subdir?: string;
+  thirdNavState: string;
+  setThirdNavState: Function;
 }) => {
   //   return null;
+  const toggleThirdNav = () => {
+    props.setThirdNavState(props.thirdNavState === "open" ? "closed" : "open");
+  };
   return (
     <>
       <ul className="links thirdnav subnav">
-        <div className="hidebutton"></div>
+        <div className="hidebutton" onClick={toggleThirdNav}><VscChevronLeft /></div>
         {props.title && <li className="third-nav-title">{props.title}</li>}
         {props.items.map((item) => (
           <NavItem item={item} subdir={props.subdir} />
@@ -2636,7 +2714,7 @@ const NavItem = (props: any) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const label = item.label || item.title;
   if (label.startsWith("-")) {
-    return <div className="sep">{item.label.replace("-", "")}</div>;
+    return <div className="sep">{item.icon} {item.label.replace("-", "")}</div>;
   }
   const to =
     item.isDefault && props.subdir
@@ -2648,7 +2726,7 @@ const NavItem = (props: any) => {
             .replace(" ", "-")
             .replace(" ", "-")
             .replace("&", ""));
-  console.warn("TO IS: ", to);
+  // console.warn("TO IS: ", to);
 
   const unPin = () => {
     if (props.unPin) props.unPin(props.item);
@@ -2658,7 +2736,7 @@ const NavItem = (props: any) => {
     <li>
       <NavLink
         to={to}
-        exact={item.isDefault}
+        exact={item.isDefault && !item.noExact}
         activeClassName="active"
         onClick={(e) => {
           if (item.onClick) {
@@ -2675,7 +2753,7 @@ const NavItem = (props: any) => {
           if (item.noComment) props.setCommentsState("closed");
         }}
         className={
-          (props.className || item.className || "") + (item.isNew ? " new" : "")
+          (props.className || item.className || "") + (item.isNew ? " new" : "") + (item.hidden ? " hidden" : "")
         }
       >
         {item.icon} <span className="label">{item.labelDiv || item.label}</span>
@@ -2754,15 +2832,16 @@ const Nav = (props: any) => {
           props.setNavState(
             props.navState == "normal"
               ? "collapsed"
-              : props.navState == "collapsed"
-              ? "hidden"
+              // : props.navState == "collapsed"
+              // ? "hidden"
               : //   : props.navState == "hidden"
                 //   ? "horizontal"
                 "normal"
           )
         }
       >
-        <div className="logo">
+       <div className="logo">
+         <div className="hidebutton"><VscChevronLeft /></div>
           <svg
             width="95"
             height="27"
@@ -3303,6 +3382,7 @@ export default function App() {
   const [inviteState, setInviteState] = React.useState("closed");
   const [shareState, setShareState] = React.useState("closed");
   const [consoleState, setConsoleState] = React.useState("closed");
+  const [thirdNavState, setThirdNavState] = React.useState("open");
   const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
@@ -3353,23 +3433,39 @@ export default function App() {
 
     if (index > -1) {
       const newNav = [...nav];
-      newNav.splice(index, 1);
+      newNav.splice(index, 1, {...nav[index], isNew: false, hidden: true});
       setNav(newNav);
     }
   };
+
+//toggle pinned state
   const pin = (item: any) => {
     const index = nav.findIndex((i) => i.label === item.label);
 
     const newNav = [...nav];
     if (index > -1) {
-      newNav.splice(index, 1);
-      setNav(newNav);
-    } else setNav([...newNav, { ...item, isNew: true }]);
+      if (nav[index].hidden) {
+        newNav.splice(index, 1, { ...nav[index], isNew: true, hidden: false });
+        setNav(newNav);
+      }
+      else {
+        // item is visible
+        newNav.splice(index, 1, { ...nav[index], isNew: false, hidden: true });
+        setNav(newNav);
+      }
+    } else {
+      // newNav.forEach(item => {item.isNew = false});
+      // newNav.splice(3, 0, {...item, isNew: true, hidden: false});
+      // setNav(newNav);
+      setNav([...newNav, { ...item, isNew: true, hidden: false }]);
+    }
   };
+  
   const docs = () => {
     setHelpState("open");
   };
-  const [nav, setNav] = React.useState([
+  
+  const [nav, setNav] = React.useState<any[]>([
     //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
     {
       label: "Go To...",
@@ -3379,6 +3475,7 @@ export default function App() {
       openCommandPalette: true,
       keybinding: <Keybinding>K</Keybinding>,
       noEllipsis: true,
+      hidden: false,
     },
     {
       label: "Add Data",
@@ -3420,9 +3517,9 @@ export default function App() {
       label: "All Entities",
       menuTitle: "All Entities",
       subnav: [],
-
       url: "entities",
       icon: <VscGlobe />,
+      noExact: true,
       hover: "",
       //   hasThirdNav: true,
       //   subdir: "/entities/",
@@ -3452,7 +3549,6 @@ export default function App() {
       label: "Infrastructure",
       menuTitle: "Infrastructure",
       subnav: [],
-
       icon: <VscServer />,
     },
     {
@@ -3485,7 +3581,6 @@ export default function App() {
       label: "Synthetics",
       menuTitle: "Synthetics",
       subnav: [],
-
       icon: <VscGithubAction />,
       hasThirdNav: true,
       subdir: "/synthetics",
@@ -3507,6 +3602,24 @@ export default function App() {
     },
   ]);
 
+  const [dragging, setDragging] = React.useState(false);
+
+  const handleStart = () => {
+    setDragging(true);
+  };
+  const handleDrag = (e: any) => {
+    // console.warn("E IS: ", e);
+    const left = e.clientX;
+    const width = window.innerWidth;
+    const $detailPane = document.querySelector(".detail-pane");
+    const detailPaneWidth = width - left;
+    if ($detailPane) $detailPane.setAttribute("style", `width: ${detailPaneWidth}px`);
+
+  };
+  const handleStop = () => {
+    setDragging(false);
+  };
+
   return (
     <>
       {" "}
@@ -3526,7 +3639,7 @@ export default function App() {
       </Helmet>
       <Router>
         <div
-          className={`page ${navState} ${theme} console-${consoleState}`}
+          className={`page ${navState} ${theme} console-${consoleState} third-nav-${thirdNavState}${dragging ? " dragging" : ""}`}
           id="main-page"
           onClick={onClick}
           tabIndex={0}
@@ -3579,7 +3692,7 @@ export default function App() {
                   <GettingStarted />
                 </Route>
                 <Route path="/add-data">
-                  <AddData pin={pin} />
+                  <AddData pin={pin} thirdNavState={thirdNavState} setThirdNavState={setThirdNavState} />
                 </Route>
                 <Route exact path="/all-capabilities">
                   <AllCapabilities pin={pin} docs={docs} nav={nav} />
@@ -3588,7 +3701,7 @@ export default function App() {
                   <AddData />
                 </Route>
                 <Route path="/entities">
-                  <Explorer subtitle="All Entities" />
+                  <Explorer thirdNavState={thirdNavState} setThirdNavState={setThirdNavState} />
                 </Route>
                 <Route path="/explorer/logs">
                   <Explorer subtitle="Logs" />
@@ -3690,6 +3803,14 @@ export default function App() {
             </div>
           </div>
           <Console />
+          <Draggable
+            axis="x"
+            onStart={handleStart}
+            onDrag={handleDrag}
+            onStop={handleStop}
+          >
+            <div className="resize-details" />
+          </Draggable>
         </div>
       </Router>
     </>
