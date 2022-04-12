@@ -640,7 +640,7 @@ body {
   display: flex;
 }
 .links a .keybinding {
-  margin-left: auto;
+  margin-left: 10px;
   margin-top: -2px;
   margin-bottom: -2px;
   margin-right: -5px;
@@ -665,11 +665,26 @@ body {
   font-weight: bold;
   font-size: 10px;
   white-space: pre;
+  position: relative;
 }
 .links .sep svg {
   font-size: 14px;
-  margin-right: 5px;
-  vertical-align: -3px;
+  /* vertical-align: -3px; */
+  display: none;
+  margin-right: -8px;
+  float: right;
+  cursor: pointer;
+}
+.links .sep:hover svg {
+  display: inline-block;
+}
+.third-nav-closed .links .sep label {
+  display: none;
+}
+.third-nav-closed .links .sep svg {
+  float: left;
+  display: inline-block;
+  margin-right: 10px;
 }
 .horizontal .links .sep {
   display: none;

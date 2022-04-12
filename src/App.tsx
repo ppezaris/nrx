@@ -244,8 +244,8 @@ const APMEntities = (props: any) => {
           <td>-</td>
           <td>-</td>
           <td>36.14ms</td>
-          <td>4</td>
-          <td>3%</td>
+          <td>9</td>
+          <td>3.2%</td>
           <td>
             <VscEllipsis />
           </td>
@@ -261,9 +261,9 @@ const APMEntities = (props: any) => {
           <td>New Relic</td>
           <td>-</td>
           <td>-</td>
-          <td>36.14ms</td>
-          <td>4</td>
-          <td>4%</td>
+          <td>22.46ms</td>
+          <td>34</td>
+          <td>4.3%</td>
           <td>
             <VscEllipsis />
           </td>
@@ -279,8 +279,8 @@ const APMEntities = (props: any) => {
           <td>New Relic</td>
           <td>-</td>
           <td>-</td>
-          <td>36.14ms</td>
-          <td>4</td>
+          <td>87.33ms</td>
+          <td>1</td>
           <td>2.3%</td>
           <td>
             <VscEllipsis />
@@ -297,8 +297,8 @@ const APMEntities = (props: any) => {
           <td>New Relic</td>
           <td>-</td>
           <td>-</td>
-          <td>36.14ms</td>
-          <td>4</td>
+          <td>48.38ms</td>
+          <td>6</td>
           <td>7.1%</td>
           <td>
             <VscEllipsis />
@@ -315,9 +315,9 @@ const APMEntities = (props: any) => {
           <td>New Relic</td>
           <td>-</td>
           <td>-</td>
-          <td>36.14ms</td>
+          <td>98.11ms</td>
           <td>4</td>
-          <td>5%</td>
+          <td>5.7%</td>
           <td>
             <VscEllipsis />
           </td>
@@ -2918,7 +2918,7 @@ const NavItem = (props: any) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const label = item.label || item.title;
   if (label.startsWith("-")) {
-    return <div className="sep">{item.icon} {item.label.replace("-", "")}</div>;
+    return <div className="sep">{item.icon} <label>{item.label.replace("-", "")}</label></div>;
   }
   const to =
     item.isDefault && props.subdir
@@ -3677,7 +3677,7 @@ export default function App() {
       subnav: NAV_SEARCH,
       menuTitle: "Go To...",
       openCommandPalette: true,
-      keybinding: <Keybinding>K</Keybinding>,
+      keybinding: <div style={{display: "flex"}}><Keybinding>⌘</Keybinding><Keybinding>K</Keybinding></div>,
       noEllipsis: true,
       hidden: false,
     },
