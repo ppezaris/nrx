@@ -1247,7 +1247,7 @@ const CATEGORIES = [
 const ENTITY_TYPES = [
   { label: "All", subdir: "/entities/all", noExact: true, icon: <MdGridView /> },
   { label: "-Your System", icon: <VscChevronDown />},
-  { label: "APM", icon: <VscGraphLine /> },
+  { label: "APM", icon: <VscGraphLine />, menuTitle: "APM", subnav: [], },
   { label: "OpenTelemetry", icon: <VscGraphLine /> },
   { label: "Hosts", icon: <VscServer /> },
   { label: "Containers", icon: <VscServer /> },
@@ -2089,7 +2089,7 @@ const ErrorsInbox = (props: any) => {
 const Me = (props: any) => {
   return (
     <Content>
-      <Title>Peter Pezaris</Title>
+      <Title>Jane Doe</Title>
       <div onClick={props.toggleTheme}>Theme</div>
       <br />
       {/* Show NRQL Console{" "}
@@ -2835,7 +2835,7 @@ const QueryBuilder = (props: any) => {
 const NAV_BOTTOM: any[] = [
   { label: "Invite", icon: <FiUserPlus /> },
   {
-    label: "Peter Pezaris",
+    label: "Jane Doe",
     icon: <img className="svg" src="https://i.imgur.com/jSrZwhT.jpg" />,
     url: "me",
     // subnav: NAV_FEEDBACK,
@@ -2878,7 +2878,7 @@ export const ThirdNav = (props: {
         <div className="hidebutton" onClick={toggleThirdNav}><VscChevronLeft /></div>
         {props.title && <li className="third-nav-title">{props.title}</li>}
         {props.items.map((item) => (
-          <NavItem item={item} subdir={props.subdir} />
+          <NavItem item={item} subdir={props.subdir} thirdNavState={props.thirdNavState} />
         ))}
       </ul>
     </>
@@ -2891,8 +2891,8 @@ export const Menu = (props: {
   subdir?: string;
   keybinding?: any;
 }) => {
-  if (!props.items) return null;
-  const count = props.items.length;
+  const items = props.items || [];
+  const count = items.length;
   return (
     <ul
       className={`${
@@ -2905,7 +2905,7 @@ export const Menu = (props: {
           <span style={{ marginLeft: "auto" }}> {props.keybinding}</span>
         </div>
       </li>
-      {props.items.map((item) => (
+      {items.map((item) => (
         <NavItem item={item} subdir={props.subdir} />
       ))}
     </ul>
@@ -2992,7 +2992,17 @@ const NavItem = (props: any) => {
         )}
         {item.badge && item.badge}
         {item.extra && item.extra}
-        {props.navState !== "normal" && item.menuTitle && (
+        {props.navState !== "normal" && props.topLevel && (
+          <span className={"hover"}>
+            <Menu
+              label={item.menuTitle || item.label}
+              keybinding={item.keybinding}
+              items={item.subnav}
+              subdir={item.subdir}
+            />
+          </span>
+        )}
+        {props.thirdNavState !== "open" && !props.topLevel && (
           <span className={"hover"}>
             <Menu
               label={item.menuTitle || item.label}
@@ -3151,8 +3161,10 @@ const Nav = (props: any) => {
           {NAV_BOTTOM.map((item) => (
             <NavItem
               item={item}
+              topLevel
               setCommentsState={props.setCommentsState}
               commentsState={props.commentsState}
+              navState={props.navState}
               noEllipsis
             />
           ))}

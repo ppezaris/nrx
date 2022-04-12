@@ -317,8 +317,9 @@ body {
 .links a.new {
   animation: highlight-fade 0.5s ease 1;
 }
+.third-nav-closed .links.subnav > li > a,
 .collapsed .links:not(.subnav) > li > a {
-  padding: 5px 10px;
+    padding: 5px 10px;
 }
 .xhorizontal .links:not(.subnav) > li > a {
   padding: 5px 8px 5px 8px;
@@ -334,6 +335,12 @@ body {
 }
 .links a.active:hover {
   background: var(--selected-nav-link) !important;
+}
+.collapsed .links > li > a.active:hover {
+  background: var(--menu-bg) !important;
+}
+.third-nav-closed .links > li > a.active:hover {
+  background: var(--menu-bg) !important;
 }
 /* .normal .links a:hover .submenu a {
   background: var(--nav-bg) !important;
@@ -363,8 +370,9 @@ body {
 .xhorizontal .thirdnav.has-shadow {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
+.third-nav-closed .links.subnav > li > a,
 .collapsed .links:not(.subnav) > li > a {
-  width: 12px;
+    width: 12px;
 }
 .links a svg {
   font-size: 14px !important;
@@ -772,10 +780,10 @@ body {
 .xhorizontal .bottom .links a .hover {
   border-radius: 4px 4px 4px 0;
 }
-.bottom .links {
+.xbottom .links {
   margin-top: 0;
 }
-.bottom .links a .hover {
+.xbottom .links a .hover {
   top: auto;
   bottom: -4px;
 }
@@ -783,6 +791,10 @@ body {
   bottom: 24px;
 }
 .collapsed .links a .hover {
+  top: 0px;
+  left: 37px;
+}
+.third-nav-closed .links a .hover {
   top: 0px;
   left: 37px;
 }
@@ -2493,10 +2505,10 @@ img.svg {
 }
 .third-nav-closed .thirdnav {
   width: 32px !important;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .third-nav-closed .thirdnav label {
-  width: 32px !important;
+  /* width: 32px !important; */
 }
 
 .hidebutton {
