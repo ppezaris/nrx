@@ -1246,20 +1246,20 @@ const CATEGORIES = [
 
 const ENTITY_TYPES = [
   { label: "All", subdir: "/entities/all", noExact: true, icon: <MdGridView /> },
-  { label: "-Your System", icon: <VscChevronDown />},
+  { label: "-Your System", icon: <VscChevronUp />},
   { label: "APM", icon: <VscGraphLine />, menuTitle: "APM", subnav: [], },
   { label: "OpenTelemetry", icon: <VscGraphLine /> },
   { label: "Hosts", icon: <VscServer /> },
   { label: "Containers", icon: <VscServer /> },
   { label: "Mobile", icon: <VscDeviceMobile /> },
   { label: "Browser", icon: <VscBrowser /> },
-  { label: "-Other entities", icon: <VscChevronDown /> },
+  { label: "-Other entities", icon: <VscChevronUp /> },
   { label: "Fastly datacenters", icon: <VscBrowser /> },
   { label: "Redis clusters", icon: <VscBrowser /> },
-  { label: "-Synthetics", icon: <VscChevronDown /> },
+  { label: "-Synthetics", icon: <VscChevronUp /> },
   { label: "Private locations", icon: <VscBrowser /> },
   { label: "Secure credentials", icon: <VscBrowser /> },
-  { label: "-Kubernetes", icon: <VscChevronDown /> },
+  { label: "-Kubernetes", icon: <VscChevronUp /> },
   { label: "Kubernetes API servers", icon: <VscBrowser /> },
   { label: "Kubernetes clusters", icon: <VscBrowser /> },
   { label: "Kubernetes deployments", icon: <VscBrowser /> },
@@ -2901,7 +2901,7 @@ export const Menu = (props: {
     >
       <li className="menu-title">
         <div style={{ display: "flex" }}>
-          <label style={{ marginRight: "20px" }}>{props.label}</label>
+          <label style={{ marginRight: "10px" }}>{props.label}</label>
           <span style={{ marginLeft: "auto" }}> {props.keybinding}</span>
         </div>
       </li>
@@ -3698,6 +3698,7 @@ export default function App() {
       menuTitle: "Add Data",
       subnav: [],
       icon: <VscAdd />,
+      keybinding: <Keybinding>A</Keybinding>,
       noEllipsis: true,
     },
     {
