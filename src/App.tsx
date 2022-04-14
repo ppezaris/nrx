@@ -2160,7 +2160,7 @@ const Tabgroup = (props: any) => {
   return (
     <ul className="tabs">
       {props.items.map((item: any) => (
-        <NavItem noEllipsis className="tab" item={item} subdir={props.subdir} />
+        <NavItem noEllipsis noMenuTitle className="tab" item={item} subdir={props.subdir} />
       ))}
     </ul>
   );
@@ -3002,7 +3002,7 @@ const NavItem = (props: any) => {
             />
           </span>
         )}
-        {props.thirdNavState !== "open" && !props.topLevel && (
+        {props.thirdNavState !== "open" && !props.topLevel && !props.noMenuTitle && (
           <span className={"hover"}>
             <Menu
               label={item.menuTitle || item.label}

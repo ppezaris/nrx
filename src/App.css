@@ -1445,15 +1445,19 @@ button.disabled {
   width: 1px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 1);
 }
+.third-nav-open .resize-details {
+  display: block;
+}
 .resize-details {
   position: absolute;
   right: 496px;
   top: 0;
   bottom: 0;
   width: 4px;
-  cursor: move;
+  cursor: col-resize;
   transition: background-color 0.15s;
   z-index: 60;
+  display: none;
 }
 .resize-details:hover {
   background: var(--link-bg);
