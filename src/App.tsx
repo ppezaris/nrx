@@ -1229,19 +1229,19 @@ const PLUGINS = {
 };
 
 const CATEGORIES = [
-  { label: "All", isDefault: true },
-  { label: "Application monitoring" },
-  { label: "Infrastructure & OS" },
-  { label: "Browser & mobile" },
-  { label: "Simulate Traffic" },
-  { label: "Logging" },
-  { label: "Kubernetes & Containers" },
-  { label: "Amazon Web Services" },
-  { label: "Azure" },
-  { label: "Google Cloud Platform" },
-  { label: "Open source monitoring" },
-  { label: "Machine learning ops" },
-  { label: "Notifications" },
+  { label: "All", isDefault: true, icon: <MdGridView /> },
+  { label: "Application monitoring", icon: <VscGraphLine /> },
+  { label: "Infrastructure & OS", icon: <VscServer /> },
+  { label: "Browser & mobile", icon: <VscBrowser /> },
+  { label: "Simulate Traffic", icon: <VscGithubAction /> },
+  { label: "Logging", icon: <VscListFlat /> },
+  { label: "Kubernetes & containers", icon: <VscServer /> },
+  { label: "Amazon Web Services", icon: <img src="https://mti.com/wp-content/uploads/2021/04/Amazon-Web-Services-Logo-White.png" />, },
+  { label: "Azure", icon: <img src="https://swimburger.net/media/fbqnp2ie/azure.svg" /> },
+  { label: "Google Cloud Platform", icon: <img src="https://seeklogo.com/images/G/google-cloud-logo-ADE788217F-seeklogo.com.png" /> },
+  { label: "Open source monitoring", icon: <img src="https://cncf-branding.netlify.app/img/projects/opentelemetry/icon/white/opentelemetry-icon-white.png" /> },
+  { label: "ML models", icon: <img src="https://www.pinclipart.com/picdir/big/382-3829642_machine-learning-lernen-icon-clipart.png" /> },
+  // { label: "Notifications" },
 ];
 
 const ENTITY_TYPES = [
