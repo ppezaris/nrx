@@ -239,7 +239,7 @@ body {
 .hidden .thirdnav {
   /* display: none; */
 }
-@keyframes highlight-fade {
+@keyframes slide-in {
   0% {
     height: 0px;
     padding-top: 0;
@@ -262,11 +262,6 @@ body {
     /* background: transparent; */
   }
 }
-
-.highlight-pulse {
-  animation: highlight-fade 1.25s ease 1;
-}
-
 @keyframes slide-out {
   0% {
     height: 14.5px;
@@ -315,7 +310,7 @@ body {
   height: 14.5px;
 }
 .links a.new {
-  animation: highlight-fade 0.5s ease 1;
+  animation: slide-in 0.5s ease 1;
 }
 .third-nav-closed .links.subnav > li > a,
 .collapsed .links:not(.subnav) > li > a {
@@ -2126,7 +2121,7 @@ input[type="search"] {
   position: absolute;
   left: 10px;
   top: 5px;
-  z-index: 5;
+  z-index: 4;
 }
 .search-description {
   width: 40%;
@@ -2479,7 +2474,7 @@ a.tab {
   font-size: 10px;
   left: calc(var(--nav-width) + 60px);
   z-index: 500;
-  margin-top: -5px;
+  margin-top: 0px;
   color: var(--fg-3);
   margin-bottom: 8px;
   /* display: none; */
@@ -2652,7 +2647,7 @@ img.svg {
   padding: 2px 8px;
   border-radius: 4px;
   margin-left: 0px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 10px;
   font-size: 12px;
   color: var(--fg-4);

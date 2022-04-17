@@ -18,6 +18,7 @@ import {
   VscDeviceMobile,
   VscEllipsis,
   VscBrowser,
+  VscTerminal,
   VscCompass,
   VscWarning,
   VscComment,
@@ -3051,13 +3052,6 @@ const QueryBuilder = (props: any) => {
 };
 
 const NAV_BOTTOM: any[] = [
-  {
-    label: "Getting Started",
-    menuTitle: "Getting Started",
-    icon: <div className="donut" />,
-    keybinding: <Keybinding>G</Keybinding>,
-    noUnpin: true,
-  },
   { label: "Invite", icon: <FiUserPlus /> },
   {
     label: "Jane Doe",
@@ -3630,7 +3624,7 @@ const Header = (props: any) => {
         }}
       >
         <label>
-          <VscChevronRight
+          <VscTerminal
             style={{ verticalAlign: "-2px" }}
             title="Query console"
           />
@@ -4061,6 +4055,13 @@ export default function App() {
       icon: <VscCommentDiscussion />,
       badge: <Badge>3</Badge>,
       noComment: true,
+    },
+    {
+      label: "Getting Started",
+      menuTitle: "Getting Started",
+      icon: <div className="donut" />,
+      keybinding: <Keybinding>G</Keybinding>,
+      noUnpin: true,
     },
   ]);
 
