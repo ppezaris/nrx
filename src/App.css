@@ -1605,11 +1605,10 @@ button.disabled {
 .new-line div {
   top: -5px;
   position: absolute;
-  background: #f8f8f8;
   white-space: nowrap;
   /* color: #017c86; */
-  color: var(--fg-3);
-  background: var(--comments-bg);
+  color: var(--fg-4);
+  background: var(--content-bg);
   padding: 0 8px;
   left: 40%;
 }
@@ -1622,11 +1621,10 @@ button.disabled {
 .date-line div {
   top: -5px;
   position: absolute;
-  background: #f8f8f8;
   white-space: nowrap;
   color: #999;
-  color: var(--fg-3);
-  background: var(--comments-bg);
+  color: var(--fg-4);
+  background: var(--content-bg);
   padding: 0 8px;
   left: 30%;
 }
@@ -2349,7 +2347,7 @@ input[type="search"] {
   height: 100%;
 }
 .left-col {
-  width: 200px;
+  width: 160px;
 }
 .center-col {
   padding-left: 10px;
@@ -2373,6 +2371,7 @@ input[type="search"] {
 }
 .box li:hover {
   background: var(--selected-bg);
+  color: var(--fg-0);
 }
 .box li.active {
   background: var(--selected-nav-link);

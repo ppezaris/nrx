@@ -2256,6 +2256,23 @@ const ErrorsInbox = (props: any) => {
   );
 };
 
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const Generic = (props: any) => {
+  const location = useLocation();
+  const [a, path] = location.pathname.split("/");
+
+  const title = capitalizeFirstLetter(path);
+  return (
+    <Content>
+      <Title>{title}</Title>
+      <div className="placeholder">{title} goes here</div>
+    </Content>
+  );
+};
+
 const Me = (props: any) => {
   return (
     <Content>
@@ -2450,20 +2467,25 @@ const Mobile = (props: any) => {
 };
 
 const NAV_ALERTS = [
-  { label: "Overview", isDefault: true, subdir: "/ai--alerts" },
-  { label: "Issues" },
-  { label: "Incidents" },
-  { label: "Events" },
-  { label: "Policies" },
-  { label: "Notifications" },
-  { label: "Muting" },
-  { label: "Settings" },
-  { label: "Decisions" },
-  { label: "Sources" },
-  { label: "Destinations" },
-  { label: "Pathways" },
-  //   { label: "System settings" },
-  { label: "Workflows" },
+  {
+    label: "Overview",
+    isDefault: true,
+    subdir: "/ai--alerts",
+    icon: <VscWarning />,
+  },
+  { label: "Issues", icon: <VscWarning /> },
+  { label: "Incidents", icon: <VscWarning /> },
+  { label: "Events", icon: <VscWarning /> },
+  { label: "Policies", icon: <VscWarning /> },
+  { label: "Notifications", icon: <VscWarning /> },
+  { label: "Muting", icon: <VscWarning /> },
+  { label: "Settings", icon: <VscWarning /> },
+  { label: "Decisions", icon: <VscWarning /> },
+  { label: "Sources", icon: <VscWarning /> },
+  { label: "Destinations", icon: <VscWarning /> },
+  { label: "Pathways", icon: <VscWarning /> },
+  //   { label: "System settings", icon: <VscWarning /> },
+  { label: "Workflows", icon: <VscWarning /> },
 ];
 
 const Alerts = (props: any) => {
@@ -2654,9 +2676,9 @@ const NAV_MORE = [
     ),
   },
   { label: "Key Transactions" },
-  { label: "Kubernetes" },
+  { label: "Kubernetes", icon: <VscServer /> },
   { label: "Legacy custom dashboards", icon: <VscDashboard /> },
-  { label: "Lookout" },
+  { label: "Lookout", icon: <MdOutlineBubbleChart /> },
   {
     label: "Manage Insights data",
     labelDiv: (
@@ -3011,7 +3033,6 @@ const CAPABILITIES = [
   ...NAV,
   ...NAV_LOGS,
   ...NAV_ALERTS,
-  ...NAV_INBOX,
   ...NAV_MORE,
   ...NAV_INFRASTRUCTURE,
 ];
@@ -4251,6 +4272,9 @@ export default function App() {
                 </Route>
                 <Route path="/entity">
                   <Entity />
+                </Route>
+                <Route path="/">
+                  <Generic />
                 </Route>
               </Switch>
             </div>
