@@ -1225,7 +1225,7 @@ tr.active td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 50%;
+  width: 47.5%;
   text-align: left;
 }
 .explorer td:nth-of-type(3) {
@@ -2698,6 +2698,7 @@ img.svg {
   margin-bottom: 10px;
   font-size: 13px;
   color: var(--fg-4);
+  cursor: pointer;
 }
 .metadata svg {
   margin-right: 3px;

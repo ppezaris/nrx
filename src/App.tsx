@@ -220,6 +220,7 @@ const APMEntities = (props: any) => {
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
           <td colSpan={2} className="table-title">
@@ -235,7 +236,6 @@ const APMEntities = (props: any) => {
           <td>Response</td>
           <td>Throughput</td>
           <td>Errors</td>
-          <td></td>
           <td></td>
         </tr>
       </thead>
@@ -537,6 +537,7 @@ const OpenTelemetryEntities = (props: any) => {
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
           <td colSpan={2} className="table-title">
@@ -584,6 +585,7 @@ const MobileEntities = (props: any) => {
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
           <td colSpan={2} className="table-title">
@@ -599,7 +601,6 @@ const MobileEntities = (props: any) => {
           <td>Response</td>
           <td>Throughput</td>
           <td>Errors</td>
-          <td></td>
           <td></td>
         </tr>
       </thead>
@@ -631,6 +632,7 @@ const BrowserEntities = (props: any) => {
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
           <td colSpan={2} className="table-title">
@@ -646,7 +648,6 @@ const BrowserEntities = (props: any) => {
           <td>Response</td>
           <td>Throughput</td>
           <td>Errors</td>
-          <td></td>
           <td></td>
         </tr>
       </thead>
@@ -672,6 +673,7 @@ const HostsEntities = (props: any) => {
     <table className="messages explorer">
       <thead>
         <tr className="no-border">
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
