@@ -2014,6 +2014,23 @@ const Entity = (props: any) => {
         <div className="vsep" />
         <VscTag /> 21
       </div>
+      {/* <div
+        className="filters"
+        style={{
+          margin: "15px 0 10px 0",
+          opacity: "0.6",
+        }}
+      >
+        <div className="group">
+          <button>Terraform Provider Acceptance Testing</button>
+          <button>
+            <VscTag /> 7
+          </button>
+          <button>
+            <VscTag /> 21
+          </button>
+        </div>
+      </div> */}
       <div className="three-col">
         <div className="left-col">
           <div className="box">
@@ -2159,16 +2176,16 @@ const EntityList = (props: any) => {
             entity={entity}
           />
         )}
-        {(filter === "mobile" || filter === "all") && (
-          <MobileEntities
+        {(filter === "hosts" || filter === "all") && (
+          <HostsEntities
             noTitle={filter !== "all"}
             handleClick={handleClick}
             activeEntities={activeEntities}
             entity={entity}
           />
         )}
-        {(filter === "hosts" || filter === "all") && (
-          <HostsEntities
+        {(filter === "mobile" || filter === "all") && (
+          <MobileEntities
             noTitle={filter !== "all"}
             handleClick={handleClick}
             activeEntities={activeEntities}
@@ -4303,6 +4320,9 @@ export default function App() {
                 </Route>
                 <Route path="/mobile/entity">
                   <Entity breadcrumb="Mobile" />
+                </Route>
+                <Route path="/opentelemetry/entity">
+                  <Entity breadcrumb="OpenTelemetry" />
                 </Route>
                 <Route path="/infrastructure/entity">
                   <Entity breadcrumb="Infrastructure" />

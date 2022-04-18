@@ -1330,9 +1330,10 @@ button.round,
   background: var(--button-bg);
   color: var(--fg-3);
   border: none;
-  border-right: 1px solid var(--border);
   /* box-shadow: 0 -1px 0px var(--shadow-top); */
   box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
+}
+.filters button + button {
 }
 button:hover {
   color: var(--fg-1) !important;
@@ -1386,13 +1387,13 @@ button.round {
 .group button + button {
   border-radius: 0;
   margin-right: 0 !important;
-  border-left: none;
+  border-left: 1px solid #555;
 }
 .group button:first-of-type {
   border-radius: 14px 0 0 14px;
 }
 .group button:last-of-type {
-  border-left: none;
+  /* border-left: none; */
   border-radius: 0 14px 14px 0;
 }
 .filters button.right {
@@ -2019,6 +2020,7 @@ button.disabled {
 .step .active::before {
   content: "\2B22";
   color: #0e74df;
+  /* color: #555; */
   font-size: 55px;
   position: absolute;
   top: -9px;
@@ -2687,14 +2689,14 @@ img.svg {
 }
 .metadata {
   display: inline-flex;
-  background: var(--bg-0-5);
-  border: 1px solid var(--border);
-  padding: 2px 8px;
-  border-radius: 4px;
+  /* background: var(--bg-0-5); */
+  /* border: 1px solid var(--bg-3); */
+  /* padding: 2px 8px; */
+  /* border-radius: 4px; */
   margin-left: 0px;
   margin-top: 15px;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--fg-4);
 }
 .metadata svg {
@@ -2703,7 +2705,7 @@ img.svg {
 .metadata .vsep {
   height: 17px;
   width: 1px;
-  background: var(--border);
+  background: var(--bg-3);
   margin: -2px 8px;
 }
 .level {
@@ -2739,7 +2741,7 @@ img.svg {
 .three-col-step {
   margin: 0 20px;
   display: flex;
-  font-size: 15px;
+  font-size: 14px;
   text-align: left;
 }
 .three-col-step > div {
