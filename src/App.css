@@ -1137,6 +1137,9 @@ button.rounded.active {
   text-align: left !important;
   padding-left: 20px !important;
 }
+.messages .table-title svg {
+  margin-right: 0px;
+}
 .messages td:nth-of-type(1) {
   width: 40px;
   padding-left: 20px;
@@ -1185,14 +1188,45 @@ tr.active td {
 .explorer td {
 }
 .explorer td:nth-of-type(1) {
-  padding-left: 20px;
-  padding-right: 8px;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 20px;
+}
+.checkbox {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--fg-4);
+  border-radius: 3px;
+  position: relative;
+}
+.checkbox.active {
+  background: var(--fg-3);
+}
+.checkbox.active::before {
+  content: "✓";
+  position: absolute;
+  top: -2px;
+  left: 0px;
+  color: black;
+}
+.explorer td:nth-of-type(1) .checkbox {
+  display: none;
+  margin: 0 0 0 5px;
+  vertical-align: -1px;
+}
+.explorer tr:hover td:nth-of-type(1) .checkbox,
+.explorer td:nth-of-type(1) .checkbox.active {
+  display: inline-block;
+}
+.explorer td:nth-of-type(2) .square {
+  vertical-align: 0px;
 }
 .explorer td:nth-of-type(2) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 44%;
+  width: 50%;
+  text-align: left;
 }
 .explorer td:nth-of-type(3) {
   width: 8%;
@@ -1211,6 +1245,9 @@ tr.active td {
 }
 .explorer td:nth-of-type(8) {
   width: 5%;
+}
+.explorer td svg {
+  margin-right: 10px;
 }
 .dashboards td {
 }
@@ -1703,6 +1740,11 @@ button.disabled {
   display: flex;
   gap: 10px;
 }
+.getting-started {
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
+}
 .plugins,
 .capabilities {
   display: grid;
@@ -1823,8 +1865,11 @@ button.disabled {
   cursor: pointer;
   transition: all 0.15s;
 }
+.step {
+  box-shadow: none;
+}
 .step .active {
-  width: 70vw;
+  width: 50vw;
   aspect-ratio: 16 / 9;
   position: fixed;
   top: 50%;
@@ -1835,7 +1880,7 @@ button.disabled {
   background: var(--popup-bg);
   border-radius: 5px;
 }
-.step .active button.primary {
+.step .active .buttons {
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -1858,7 +1903,7 @@ button.disabled {
 }
 .active .step-body {
   position: absolute;
-  top: 45%;
+  top: 25%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -1908,10 +1953,10 @@ button.disabled {
 /* .plugin:hover, */
 .category:hover {
   /* background: #f0f0f0; */
-  background: var(--selected-bg);
+  background: var(--selected-bg) !important;
   /* transform: scale(1.1); */
-  box-shadow: 0 -1px 0px var(--shadow-top-selected),
-    0 2px 0px var(--shadow-bottom-selected);
+  /* box-shadow: 0 -1px 0px var(--shadow-top-selected), */
+  /* 0 2px 0px var(--shadow-bottom-selected); */
 }
 .plugin-body {
   text-overflow: ellipsis;
@@ -2660,4 +2705,52 @@ img.svg {
   width: 1px;
   background: var(--border);
   margin: -2px 8px;
+}
+.level {
+  display: inline-block;
+  margin-left: 10px;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
+.level.blue {
+  background: rgba(14, 116, 223, 0.5) !important;
+}
+.level.green {
+  background: rgba(51, 153, 51, 0.5) !important;
+}
+.level.red {
+  background: rgba(223, 51, 14, 0.5) !important;
+}
+.explanation {
+  margin: -5px 0 10px 0;
+  color: var(--fg-4);
+  display: none;
+}
+.green-tint .step {
+  border-top: 4px solid rgba(51, 153, 51, 0.5);
+}
+.red-tint .step {
+  border-top: 4px solid rgba(223, 51, 14, 0.5);
+}
+.step.blue-tint {
+  border-top: 4px solid rgba(14, 116, 223, 0.5);
+}
+.three-col-step {
+  margin: 0 20px;
+  display: flex;
+  font-size: 15px;
+  text-align: left;
+}
+.three-col-step > div {
+  flex-basis: 33%;
+  padding: 0 20px;
+}
+.close-step {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 35px;
+  color: var(--fg-2);
 }
