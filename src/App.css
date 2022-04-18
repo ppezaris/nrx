@@ -1225,7 +1225,7 @@ tr.active td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 47.5%;
+  width: 48%;
   text-align: left;
 }
 .explorer td:nth-of-type(3) {
