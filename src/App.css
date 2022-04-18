@@ -2757,3 +2757,9 @@ img.svg {
   font-size: 35px;
   color: var(--fg-2);
 }
+.box .links {
+  font-size: 13px;
+}
+.box .links ul {
+  font-size: 0.9em;
+}

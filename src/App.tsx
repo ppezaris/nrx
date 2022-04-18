@@ -1932,6 +1932,7 @@ const Explorer = (props: any) => {
 
 const ENTITY_MENU = [
   { label: "Summary" },
+  { label: "All Capabilities" },
   { label: "-Monitor", icon: <VscChevronDown /> },
   { label: "Distributed tracing" },
   { label: "Service Map" },
