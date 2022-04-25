@@ -1109,9 +1109,9 @@ button.rounded.active {
 .unread-mention {
   color: #0e74df;
   font-size: 20px;
-  position: absolute;
-  left: 9px;
-  top: 8px;
+  /* position: absolute; */
+  /* left: 29px; */
+  /* top: 8px; */
 }
 .messages thead tr.noheight {
   height: 0;

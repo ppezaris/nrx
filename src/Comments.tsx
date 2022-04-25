@@ -49,9 +49,11 @@ const TITLES = {
   "/nrx/logs": "Logs",
   "/nrx/synthetics": "Synthetics",
   "/nrx/messages": "Messages",
+  "/infrastructure/entity/pd-mailin-10-101-0-230.codestream.us":
+    "pd-mailin-10-101-0-230.codestream.us",
 };
 
-const COMMENTS = {
+let COMMENTS = {
   mobile: [
     {
       pinned: true,
@@ -227,7 +229,11 @@ const COMMENTS = {
       body: <>This is the same problem as the last time we checked it</>,
     },
   ],
-};
+} as any;
+
+COMMENTS["infrastructure/entity/pd-mailin-10-101-0-230.codestream.us"] = [
+  ...COMMENTS.mobile,
+];
 
 export const Comment = (props: any) => {
   let className = props.pinned ? "pinned" : props.reply ? "reply" : "";

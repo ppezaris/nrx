@@ -2360,6 +2360,13 @@ const Generic = (props: any) => {
   );
 };
 
+const Blank = (props: any) => {
+  const location = useLocation();
+  const [a, path] = location.pathname.split("/");
+
+  return <Content></Content>;
+};
+
 const Me = (props: any) => {
   return (
     <Content>
@@ -3605,6 +3612,8 @@ const Header = (props: any) => {
     ? "apm"
     : pathname.endsWith("mobile")
     ? "mobile"
+    : pathname.endsWith("pd-mailin-10-101-0-230.codestream.us")
+    ? "infrastructure/entity/pd-mailin-10-101-0-230.codestream.us"
     : "";
 
   const threadState =
@@ -3858,6 +3867,10 @@ const Header = (props: any) => {
         ) : location.pathname.endsWith("apm") ? (
           <Badge className={color}>6</Badge>
         ) : location.pathname.endsWith("mobile") ? (
+          <Badge className={color}>4</Badge>
+        ) : location.pathname.endsWith(
+            "pd-mailin-10-101-0-230.codestream.us"
+          ) ? (
           <Badge className={color}>4</Badge>
         ) : (
           <FiMessageSquare style={{ verticalAlign: "-2px" }} />
@@ -4224,13 +4237,13 @@ export default function App() {
       badge: <Badge>3</Badge>,
       noComment: true,
     },
-    {
-      label: "Getting Started",
-      menuTitle: "Getting Started",
-      icon: <div className="donut" />,
-      keybinding: <Keybinding>G</Keybinding>,
-      noUnpin: true,
-    },
+    // {
+    //   label: "Getting Started",
+    //   menuTitle: "Getting Started",
+    //   icon: <div className="donut" />,
+    //   keybinding: <Keybinding>G</Keybinding>,
+    //   noUnpin: true,
+    // },
   ]);
 
   const [dragging, setDragging] = React.useState(false);
@@ -4456,6 +4469,9 @@ export default function App() {
                 </Route>
                 <Route path="/me">
                   <Me toggleTheme={toggleTheme} theme={theme} />
+                </Route>
+                <Route path="/blank">
+                  <Blank />
                 </Route>
                 <Route path="/">
                   <Generic />

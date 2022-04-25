@@ -15,7 +15,7 @@ export const Messages = (props: any) => {
   const history = useHistory();
 
   function handleClick() {
-    history.push("/browse-data");
+    history.push("/infrastructure/entity/pd-mailin-10-101-0-230.codestream.us");
     props.setCommentsState("open");
   }
   function handleClick2() {
@@ -103,7 +103,7 @@ export const Messages = (props: any) => {
               <td>
                 <Unread />
               </td>
-              <td>Bill Staples</td>
+              <td>Lew Cirne</td>
               <td>
                 Hosts / <Square color="green" />
                 pd-mailin-10-101-0-230.codestream.us
@@ -152,7 +152,7 @@ export const Messages = (props: any) => {
               <td>
                 <Unread />
               </td>
-              <td>Lew Cirne</td>
+              <td>Bill Staples</td>
               <td>
                 API Gateway APIs / <Square color="green" />
                 demotronLoggin_gateway_api
