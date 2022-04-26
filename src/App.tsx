@@ -903,7 +903,7 @@ const Capability = (props: any) => {
   );
 };
 
-const Plugins = (props: any) => {
+const PluginGroup = (props: any) => {
   const [scrolled, setScrolled] = React.useState(false);
   const query = (props.q || "").toLocaleLowerCase();
   const plugins = (props.plugins || []).filter((p: any) => {
@@ -945,7 +945,7 @@ const Plugins = (props: any) => {
   );
 };
 
-const Capabilities = (props: any) => {
+const CapabilityGroup = (props: any) => {
   const query = (props.q || "").toLocaleLowerCase();
   const capabilities = (props.capabilities || []).filter((p: any) => {
     const title = p.title || p.label || "";
@@ -958,9 +958,31 @@ const Capabilities = (props: any) => {
   });
   if (capabilities.length === 0) return null;
   return (
-    <div className="capabilities-wrapper">
-      <div className={`capabilities ${props.className || ""}`}>
-        <div className="capability">
+    <div className="plugins-wrapper">
+      <SubTitle>
+        <label>{props.title}</label>
+        <span className="show-all">
+          Show All <VscChevronRight />
+        </span>
+      </SubTitle>
+      <div className={`plugins ${props.className || ""}`}>
+        {capabilities.map((c: any) => (
+          <Capability
+            capability={c}
+            pin={props.pin}
+            nav={props.nav}
+            docs={props.docs}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Capabilities = (props: any) => {
+  return (
+    <>
+      {/* <div className="capability">
           <div className="capability-icon">
             <VscAdd />
           </div>
@@ -978,17 +1000,40 @@ const Capabilities = (props: any) => {
               Docs
             </a>
           </div>
-        </div>
-        {capabilities.map((p: any) => (
-          <Capability
-            capability={p}
-            pin={props.pin}
-            docs={props.docs}
-            nav={props.nav}
-          />
-        ))}
-      </div>
-    </div>
+        </div> */}
+      <CapabilityGroup
+        pin={props.pin}
+        title="Recommended"
+        capabilities={CAPABILITIES.recommended}
+        nav={props.nav}
+        docs={props.docs}
+        q={props.q}
+      />
+      <CapabilityGroup
+        pin={props.pin}
+        title="Featured"
+        capabilities={CAPABILITIES.featured}
+        nav={props.nav}
+        docs={props.docs}
+        q={props.q}
+      />
+      <CapabilityGroup
+        pin={props.pin}
+        title="Trending"
+        capabilities={CAPABILITIES.trending}
+        nav={props.nav}
+        docs={props.docs}
+        q={props.q}
+      />
+      <CapabilityGroup
+        pin={props.pin}
+        title="Recently Added"
+        capabilities={CAPABILITIES.recent}
+        nav={props.nav}
+        docs={props.docs}
+        q={props.q}
+      />
+    </>
   );
 };
 
@@ -1499,39 +1544,44 @@ const AddData = (props: any) => {
         setThirdNavState={props.setThirdNavState}
       />
 
-      {/* <Plugins
+      {/* <PluginGroup
         title="Installed"
         className="installed"
         plugins={PLUGINS.installed}
         q={query}
       /> */}
-      <Plugins
+      <PluginGroup
         pin={props.pin}
         title="Recommended"
         plugins={PLUGINS.recommended}
         q={query}
       />
-      <Plugins
+      <PluginGroup
         pin={props.pin}
         title="Featured"
         plugins={PLUGINS.featured}
         q={query}
       />
-      <Plugins
+      <PluginGroup
         pin={props.pin}
         title="Trending"
         plugins={PLUGINS.trending}
         q={query}
       />
-      <Plugins
+      <PluginGroup
         pin={props.pin}
         title="Recently Added"
         plugins={PLUGINS.recent}
         q={query}
       />
-      <Plugins pin={props.pin} title="APM" plugins={PLUGINS.apm} q={query} />
-      <Plugins pin={props.pin} title="Infrastructure &amp; OS" q={query} />
-      <Plugins pin={props.pin} title="Browser &amp; Mobile" q={query} />
+      <PluginGroup
+        pin={props.pin}
+        title="APM"
+        plugins={PLUGINS.apm}
+        q={query}
+      />
+      <PluginGroup pin={props.pin} title="Infrastructure &amp; OS" q={query} />
+      <PluginGroup pin={props.pin} title="Browser &amp; Mobile" q={query} />
       <br />
       <br />
       <br />
@@ -1544,12 +1594,26 @@ const AllCapabilities = (props: any) => {
   return (
     <Content>
       <Title className="compact">All Capabilities</Title>
-      <Search
-        autoFocus
-        placeholder="Search capabilities"
-        value={query}
-        onChange={(q: string) => setQuery(q)}
-      />
+      <div
+        style={{
+          margin: "-5px 0 15px 0",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Search
+          autoFocus
+          placeholder="Search capabilities"
+          value={query}
+          onChange={(q: string) => setQuery(q)}
+        />
+        <button className="rounded primary">
+          <label>
+            <VscAdd /> Create your own capability
+          </label>
+        </button>
+      </div>
       <Capabilities
         title="Recommended"
         capabilities={CAPABILITIES}
@@ -3197,20 +3261,21 @@ const NAV = [
   },
 ];
 
-const CAPABILITIES = [
-  {
-    label: "Home",
-    menuTitle: "Home",
-    subnav: [],
-    icon: <VscHome />,
-    noEllipsis: true,
-  },
-  ...NAV,
-  ...NAV_LOGS,
-  ...NAV_ALERTS,
-  ...NAV_MORE,
-  ...NAV_INFRASTRUCTURE,
-];
+const CAPABILITIES = {
+  recommended: [
+    {
+      label: "Home",
+      menuTitle: "Home",
+      subnav: [],
+      icon: <VscHome />,
+      noEllipsis: true,
+    },
+    ...NAV,
+  ],
+  featured: [...NAV_LOGS],
+  trending: [...NAV_ALERTS],
+  recent: [...NAV_MORE, ...NAV_INFRASTRUCTURE],
+};
 
 const QueryBuilder = (props: any) => {
   const [query, setQuery] = React.useState("");
