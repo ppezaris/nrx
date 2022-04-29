@@ -449,15 +449,34 @@ export const RightPane = (props: any) => {
   const [pinned, setPinned] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
+  const [dragging, setDragging] = React.useState(false);
+
+  const handleStart = () => {
+    setDragging(true);
+  };
+  const handleDrag = (e: any) => {
+    // console.warn("E IS: ", e);
+    const left = e.clientX;
+    const width = window.innerWidth;
+    const $detailPane = document.querySelector(".right-pane");
+    const detailPaneWidth = width - left;
+    if ($detailPane)
+      $detailPane.setAttribute("style", `width: ${detailPaneWidth}px`);
+  };
+  const handleStop = () => {
+    setDragging(false);
+  };
+
   // @ts-ignore
   // @ts-ignore
   const title = props.paneState === "float" ? "Title " : "";
   const position = props.paneState === "float" ? undefined : { x: 0, y: 0 };
+
   return (
     <Draggable handle=".float .comments-header" position={position}>
       <div
         className={
-          props.paneState === "closed"
+          (dragging ? "dragging " : "") + props.paneState === "closed"
             ? "right-pane off-screen"
             : props.paneState === "float"
             ? "right-pane float"
@@ -467,13 +486,13 @@ export const RightPane = (props: any) => {
         <div
           className="comments-header"
           style={{
-            display: "none",
             position: props.paneState === "float" ? "sticky" : "relative",
             top: 0,
+            display: "flex",
           }}
         >
-          <div style={{ paddingLeft: "20px" }}>
-            {title}{" "}
+          <div className="right-pane-title">
+            {props.title}{" "}
             <span
               style={{ fontSize: "15px", verticalAlign: "-3px" }}
               onClick={() => setPinned(!pinned)}
@@ -481,15 +500,24 @@ export const RightPane = (props: any) => {
               {/*pinned ? <VscPinned /> : <VscPin />*/}
             </span>
           </div>
-          <div style={{ marginLeft: "auto" }}>
-            {/*          {" "}
-          <VscChromeClose
-            onClick={() => props.setCommentsState("closed")}
-          />{" "}
-        */}
+          <div style={{ marginLeft: "auto", marginTop: "8px" }}>
+            <button
+              className="secondary rounded"
+              onClick={() => props.setPaneState("closed")}
+            >
+              <VscChromeClose />
+            </button>
           </div>
         </div>
         {props.children}
+        <Draggable
+          axis="x"
+          onStart={handleStart}
+          onDrag={handleDrag}
+          onStop={handleStop}
+        >
+          <div className="resize-right-pane" />
+        </Draggable>
       </div>
     </Draggable>
   );

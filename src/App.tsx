@@ -1260,14 +1260,14 @@ const PLUGINS = {
 
 const CATEGORIES = [
   { label: "All", isDefault: true, icon: <MdGridView /> },
-  { label: "Application monitoring", icon: <VscGraphLine /> },
+  { label: "APM", icon: <VscGraphLine /> },
   { label: "Infrastructure & OS", icon: <VscServer /> },
   { label: "Browser & mobile", icon: <VscBrowser /> },
   { label: "Simulate Traffic", icon: <VscGithubAction /> },
   { label: "Logging", icon: <VscListFlat /> },
   { label: "Kubernetes", icon: <VscServer /> },
   {
-    label: "Amazon Web Services",
+    label: "AWS",
     icon: (
       <img src="https://mti.com/wp-content/uploads/2021/04/Amazon-Web-Services-Logo-White.png" />
     ),
@@ -1277,7 +1277,7 @@ const CATEGORIES = [
     icon: <img src="https://swimburger.net/media/fbqnp2ie/azure.svg" />,
   },
   {
-    label: "Google Cloud Platform",
+    label: "GCP",
     icon: (
       <img src="https://seeklogo.com/images/G/google-cloud-logo-ADE788217F-seeklogo.com.png" />
     ),
@@ -3189,28 +3189,37 @@ const NAV = [
   //   //   subnav: NAV_BROWSE,
   //   subdir: "/browse-data/",
   // },
-  { label: "APM", menuTitle: "APM", subnav: [], icon: <VscGraphLine /> },
+  {
+    label: "APM",
+    body: "Monitoring of your web or non-web application's performance.",
+    menuTitle: "APM",
+    subnav: [],
+    icon: <VscGraphLine />,
+  },
   {
     label: "Mobile",
+    body: "",
     menuTitle: "Mobile",
     subnav: [],
     icon: <VscDeviceMobile />,
   },
   {
     label: "Browser",
+    body: "",
     menuTitle: "Browser",
     subnav: [],
     icon: <VscBrowser />,
   },
   {
     label: "Infrastructure",
+    body: "",
     menuTitle: "Infrastructure",
     subnav: [],
-
     icon: <VscServer />,
   },
   {
     label: "Alerts & AI",
+    body: "",
     menuTitle: "Alerts & AI",
     subnav: [],
 
@@ -3267,6 +3276,7 @@ const CAPABILITIES = {
       label: "Home",
       menuTitle: "Home",
       subnav: [],
+      body: "View your system status and recommendations for what to do next",
       icon: <VscHome />,
       noEllipsis: true,
     },
@@ -3703,13 +3713,25 @@ const Header = (props: any) => {
         setCommentsState={props.setCommentsState}
         offScreen={props.commentsState == "closed"}
       />
-      <RightPane paneState={props.helpState}>
+      <RightPane
+        paneState={props.helpState}
+        setPaneState={props.setHelpState}
+        title="Help"
+      >
         <div className="placeholder">Contextual help goes here</div>
       </RightPane>
-      <RightPane paneState={props.inviteState}>
+      <RightPane
+        paneState={props.inviteState}
+        setPaneState={props.setInviteState}
+        title="Invite"
+      >
         <div className="placeholder">Invite goes here</div>
       </RightPane>
-      <RightPane paneState={props.shareState}>
+      <RightPane
+        paneState={props.shareState}
+        setPaneState={props.setShareState}
+        title="Share"
+      >
         <div className="button-list">
           <button>
             <VscCopy />
@@ -3792,7 +3814,7 @@ const Header = (props: any) => {
           onClick={() => setAccountOpen(!accountOpen)}
         >
           <label>
-            Account: Sunstone Staging{" "}
+            Sunstone Staging{" "}
             <VscChevronDown style={{ verticalAlign: "-2px" }} />
           </label>
           {accountOpen && (
@@ -4389,7 +4411,7 @@ export default function App() {
                   helpState === "open" ||
                   inviteState === "open" ||
                   shareState === "open"
-                    ? "300px"
+                    ? "0"
                     : "0",
                 position: "relative",
                 transition: "padding-right 0.2s",

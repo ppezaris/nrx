@@ -60,7 +60,7 @@
   --top-bg: var(--bg-1);
   --bottom-bg: var(--bg-1);
   --nav-bg: var(--bg-2);
-  --nav-fg: var(--fg-3-5);
+  --nav-fg: var(--fg-3);
   --comments-bg: var(--bg-2);
   --comment-body-bg: var(--bg-2);
   --nav-fg-active: var(--fg-1);
@@ -305,8 +305,8 @@ body {
   width: var(--nav-width);
   white-space: nowrap;
   overflow: hidden;
-  font-size: 0.9em;
-  padding: 5px 25px 5px 10px;
+  font-size: 1em;
+  padding: 6px 25px 6px 10px;
   height: 14.5px;
 }
 .links a.new {
@@ -314,7 +314,7 @@ body {
 }
 .third-nav-closed .links.subnav > li > a,
 .collapsed .links:not(.subnav) > li > a {
-  padding: 5px 10px;
+  padding: 6px 10px;
 }
 .xhorizontal .links:not(.subnav) > li > a {
   padding: 5px 8px 5px 8px;
@@ -433,11 +433,11 @@ body {
   margin-left: -8px;
   padding-left: 0px;
   border-radius: 0 4px 4px 0;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 .links .menu-title > div {
   width: 100%;
-  padding: 5px 10px;
+  padding: 6px 10px;
   height: 14.5px;
   display: flex;
   align-items: center;
@@ -953,7 +953,7 @@ button.compact {
 .header button.active,
 button.rounded.active {
   border-radius: 4px 4px 0 0;
-  z-index: 50;
+  /* z-index: 50; */
   background: #f8f8f8;
   background: var(--menu-bg);
   box-shadow: 0 -1px 0px var(--shadow-top);
@@ -964,7 +964,7 @@ button.rounded.active {
   margin-top: 45px;
   margin-top: 15px;
   margin-bottom: -10px; */
-  z-index: 49;
+  /* z-index: 49; */
   background: var(--popup-bg);
   /* padding-top: 0; */
   border-radius: 50%;
@@ -1412,21 +1412,23 @@ button.disabled {
 .right-pane,
 .detail-pane {
   overflow: hidden;
-  width: 300px;
+  width: 320px;
   position: absolute;
   transition: right 0.15s;
   /* top: 45px; */
   right: 0;
   /* background: #f8f8f8; */
-  background: var(--comments-bg);
-  /* background: var(--popup-bg); */
-  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); */
+  background: var(--bg-2);
+  background: var(--popup-bg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
   color: var(--fg-2);
   /* border-left: 1px solid #eee; */
   border-left: none;
   /* height: calc(100vh - 45px); */
   height: calc(100vh - 50px);
   top: 50px;
+  top: 0;
+  height: 100vh;
   /* top: 89px; */
   /* top: 135px; */
   /* height: calc(100vh - 133px); */
@@ -1439,8 +1441,11 @@ button.disabled {
 
   background: var(--content-bg);
   box-shadow: none;
-  border-left: 1px solid var(--border);
+  /* border-left: 1px solid var(--border); */
   border-radius: 0;
+  background: var(--nav-bg);
+  /* background: var(--popup-bg); */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
 .detail-pane {
   width: 500px;
@@ -1482,6 +1487,7 @@ button.disabled {
 .third-nav-open .resize-details {
   display: block;
 }
+.resize-right-pane,
 .resize-details {
   position: absolute;
   right: 496px;
@@ -1492,6 +1498,11 @@ button.disabled {
   transition: background-color 0.15s;
   z-index: 60;
   display: none;
+}
+.resize-right-pane {
+  right: auto;
+  left: 0;
+  display: block;
 }
 .resize-details:hover {
   background: var(--link-bg);
@@ -1520,10 +1531,10 @@ button.disabled {
 }
 .right-pane.off-screen,
 .comments.off-screen {
-  right: -301px;
+  right: -330px;
 }
 .comments-header {
-  padding: 20px 20px 0 0;
+  padding: 12px 10px 10px 0;
   transition: padding 0.15s;
 }
 .comments.float .comments-header {
@@ -2282,6 +2293,8 @@ input[type="search"] {
   width: auto;
   height: auto;
   background: transparent;
+  text-align: left;
+  justify-content: left;
 }
 .on-off {
   display: inline-block;
@@ -2761,5 +2774,10 @@ img.svg {
   font-size: 13px;
 }
 .box .links ul {
-  font-size: 0.9em;
+  font-size: 1em;
+}
+.right-pane-title {
+  padding-left: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
 }
