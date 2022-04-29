@@ -789,6 +789,7 @@ const Plugin = (props: any) => {
           .replace(" ", "-")
           .replace(" ", "-")
           .replace("&", ""));
+  const index = props.nav.findIndex((i: any) => i.label === plugin.title);
   return (
     <div className="plugin">
       <div className="plugin-icon">
@@ -821,7 +822,17 @@ const Plugin = (props: any) => {
           <span className="label">View</span>
           {item.extra && item.extra}
         </NavLink>{" "}
-        | Docs |{" "}
+        |{" "}
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            props.docs(plugin);
+          }}
+        >
+          Docs
+        </a>{" "}
+        |{" "}
         <a
           onClick={() =>
             props.pin({
@@ -831,7 +842,7 @@ const Plugin = (props: any) => {
             })
           }
         >
-          Pin
+          {index > -1 && !props.nav[index].hidden ? "Unpin" : "Pin"}
         </a>
       </div>
     </div>
@@ -930,7 +941,12 @@ const PluginGroup = (props: any) => {
         }`}
       >
         {plugins.map((p: any) => (
-          <Plugin plugin={p} pin={props.pin} />
+          <Plugin
+            plugin={p}
+            pin={props.pin}
+            nav={props.nav}
+            docs={props.docs}
+          />
         ))}
         <div className="scroll-right" onClick={() => setScrolled(!scrolled)}>
           <FiChevronRight />
@@ -1554,34 +1570,56 @@ const AddData = (props: any) => {
         pin={props.pin}
         title="Recommended"
         plugins={PLUGINS.recommended}
+        nav={props.nav}
+        docs={props.docs}
         q={query}
       />
       <PluginGroup
         pin={props.pin}
         title="Featured"
         plugins={PLUGINS.featured}
+        nav={props.nav}
+        docs={props.docs}
         q={query}
       />
       <PluginGroup
         pin={props.pin}
         title="Trending"
         plugins={PLUGINS.trending}
+        nav={props.nav}
+        docs={props.docs}
         q={query}
       />
       <PluginGroup
         pin={props.pin}
         title="Recently Added"
         plugins={PLUGINS.recent}
+        nav={props.nav}
+        docs={props.docs}
         q={query}
       />
       <PluginGroup
         pin={props.pin}
         title="APM"
         plugins={PLUGINS.apm}
+        nav={props.nav}
+        docs={props.docs}
         q={query}
       />
-      <PluginGroup pin={props.pin} title="Infrastructure &amp; OS" q={query} />
-      <PluginGroup pin={props.pin} title="Browser &amp; Mobile" q={query} />
+      <PluginGroup
+        pin={props.pin}
+        title="Infrastructure &amp; OS"
+        q={query}
+        nav={props.nav}
+        docs={props.docs}
+      />
+      <PluginGroup
+        pin={props.pin}
+        title="Browser &amp; Mobile"
+        q={query}
+        nav={props.nav}
+        docs={props.docs}
+      />
       <br />
       <br />
       <br />
@@ -4180,7 +4218,7 @@ export default function App() {
   };
 
   const docs = () => {
-    setHelpState("open");
+    setHelpState(helpState === "open" ? "closed" : "open");
   };
 
   const [nav, setNav] = React.useState<any[]>([
@@ -4230,14 +4268,6 @@ export default function App() {
     //   noEllipsis: true,
     // },
     {
-      label: "Dashboards",
-      icon: <VscDashboard />,
-      subnav: [],
-      subdir: "/dashboards/",
-      menuTitle: "Dashboards",
-      //   subnav: NAV_DASHBOARD,
-    },
-    {
       label: "All Entities",
       menuTitle: "All Entities",
       subnav: [],
@@ -4248,6 +4278,14 @@ export default function App() {
       //   hasThirdNav: true,
       //   subdir: "/entities/",
       //   subnav: NAV_EXPLORER,
+    },
+    {
+      label: "Dashboards",
+      icon: <VscDashboard />,
+      subnav: [],
+      subdir: "/dashboards/",
+      menuTitle: "Dashboards",
+      //   subnav: NAV_DASHBOARD,
     },
     {
       label: "Browse Data",
@@ -4445,6 +4483,8 @@ export default function App() {
                 <Route path="/add-data">
                   <AddData
                     pin={pin}
+                    docs={docs}
+                    nav={nav}
                     thirdNavState={thirdNavState}
                     setThirdNavState={setThirdNavState}
                   />

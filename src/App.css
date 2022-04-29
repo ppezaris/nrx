@@ -372,13 +372,13 @@ body {
 .links a svg {
   font-size: 14px !important;
   margin-right: 10px;
-  vertical-align: -3px;
+  vertical-align: -2px;
   margin-right: 5px;
 }
 .links a img {
   width: 14px !important;
   height: 14px !important;
-  vertical-align: -3px;
+  vertical-align: -2px;
   margin-right: 5px;
 }
 .collapsed .submenu a {
@@ -581,6 +581,8 @@ body {
   display: flex;
   min-height: 100vh;
   font-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
+  font-family: Inter, -apple-system, "system-ui", "San Francisco", Roboto,
+    "Segoe UI", "Helvetica Neue", sans-serif;
   font-size: 12px;
   font-weight: 400;
 }
@@ -1128,7 +1130,7 @@ button.rounded.active {
   padding: 0;
 }
 .messages td {
-  padding: 4px;
+  padding: 5px;
   border-top: none;
   border-bottom: 1px solid var(--bg-2);
   white-space: nowrap;
@@ -2191,6 +2193,7 @@ input[type="search"] {
 }
 .plugins-wrapper {
   position: relative;
+  width: calc(100% - 310px);
 }
 .plugins-wrapper .show-all {
   margin-left: -80px;
