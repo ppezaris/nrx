@@ -3293,13 +3293,13 @@ const NAV = [
     //   subnav: NAV_SYNTHETICS,
   },
   {
-    label: "Messages",
-    menuTitle: "Messages",
+    label: "Discussions",
+    menuTitle: "Discussions",
     subnav: [],
 
     labelDiv: (
       <span>
-        Messages<span style={{ padding: "0 8px" }}> </span>
+        Discussions<span style={{ padding: "0 8px" }}> </span>
       </span>
     ),
     icon: <VscCommentDiscussion />,
@@ -4054,7 +4054,11 @@ const CommandPanel = (props: any) => {
     { label: "Logs", icon: <VscListFlat />, url: "/logs" },
     { label: "Mobile", icon: <VscDeviceMobile />, url: "/mobile" },
     { label: "Synthetics", icon: <VscGithubAction />, url: "/synthetics" },
-    { label: "Messages", icon: <VscCommentDiscussion />, url: "/messages" },
+    {
+      label: "Discussions",
+      icon: <VscCommentDiscussion />,
+      url: "/discussions",
+    },
   ];
 
   const history = useHistory();
@@ -4349,13 +4353,13 @@ export default function App() {
       //   subnav: NAV_SYNTHETICS,
     },
     {
-      label: "Messages",
-      menuTitle: "Messages",
+      label: "Discussions",
+      menuTitle: "Discussions",
       subnav: [],
 
       labelDiv: (
         <span>
-          Messages<span style={{ padding: "0 8px" }}> </span>
+          Discussions<span style={{ padding: "0 8px" }}> </span>
         </span>
       ),
       icon: <VscCommentDiscussion />,
@@ -4555,7 +4559,7 @@ export default function App() {
                 <Route path="/synthetics">
                   <Synthetics />
                 </Route>
-                <Route path="/messages">
+                <Route path="/discussions">
                   <Messages setCommentsState={setCommentsState} />
                 </Route>
                 <Route path="/mobile">
@@ -4585,7 +4589,7 @@ export default function App() {
                 <Route path="/nrx/alerts--ai">
                   <Alerts />
                 </Route>
-                <Route path="/nrx/messages">
+                <Route path="/nrx/discussions">
                   <Messages setCommentsState={setCommentsState} />
                 </Route>
                 <Route path="/nrx/mobile">
