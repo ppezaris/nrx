@@ -464,8 +464,10 @@ export const Comments = (props: any) => {
 
   const color = threadState == "open" ? "green" : "purple";
 
-  // @ts-ignore
-  const title = props.commentsState === "float" ? TITLES[pathname] + " " : "";
+  const title =
+    // @ts-ignore
+    (props.commentsState === "float" ? TITLES[pathname] + " " : "Comments") ||
+    "Comments";
   const position = props.commentsState === "float" ? undefined : { x: 0, y: 0 };
   return (
     <Draggable handle=".float .comments-header" position={position}>
@@ -486,21 +488,20 @@ export const Comments = (props: any) => {
             top: 0,
           }}
         >
-          <div style={{ paddingLeft: "20px" }}>
+          <div className="right-pane-title">
             {title}{" "}
             <span
               style={{ fontSize: "15px", verticalAlign: "-3px" }}
               onClick={() => setPinned(!pinned)}
             >
-              {/*pinned ? <VscPinned /> : <VscPin />*/}
+              {pinned ? <VscPinned /> : <VscPin />}
             </span>
           </div>
           <div style={{ marginLeft: "auto" }}>
-            {/*          {" "}
-          <VscChromeClose
-            onClick={() => props.setCommentsState("closed")}
-          />{" "}
-        */}
+            {" "}
+            <VscChromeClose
+              onClick={() => props.setCommentsState("closed")}
+            />{" "}
             {commentsInDB.length > 0 && (
               <button
                 className={(menuOpen ? "active " : "") + color}

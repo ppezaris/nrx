@@ -997,7 +997,7 @@ const CapabilityGroup = (props: any) => {
 
 const Capabilities = (props: any) => {
   return (
-    <>
+    <div style={{ width: "calc(100% - 320px)" }}>
       {/* <div className="capability">
           <div className="capability-icon">
             <VscAdd />
@@ -1049,7 +1049,7 @@ const Capabilities = (props: any) => {
         docs={props.docs}
         q={props.q}
       />
-    </>
+    </div>
   );
 };
 
@@ -1334,11 +1334,11 @@ const ENTITY_TYPES = [
   { label: "Private locations", icon: <VscBrowser /> },
   { label: "Secure credentials", icon: <VscBrowser /> },
   { label: "-Kubernetes", icon: <VscChevronUp /> },
-  { label: "Kubernetes API servers", icon: <VscBrowser /> },
-  { label: "Kubernetes clusters", icon: <VscBrowser /> },
-  { label: "Kubernetes deployments", icon: <VscBrowser /> },
-  { label: "Kubernetes pods", icon: <VscBrowser /> },
-  { label: "Kubernetes statefulsets", icon: <VscBrowser /> },
+  { label: "K8s API servers", icon: <VscBrowser /> },
+  { label: "K8s clusters", icon: <VscBrowser /> },
+  { label: "K8s deployments", icon: <VscBrowser /> },
+  { label: "K8s pods", icon: <VscBrowser /> },
+  { label: "K8s statefulsets", icon: <VscBrowser /> },
   // { label: "Azure" },
   // { label: "Google Cloud Platform" },
   // { label: "Open source monitoring" },
@@ -3181,10 +3181,10 @@ const NAV_FAVORITES = [
 
 const NAV = [
   {
-    label: "Go To...",
+    label: "Search",
     icon: <VscSearch />,
     subnav: NAV_SEARCH,
-    menuTitle: "Go To...",
+    menuTitle: "Search",
     openCommandPalette: true,
     keybinding: <Keybinding>K</Keybinding>,
     noUnpin: true,
@@ -3611,7 +3611,7 @@ const Nav = (props: any) => {
         ))}
       </ul>
 
-      <div className="bottom">
+      {/* <div className="bottom">
         <ul className="links">
           {NAV_BOTTOM.map((item) => (
             <NavItem
@@ -3628,7 +3628,7 @@ const Nav = (props: any) => {
             style={{ width: "1px", height: "0px" }}
           />
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -3860,7 +3860,7 @@ const Header = (props: any) => {
         >
           <label>
             Sunstone Staging{" "}
-            <VscChevronDown style={{ verticalAlign: "-2px" }} />
+            {/* <VscChevronDown style={{ verticalAlign: "-2px" }} /> */}
           </label>
           {accountOpen && (
             <div className="menu" style={{ width: "100%" }}>
@@ -3894,7 +3894,7 @@ const Header = (props: any) => {
       >
         <label>
           <img src="https://i.imgur.com/jSrZwhT.jpg" />
-          <VscChevronDown style={{ verticalAlign: "-2px" }} />
+          {/* <VscChevronDown style={{ verticalAlign: "-2px" }} /> */}
         </label>
         {userOpen && (
           <div className="menu">
@@ -3938,7 +3938,7 @@ const Header = (props: any) => {
           />
         </label>
       </button>
-      {/* <button
+      <button
         className={
           props.inviteState === "open"
             ? "comment-button active rounded"
@@ -3956,7 +3956,7 @@ const Header = (props: any) => {
         <label>
           <FiUserPlus style={{ verticalAlign: "-2px" }} />
         </label>
-      </button> */}
+      </button>
       <button
         className={
           props.shareState === "open"
@@ -4023,7 +4023,10 @@ const Header = (props: any) => {
         }}
       >
         <label>
-          <BsQuestion style={{ verticalAlign: "-2px" }} />
+          {/* <VscQuestion style={{ verticalAlign: "-2px", fontSize: "26px" }} /> */}
+          <BsQuestion
+            style={{ verticalAlign: "-2px", transform: "scale(1.3)" }}
+          />
         </label>
       </button>
     </div>
@@ -4099,7 +4102,7 @@ const CommandPanel = (props: any) => {
 
   return (
     <div className="popup" onClick={handleClick} onKeyDown={onKeyDown}>
-      <div className="popup-title">Go To...</div>
+      <div className="popup-title">Search</div>
       <hr />
       <input
         className="command-input"
@@ -4234,10 +4237,10 @@ export default function App() {
   const [nav, setNav] = React.useState<any[]>([
     //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
     {
-      label: "Go To...",
+      label: "Search",
       icon: <VscSearch />,
       subnav: NAV_SEARCH,
-      menuTitle: "Go To...",
+      menuTitle: "Search",
       openCommandPalette: true,
       keybinding: (
         <div style={{ display: "flex" }}>
