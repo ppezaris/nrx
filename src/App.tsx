@@ -1334,11 +1334,11 @@ const ENTITY_TYPES = [
   { label: "Private locations", icon: <VscBrowser /> },
   { label: "Secure credentials", icon: <VscBrowser /> },
   { label: "-Kubernetes", icon: <VscChevronUp /> },
-  { label: "Kubernetes API servers", icon: <VscBrowser /> },
-  { label: "Kubernetes clusters", icon: <VscBrowser /> },
-  { label: "Kubernetes deployments", icon: <VscBrowser /> },
-  { label: "Kubernetes pods", icon: <VscBrowser /> },
-  { label: "Kubernetes statefulsets", icon: <VscBrowser /> },
+  { label: "K8s API servers", icon: <VscBrowser /> },
+  { label: "K8s clusters", icon: <VscBrowser /> },
+  { label: "K8s deployments", icon: <VscBrowser /> },
+  { label: "K8s pods", icon: <VscBrowser /> },
+  { label: "K8s statefulsets", icon: <VscBrowser /> },
   // { label: "Azure" },
   // { label: "Google Cloud Platform" },
   // { label: "Open source monitoring" },
@@ -1637,7 +1637,7 @@ const AllCapabilities = (props: any) => {
           margin: "-5px 0 15px 0",
           display: "flex",
           alignItems: "center",
-          width: "100%",
+          width: "calc(100% - 320px)",
         }}
       >
         <Search
@@ -4003,20 +4003,22 @@ const Header = (props: any) => {
         }}
         title="Discussion for this page"
       >
-        <FiMessageSquare style={{ verticalAlign: "-2px" }} />
-        {location.pathname.endsWith("browse-data") ? (
-          <Badge className={color}>5</Badge>
-        ) : location.pathname.endsWith("dashboards") ? (
-          <Badge className={color}>6</Badge>
-        ) : location.pathname.endsWith("apm") ? (
-          <Badge className={color}>6</Badge>
-        ) : location.pathname.endsWith("mobile") ? (
-          <Badge className={color}>4</Badge>
-        ) : location.pathname.endsWith(
-            "pd-mailin-10-101-0-230.codestream.us"
-          ) ? (
-          <Badge className={color}>4</Badge>
-        ) : null}
+        <label>
+          <FiMessageSquare style={{ verticalAlign: "-2px" }} />
+          {location.pathname.endsWith("browse-data") ? (
+            <Badge className={color}>5</Badge>
+          ) : location.pathname.endsWith("dashboards") ? (
+            <Badge className={color}>6</Badge>
+          ) : location.pathname.endsWith("apm") ? (
+            <Badge className={color}>6</Badge>
+          ) : location.pathname.endsWith("mobile") ? (
+            <Badge className={color}>4</Badge>
+          ) : location.pathname.endsWith(
+              "pd-mailin-10-101-0-230.codestream.us"
+            ) ? (
+            <Badge className={color}>4</Badge>
+          ) : null}
+        </label>
       </button>
       <button
         onClick={() => {

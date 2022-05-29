@@ -61,10 +61,11 @@
   --bottom-bg: var(--bg-1);
   --nav-bg: var(--bg-2);
   --nav-fg: var(--fg-3);
+  --nav-hover-bg: var(--bg-3);
   --comments-bg: var(--bg-2);
   --comment-body-bg: var(--bg-1-5);
   --nav-fg-active: var(--fg-1);
-  --third-nav-bg: var(--bg-3);
+  --third-nav-bg: var(--bg-1-5);
   --content-bg: var(--bg-1);
   --header-button-bg: var(--button-bg);
   --header-button-fg: var(--fg-3);
@@ -77,6 +78,7 @@
 .light {
   color-scheme: light;
   --bg-1: white;
+  --bg-1-5: white;
   --bg-2: #f9f9f9;
   --bg-3: #eee;
   --bg-4: #ddd;
@@ -86,6 +88,7 @@
   --popup-selected-bg: #bbb;
   --popup-border: #bbb;
   --selected-bg: #aaa;
+  --fg-0: #000;
   --fg-1: #000;
   --fg-2: #111;
   --fg-3: #222;
@@ -97,6 +100,27 @@
   --shadow-bottom-selected: #ccc;
   --content-bg: white;
   --selected-nav-link: #36393e;
+  --selected-nav-link: #bdb;
+
+  --menu-bg: var(--bg-3);
+  --menu-border: #656667;
+
+  --top-bg: var(--bg-1);
+  --bottom-bg: var(--bg-1);
+  --nav-bg: var(--bg-4);
+  --nav-fg: var(--fg-3);
+  --comments-bg: var(--bg-2);
+  --comment-body-bg: var(--bg-1-5);
+  --nav-fg-active: var(--fg-1);
+  --third-nav-bg: var(--bg-3);
+  --content-bg: var(--bg-1);
+  --header-button-bg: var(--button-bg);
+  --header-button-fg: var(--fg-3);
+  --header-shadow-top: #4b4e53;
+  --header-shadow-bottom: #222;
+  --horizontal-top: 45px;
+  --nav-width: 120px;
+  --console-height: 45px;
 }
 .App {
   text-align: center;
@@ -325,17 +349,17 @@ body {
 }
 .links a:hover {
   overflow: visible;
-  background: var(--menu-bg) !important;
+  background: var(--nav-hover-bg) !important;
   /* border-radius: 4px 4px 0 0; */
 }
 .links a.active:hover {
   background: var(--selected-nav-link) !important;
 }
 .collapsed .links > li > a.active:hover {
-  background: var(--menu-bg) !important;
+  background: var(--nav-hover-bg) !important;
 }
 .third-nav-closed .links > li > a.active:hover {
-  background: var(--menu-bg) !important;
+  background: var(--nav-hover-bg) !important;
 }
 /* .normal .links a:hover .submenu a {
   background: var(--nav-bg) !important;
@@ -429,7 +453,7 @@ body {
 .links .menu-title {
   /* font-size: 16px; */
   display: none;
-  background: var(--menu-bg);
+  background: var(--nav-hover-bg) !important;
   margin-left: -8px;
   padding-left: 0px;
   border-radius: 0 4px 4px 0;
@@ -736,7 +760,7 @@ body {
   left: 178px;
   top: -4px;
   color: var(--fg-2);
-  background: var(--menu-bg);
+  background: var(--nav-hover-bg) !important;
   /* background: var(--selected-bg); */
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
   z-index: 60;
@@ -906,11 +930,11 @@ button.rounded {
   color: var(--button-fg);
   box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
 }
-.header button.rounded label svg {
+.header button label svg {
   margin: 0;
-  width: 16px;
+  width: 16px !important;
 }
-.header button.rounded {
+.header button {
   padding: 5px;
   display: flex;
   align-items: center;
@@ -1263,7 +1287,7 @@ tr.active td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 62%;
+  width: 60%;
 }
 .dashboards td:nth-of-type(3) {
   width: 8%;
@@ -2564,7 +2588,7 @@ img.svg {
 }
 .thirdnav {
   position: fixed;
-  background: var(--bg-1-5);
+  background: var(--third-nav-bg);
   top: 0;
   bottom: 0;
   z-index: 5;
@@ -2586,7 +2610,7 @@ img.svg {
 
 .hidebutton {
   position: absolute;
-  left: 132px;
+  left: 130px;
   top: 14px;
   width: 20px;
   height: 20px;
@@ -2598,7 +2622,7 @@ img.svg {
   cursor: pointer;
 }
 .collapsed .logo-wrap .hidebutton {
-  left: 8px;
+  left: 7px;
   z-index: 60;
 }
 .collapsed .logo-wrap .hidebutton svg,
@@ -2789,14 +2813,18 @@ img.svg {
   border: none;
   text-shadow: none;
   box-shadow: none;
-  padding: 0;
-  margin-left: 15px;
+  /* padding: 0; */
+  margin-left: 5px;
 }
 .header button .badge {
   width: 14px;
   height: 14px;
   bottom: 4px;
-  right: -2px;
+  right: 2px;
   left: auto;
   position: absolute;
+}
+.header button:hover {
+  background: var(--button-bg);
+  box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
 }
