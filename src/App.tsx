@@ -2475,8 +2475,8 @@ const Me = (props: any) => {
       <Title>Jane Doe</Title>
       <div onClick={props.toggleTheme}>Theme</div>
       <br />
-      {/* Show NRQL Console{" "}
-      <OnOff onChange={(value: any) => props.setConsole(value)} /> */}
+      Show NRQL Console{" "}
+      <OnOff onChange={(value: any) => props.setConsole(value)} />
     </Content>
   );
 };
@@ -3346,6 +3346,12 @@ const NAV_BOTTOM: any[] = [
     url: "me",
     // subnav: NAV_FEEDBACK,
   },
+  {
+    label: "Sunstone Staging",
+    icon: <VscServer />,
+    url: "accounts",
+    // subnav: NAV_FEEDBACK,
+  },
   // { label: "What's New", icon: <MdOutlineWbSunny /> },
   // { label: "Feedback", icon: <VscFeedback />, subnav: NAV_FEEDBACK },
   // { label: "Invite", icon: <FiUserPlus /> },
@@ -3735,6 +3741,8 @@ const Header = (props: any) => {
       : "open";
 
   const color = threadState == "open" ? "green" : "purple";
+  const index = props.nav.findIndex((i: any) => i.url === pathname);
+  const pinned = index > -1 && !props.nav[index].hidden;
 
   const hasTimepicker =
     pathname.includes("entity/") || pathname.includes("dashboards");
@@ -3846,7 +3854,7 @@ const Header = (props: any) => {
       <div style={{ marginLeft: "auto", alignSelf: "center" }}>
         {hasTimepicker && <Timepicker />}
       </div>
-      {hasAccountpicker && (
+      {hasAccountpicker && false && (
         <button
           className={accountOpen ? "active" : ""}
           onClick={() => setAccountOpen(!accountOpen)}
@@ -3924,6 +3932,7 @@ const Header = (props: any) => {
             ? props.setConsoleState("open")
             : props.setConsoleState("closed");
         }}
+        style={{ display: "none" }}
       >
         <label>
           <VscTerminal
@@ -3952,11 +3961,23 @@ const Header = (props: any) => {
         </label>
       </button> */}
       <button
-        className={
-          props.shareState === "open"
-            ? "comment-button active rounded"
-            : "comment-button rounded"
-        }
+        onClick={() => {
+          if (pinned) props.unPin();
+          else props.pin();
+        }}
+        title={pinned ? "Unpin from left nav" : "Pin this page to left nav"}
+      >
+        <label>
+          <VscPinned
+            style={{
+              verticalAlign: "-2px",
+              fontSize: "16px",
+              transform: pinned ? "none" : "rotate(45deg)",
+            }}
+          />
+        </label>
+      </button>
+      <button
         onClick={() => {
           props.setInviteState("closed");
           props.setHelpState("closed");
@@ -3965,17 +3986,13 @@ const Header = (props: any) => {
             ? props.setShareState("open")
             : props.setShareState("closed");
         }}
+        title="Share this page"
       >
         <label>
           <FiShare2 style={{ verticalAlign: "-2px" }} />
         </label>
-      </button>{" "}
+      </button>
       <button
-        className={
-          props.commentsState === "open"
-            ? "comment-button active rounded"
-            : "comment-button rounded"
-        }
         onClick={() => {
           props.setInviteState("closed");
           props.setShareState("closed");
@@ -3984,7 +4001,9 @@ const Header = (props: any) => {
             ? props.setCommentsState("open")
             : props.setCommentsState("closed");
         }}
+        title="Discussion for this page"
       >
+        <FiMessageSquare style={{ verticalAlign: "-2px" }} />
         {location.pathname.endsWith("browse-data") ? (
           <Badge className={color}>5</Badge>
         ) : location.pathname.endsWith("dashboards") ? (
@@ -3997,16 +4016,9 @@ const Header = (props: any) => {
             "pd-mailin-10-101-0-230.codestream.us"
           ) ? (
           <Badge className={color}>4</Badge>
-        ) : (
-          <FiMessageSquare style={{ verticalAlign: "-2px" }} />
-        )}
+        ) : null}
       </button>
       <button
-        className={
-          props.helpState === "open"
-            ? "comment-button active rounded"
-            : "comment-button rounded"
-        }
         onClick={() => {
           props.setInviteState("closed");
           props.setShareState("closed");
@@ -4015,9 +4027,10 @@ const Header = (props: any) => {
             ? props.setHelpState("open")
             : props.setHelpState("closed");
         }}
+        title="Help"
       >
         <label>
-          <BsQuestion style={{ verticalAlign: "-2px" }} />
+          <VscQuestion style={{ verticalAlign: "-2px", fontSize: "16px" }} />
         </label>
       </button>
     </div>
@@ -4434,6 +4447,9 @@ export default function App() {
               <CommandPanel setCommandPanelOpen={setCommandPanelOpen} />
             )}
             <Header
+              nav={nav}
+              pin={pin}
+              unPin={unPin}
               toggleTheme={toggleTheme}
               commentsState={commentsState}
               setCommentsState={setCommentsState}
@@ -4599,7 +4615,11 @@ export default function App() {
                   <Explorer view="all" />
                 </Route>
                 <Route path="/me">
-                  <Me toggleTheme={toggleTheme} theme={theme} />
+                  <Me
+                    toggleTheme={toggleTheme}
+                    setConsole={setConsoleState}
+                    theme={theme}
+                  />
                 </Route>
                 <Route path="/blank">
                   <Blank />

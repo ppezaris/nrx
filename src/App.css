@@ -62,7 +62,7 @@
   --nav-bg: var(--bg-2);
   --nav-fg: var(--fg-3);
   --comments-bg: var(--bg-2);
-  --comment-body-bg: var(--bg-2);
+  --comment-body-bg: var(--bg-1-5);
   --nav-fg-active: var(--fg-1);
   --third-nav-bg: var(--bg-3);
   --content-bg: var(--bg-1);
@@ -505,7 +505,7 @@ body {
   height: 100vh;
   z-index: 10;
 }
-.console-open .nav {
+.console-on .nav {
   height: calc(100vh - var(--console-height));
 }
 .normal .nav {
@@ -596,7 +596,7 @@ body {
   color: white;
   background: #fe4c40;
   background: #e94f3f;
-  background: var(--popup-selected-bg);
+  background: var(--bg-4);
   border-radius: 9px;
   font-size: 10px;
   box-shadow: 0 0 2px black;
@@ -705,7 +705,7 @@ body {
 }
 .normal .links a .badge {
   right: 10px !important;
-  top: 3px;
+  top: 5px;
 }
 .collapsed .links a .badge {
   right: 7px !important;
@@ -1654,7 +1654,7 @@ button.disabled {
   white-space: nowrap;
   /* color: #017c86; */
   color: var(--fg-4);
-  background: var(--content-bg);
+  background: var(--comments-bg);
   padding: 0 8px;
   left: 40%;
 }
@@ -1670,7 +1670,7 @@ button.disabled {
   white-space: nowrap;
   color: #999;
   color: var(--fg-4);
-  background: var(--content-bg);
+  background: var(--comments-bg);
   padding: 0 8px;
   left: 30%;
 }
@@ -2695,7 +2695,7 @@ img.svg {
 .console-open .bottom {
   /* padding-bottom: 35px; */
 }
-.console-open .console {
+.console-on .console {
   bottom: 0;
 }
 .plugin a,
@@ -2783,4 +2783,20 @@ img.svg {
   padding-left: 20px;
   margin-bottom: 20px;
   font-size: 20px;
+}
+.header button {
+  background: none;
+  border: none;
+  text-shadow: none;
+  box-shadow: none;
+  padding: 0;
+  margin-left: 15px;
+}
+.header button .badge {
+  width: 14px;
+  height: 14px;
+  bottom: 4px;
+  right: -2px;
+  left: auto;
+  position: absolute;
 }
