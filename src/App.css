@@ -1461,7 +1461,7 @@ button.disabled {
   /* background: #f8f8f8; */
   background: var(--bg-2);
   background: var(--popup-bg);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); */
   color: var(--fg-2);
   /* border-left: 1px solid #eee; */
   border-left: none;
@@ -1477,11 +1477,11 @@ button.disabled {
   text-align: left;
   transition: all 0.15s;
   overflow-y: auto;
-  border-radius: 20px 0 0 0;
-  box-shadow: 0 -1px 0px var(--shadow-top-2), 0 5px 10px rgba(0, 0, 0, 0.4);
+  /* border-radius: 20px 0 0 0; */
+  /* box-shadow: 0 -1px 0px var(--shadow-top-2), 0 5px 10px rgba(0, 0, 0, 0.4); */
 
-  background: var(--content-bg);
-  box-shadow: none;
+  /* background: var(--content-bg); */
+  /* box-shadow: none; */
   /* border-left: 1px solid var(--border); */
   border-radius: 0;
   background: var(--nav-bg);
@@ -1496,7 +1496,8 @@ button.disabled {
   margin: 0;
   position: fixed;
   padding-top: 35px;
-  border-left: 1px solid black;
+  border-left: 1px solid var(--border);
+  box-shadow: none;
 }
 .dragging .comments,
 .dragging .right-pane,
@@ -1523,7 +1524,7 @@ button.disabled {
   top: 0;
   bottom: 0;
   width: 1px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 1); */
 }
 .third-nav-open .resize-details {
   display: block;
