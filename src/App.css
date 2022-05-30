@@ -44,6 +44,8 @@
   --fg-4: #727476;
   --button-fg: var(--fg-3);
   --border: #3d3f42;
+  --border: var(--bg-2-5);
+  --border: rgba(127, 127, 127, 0.15);
   --border-heavy: #3d3f42;
   --shadow-top: #4b4e53;
   --shadow-top-2: #36393e;
@@ -205,6 +207,9 @@ body {
   content: "";
   bottom: 0;
   height: auto;
+}
+.thirdnav a.active::before {
+  width: 4px;
 }
 .horizontal .links a.active::before {
   position: absolute;
@@ -528,12 +533,11 @@ body {
   transition: height 0.15s;
   height: 100vh;
   z-index: 10;
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); */
+  border-right: 1px solid var(--border);
 }
 .console-on .nav {
   height: calc(100vh - var(--console-height));
-}
-.normal .nav {
-  /* overflow-y: auto; */
 }
 .horizontal .nav {
   height: auto;
@@ -1208,7 +1212,7 @@ tr.active td {
   position: absolute;
   left: 0;
   top: 0;
-  width: 3px;
+  width: 4px;
   background-color: var(--green-3);
   content: "";
   bottom: 0;
@@ -2610,7 +2614,8 @@ img.svg {
   margin-top: 0;
   margin-bottom: 0;
   padding-top: 50px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); */
+  border-right: 1px solid var(--border);
   transition: left 0.15s, width 0.15s;
   width: 155px;
 }
@@ -2706,9 +2711,6 @@ img.svg {
 }
 .has-third-nav .title {
   left: calc(var(--nav-width) + 210px);
-}
-.nav {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
 .console {
   width: 100vw;
