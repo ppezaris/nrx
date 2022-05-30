@@ -2113,12 +2113,17 @@ const Entity = (props: any) => {
           </div>
         </Title>
       </div>
-      <div className="metadata">
-        Terraform Provider Acceptance Testing
-        <div className="vsep" />
-        <VscTag /> 7
-        <div className="vsep" />
-        <VscTag /> 21
+      <div style={{ display: "flex" }}>
+        <div className="metadata">
+          Terraform Provider Acceptance Testing
+          <div className="vsep" />
+          <VscTag /> 7
+          <div className="vsep" />
+          <VscTag /> 21
+        </div>
+        <div style={{ marginLeft: "auto" }}>
+          <Timepicker />
+        </div>
       </div>
       {/* <div
         className="filters"
@@ -3873,7 +3878,7 @@ const Header = (props: any) => {
     </button>
     */}
       <div style={{ marginLeft: "auto", alignSelf: "center" }}>
-        {hasTimepicker && <Timepicker />}
+        {hasTimepicker && false && <Timepicker />}
       </div>
       {hasAccountpicker && false && (
         <button
