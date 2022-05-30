@@ -111,6 +111,7 @@
   --bottom-bg: var(--bg-1);
   --nav-bg: var(--bg-4);
   --nav-fg: var(--fg-3);
+  --nav-hover-bg: var(--bg-3);
   --comments-bg: var(--bg-2);
   --comment-body-bg: var(--bg-1-5);
   --nav-fg-active: var(--fg-1);
@@ -276,10 +277,19 @@ body {
     margin-left: -100%;
     /* color: var(--fg-0) !important; */
   }
-  50% {
+  33% {
     height: 14.5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    /* color: var(--fg-0); */
+    /* background: rgba(0, 206, 124, 0.25); */
+    margin-left: -100%;
+    /* border-color: orange; */
+  }
+  67% {
+    height: 14.5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     /* color: var(--fg-0); */
     /* background: rgba(0, 206, 124, 0.25); */
     margin-left: -100%;
@@ -294,20 +304,20 @@ body {
 @keyframes slide-out {
   0% {
     height: 14.5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
   33% {
     margin-left: -100%;
     height: 14.5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
   67% {
     margin-left: -100%;
     height: 14.5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
   100% {
     margin-left: -100%;
@@ -631,7 +641,9 @@ body {
   text-shadow: 0 1px 0px rgba(0, 0, 0, 0.5);
 }
 .light .badge {
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  background: rgba(127, 127, 127, 0.5);
+  box-shadow: none;
+  text-shadow: none;
 }
 .header .badge {
   box-shadow: none;
@@ -1613,7 +1625,7 @@ button.disabled {
   background: var(--bg-1);
   /* background: var(--bg-2); */
   /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25); */
-  border: 1px solid var(--popup-bg);
+  /* border: 1px solid var(--popup-bg); */
 }
 .comment.pinned .comment-body::before {
   background: #fefecc;
@@ -2680,13 +2692,18 @@ img.svg {
   box-shadow: 0 -1px 0px var(--header-shadow-top),
     0 1px 0px var(--header-shadow-bottom);
 }
-
+.light .collapsed .nav:hover .hidebutton,
+.light .hidebutton:hover {
+  box-shadow: none;
+}
 .third-nav-closed .thirdnav:hover .hidebutton {
   background: var(--button-bg);
   box-shadow: 0 -1px 0px var(--header-shadow-top),
     0 1px 0px var(--header-shadow-bottom);
 }
-
+.light .third-nav-closed .thirdnav:hover .hidebutton {
+  box-shadow: none;
+}
 .third-nav-closed .third-nav-title {
   opacity: 0;
   pointer-events: none;
@@ -2859,4 +2876,7 @@ img.svg {
 .header button:hover {
   background: var(--button-bg);
   box-shadow: 0 -1px 0px var(--shadow-top), 0 1px 0px var(--shadow-bottom);
+}
+.light .header button:hover {
+  box-shadow: none;
 }
