@@ -2440,6 +2440,8 @@ input[type="search"] {
 .three-col {
   display: flex;
   height: 100vh;
+  margin: 0 -20px 0 -19px;
+  border-top: 1px solid var(--border);
 }
 .three-col .box {
   height: 100%;
@@ -2447,10 +2449,23 @@ input[type="search"] {
 .left-col {
   width: 160px;
 }
+.left-col .sep {
+  padding-left: 18px;
+}
+.left-col .box {
+  background: var(--bg-1);
+  border-radius: 0;
+  border-right: 1px solid var(--border);
+}
+.center-col .box,
+.right-col .box {
+  border-radius: 0;
+}
 .center-col {
-  padding-left: 10px;
-  padding-right: 10px;
+  /* padding-left: 10px; */
+  /* padding-right: 10px; */
   flex-grow: 10;
+  border-right: 1px solid var(--border);
 }
 .right-col {
   width: 250px;
@@ -2468,7 +2483,7 @@ input[type="search"] {
   position: relative;
 }
 .box li:hover {
-  background: var(--selected-bg);
+  background: var(--nav-hover-bg);
   color: var(--fg-0);
 }
 .box li.active {

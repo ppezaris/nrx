@@ -1998,39 +1998,33 @@ const Explorer = (props: any) => {
         </div>
         <div className="three-col">
           <div className="left-col">
-            <div className="box">
-              <ul>
-                <li>Summary</li>
-                <li>Distributed tracing</li>
-                <li>Service Map</li>
-                <li>Dependencies</li>
-                <li>Transactions</li>
-                <li>Databases</li>
-                <li>External services</li>
-                <li>Ruby VMs</li>
-                <li>Kubernetes</li>
-                <li></li>
-                <li>Errors Inbox</li>
-                <li>Logs</li>
-                <li></li>
-                <li>Errors</li>
-                <li>Issues &amp; Activity</li>
-                <li>Deployments</li>
-                <li>Thread profiler</li>
-                <li></li>
-                <li>SLA</li>
-                <li>Service levels</li>
-                <li>Scalability</li>
-                <li>Capacity</li>
-              </ul>
-            </div>
+            <ul>
+              <li>Summary</li>
+              <li>Distributed tracing</li>
+              <li>Service Map</li>
+              <li>Dependencies</li>
+              <li>Transactions</li>
+              <li>Databases</li>
+              <li>External services</li>
+              <li>Ruby VMs</li>
+              <li>Kubernetes</li>
+              <li></li>
+              <li>Errors Inbox</li>
+              <li>Logs</li>
+              <li></li>
+              <li>Errors</li>
+              <li>Issues &amp; Activity</li>
+              <li>Deployments</li>
+              <li>Thread profiler</li>
+              <li></li>
+              <li>SLA</li>
+              <li>Service levels</li>
+              <li>Scalability</li>
+              <li>Capacity</li>
+            </ul>
           </div>
-          <div className="center-col">
-            <div className="box"></div>
-          </div>
-          <div className="right-col">
-            <div className="box"></div>
-          </div>
+          <div className="center-col"></div>
+          <div className="right-col"></div>
         </div>
       </Content>
     );
@@ -3315,22 +3309,30 @@ const NAV = [
   },
 ];
 
+const home = {
+  label: "Home",
+  menuTitle: "Home",
+  subnav: [],
+  body: "View your system status and recommendations for what to do next",
+  icon: <VscHome />,
+  noEllipsis: true,
+};
+
 const CAPABILITIES = {
-  recommended: [
-    {
-      label: "Home",
-      menuTitle: "Home",
-      subnav: [],
-      body: "View your system status and recommendations for what to do next",
-      icon: <VscHome />,
-      noEllipsis: true,
-    },
-    ...NAV,
-  ],
+  recommended: [home, ...NAV],
   featured: [...NAV_LOGS],
   trending: [...NAV_ALERTS],
   recent: [...NAV_MORE, ...NAV_INFRASTRUCTURE],
 };
+
+const ALL_CAPABILITIES = [
+  home,
+  ...NAV,
+  ...NAV_LOGS,
+  ...NAV_ALERTS,
+  ...NAV_MORE,
+  ...NAV_INFRASTRUCTURE,
+];
 
 const QueryBuilder = (props: any) => {
   const [query, setQuery] = React.useState("");
@@ -3748,8 +3750,20 @@ const Header = (props: any) => {
       : "open";
 
   const color = threadState == "open" ? "green" : "purple";
-  const index = props.nav.findIndex((i: any) => i.url === pathname);
+  const pagePath = location.pathname.substring(1);
+  // console.warn("Comparing: ", pagePath, " to ", props.nav);
+  const index = props.nav.findIndex((i: any) => i.url === pagePath);
   const pinned = index > -1 && !props.nav[index].hidden;
+
+  let currentItem = ALL_CAPABILITIES.find((i: any) => i.url === pagePath);
+  if (!currentItem) {
+    const [a, path] = location.pathname.split("/");
+    currentItem = {
+      label: capitalizeFirstLetter(path),
+      url: pagePath,
+    };
+  }
+  console.warn("CURRENT ITEM IS: ", currentItem);
 
   const hasTimepicker =
     pathname.includes("entity/") || pathname.includes("dashboards");
@@ -3968,10 +3982,7 @@ const Header = (props: any) => {
         </label>
       </button> */}
       <button
-        onClick={() => {
-          if (pinned) props.unPin();
-          else props.pin();
-        }}
+        onClick={() => props.pin(currentItem)}
         title={pinned ? "Unpin from left nav" : "Pin this page to left nav"}
       >
         <label>
@@ -4387,6 +4398,7 @@ export default function App() {
       icon: <VscCommentDiscussion />,
       badge: <Badge>3</Badge>,
       noComment: true,
+      url: "discussions",
     },
     // {
     //   label: "Getting Started",

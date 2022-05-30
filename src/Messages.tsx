@@ -38,7 +38,7 @@ export const Messages = (props: any) => {
   const [view, setView] = React.useState("all");
   return (
     <Content>
-      <Title>Messages </Title>
+      <Title>Discussions</Title>
       <div className="filters">
         <div className="group">
           <button
