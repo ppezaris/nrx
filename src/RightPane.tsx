@@ -500,7 +500,7 @@ export const RightPane = (props: any) => {
               {/*pinned ? <VscPinned /> : <VscPin />*/}
             </span>
           </div>
-          <div style={{ marginLeft: "auto", marginTop: "8px" }}>
+          <div style={{ marginLeft: "auto" }}>
             <button
               className="secondary rounded"
               onClick={() => props.setPaneState("closed")}

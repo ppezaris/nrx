@@ -104,42 +104,37 @@ var LAST_CONTENT_SCROLL = 0;
 var HEADER_SCROLL = 0;
 export const Content = (props: any) => {
   const handleScroll = (e: any) => {
-    console.warn(e);
+    const $root = document.querySelector("#root");
     const $content = document.querySelector("#content-div");
 
-    if ($content) {
-      const top = $content.scrollTop;
-
-      const $header = document.querySelector("#header-div");
-      if ($header) {
-        if (top > 0) $header?.classList.add("has-shadow");
-        else $header.classList.remove("has-shadow");
-      }
-      return;
-
-      // const delta = top - LAST_CONTENT_SCROLL;
-      // if (top > LAST_CONTENT_SCROLL) {
-      //   if (HEADER_SCROLL < -125) {
-      //     // do nothing
-      //   } else HEADER_SCROLL -= delta;
-      // } else {
-      //   if (HEADER_SCROLL < 0) {
-      //     HEADER_SCROLL -= delta;
-      //     if (HEADER_SCROLL > 0) HEADER_SCROLL = 0;
-      //   }
-      // }
-      // LAST_CONTENT_SCROLL = top;
-      // // const $header = document.querySelector("#header-div");
-      // if ($header) $header.setAttribute("style", `top: ${HEADER_SCROLL}px`);
-      // const $nav = document.querySelector(".nav");
-      // if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
-      // const $thirdNav = document.querySelector(".horizontal .thirdnav");
-      // if ($thirdNav)
-      //   $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 88}px`);
-      // if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
-      //   $thirdNav?.classList.remove("has-shadow");
-      // else $thirdNav?.classList.add("has-shadow");
+    if ($root && $content) {
+      if ($content.scrollTop > 0) $root.classList.add("is-scrolled");
+      else $root.classList.remove("is-scrolled");
     }
+    return;
+
+    // const delta = top - LAST_CONTENT_SCROLL;
+    // if (top > LAST_CONTENT_SCROLL) {
+    //   if (HEADER_SCROLL < -125) {
+    //     // do nothing
+    //   } else HEADER_SCROLL -= delta;
+    // } else {
+    //   if (HEADER_SCROLL < 0) {
+    //     HEADER_SCROLL -= delta;
+    //     if (HEADER_SCROLL > 0) HEADER_SCROLL = 0;
+    //   }
+    // }
+    // LAST_CONTENT_SCROLL = top;
+    // // const $header = document.querySelector("#header-div");
+    // if ($header) $header.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+    // const $nav = document.querySelector(".nav");
+    // if ($nav) $nav.setAttribute("style", `top: ${HEADER_SCROLL}px`);
+    // const $thirdNav = document.querySelector(".horizontal .thirdnav");
+    // if ($thirdNav)
+    //   $thirdNav.setAttribute("style", `top: ${HEADER_SCROLL + 88}px`);
+    // if (HEADER_SCROLL + LAST_CONTENT_SCROLL < 10)
+    //   $thirdNav?.classList.remove("has-shadow");
+    // else $thirdNav?.classList.add("has-shadow");
   };
 
   return (
@@ -156,8 +151,18 @@ export const Content = (props: any) => {
 
 export const Title = (props: any) => {
   return (
-    <div className={`title ${props.className || ""}`}>
-      <label>{props.children}</label>
+    <div
+      id="page-title"
+      className={`title ${props.className || ""} ${
+        props.breadcrumb ? "has-breadcrumb" : ""
+      }`}
+    >
+      <label>
+        {props.breadcrumb && (
+          <div className="breadcrumb">{props.breadcrumb} </div>
+        )}
+        {props.children}
+      </label>
       <div className="buttons">{props.buttons}</div>
     </div>
   );
@@ -2095,18 +2100,20 @@ const Entity = (props: any) => {
           buttonsX={[
             <button className="primary round">Create a workload</button>,
           ]}
+          breadcrumb={
+            <>
+              <NavLink to="/entities">All Entities</NavLink>
+              {props.breadcrumb && (
+                <>
+                  <VscChevronRight
+                    style={{ verticalAlign: "-2px", margin: "0 2px" }}
+                  />
+                  <NavLink to={`/${path}`}>{props.breadcrumb}</NavLink>
+                </>
+              )}
+            </>
+          }
         >
-          <div className="breadcrumb">
-            <NavLink to="/entities">All Entities</NavLink>
-            {props.breadcrumb && (
-              <>
-                <VscChevronRight
-                  style={{ verticalAlign: "-2px", margin: "0 2px" }}
-                />
-                <NavLink to={`/${path}`}>{props.breadcrumb}</NavLink>
-              </>
-            )}
-          </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Square color="green" /> {entity}
           </div>

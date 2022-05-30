@@ -464,8 +464,11 @@ export const Comments = (props: any) => {
 
   const color = threadState == "open" ? "green" : "purple";
 
-  // @ts-ignore
-  const title = props.commentsState === "float" ? TITLES[pathname] + " " : "";
+  const title =
+    props.commentsState === "float"
+      ? // @ts-ignore
+        (TITLES[pathname] || "Discussion") + " "
+      : "Discussion";
   const position = props.commentsState === "float" ? undefined : { x: 0, y: 0 };
   return (
     <Draggable handle=".float .comments-header" position={position}>
@@ -486,7 +489,7 @@ export const Comments = (props: any) => {
             top: 0,
           }}
         >
-          <div style={{ paddingLeft: "20px" }}>
+          <div className="right-pane-title" style={{ paddingLeft: "20px" }}>
             {title}{" "}
             <span
               style={{ fontSize: "15px", verticalAlign: "-3px" }}
@@ -550,17 +553,20 @@ export const Comments = (props: any) => {
                 )}
               </button>
             )}
-            {props.commentsState === "float" ? (
-              <VscChromeClose
-                style={{ cursor: "pointer", transform: "scale(1.25)" }}
-                onClick={() => props.setCommentsState("closed")}
-              />
-            ) : (
-              <VscLinkExternal
-                style={{ cursor: "pointer" }}
+            {props.commentsState === "float" ? null : (
+              <button
+                className="secondary rounded"
                 onClick={() => props.setCommentsState("float")}
-              />
+              >
+                <VscLinkExternal />
+              </button>
             )}
+            <button
+              className="secondary rounded"
+              onClick={() => props.setCommentsState("closed")}
+            >
+              <VscChromeClose />
+            </button>
           </div>
         </div>
         <Thread
