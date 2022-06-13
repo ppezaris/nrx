@@ -3495,7 +3495,8 @@ const NavItem = (props: any) => {
         className={
           (props.className || item.className || "") +
           (item.isNew ? " new" : "") +
-          (item.hidden ? " hidden" : "")
+          (item.hidden ? " hidden" : "") +
+          (item.isTemporary ? " temporary" : "")
         }
       >
         {item.icon} <span className="label">{item.labelDiv || item.label}</span>
@@ -3559,6 +3560,23 @@ const NavItem = (props: any) => {
 
 const Nav = (props: any) => {
   const { nav } = props;
+  const location = useLocation();
+  const pagePath = location.pathname.substring(1);
+  let currentItem = nav.find((i: any) => i.url === pagePath);
+  const found = currentItem ? true : false;
+  if (!currentItem) {
+    currentItem = ALL_CAPABILITIES.find((i: any) => i.url === pagePath);
+    if (!currentItem) {
+      const [a, path] = location.pathname.split("/");
+      currentItem = {
+        label: capitalizeFirstLetter(path),
+        url: pagePath,
+        icon: <VscBrowser />,
+      };
+    }
+    currentItem = { ...currentItem, isNew: true, isTemporary: true };
+  }
+
   return (
     <div className="nav">
       {/* <div className="resizer">
@@ -3696,6 +3714,18 @@ const Nav = (props: any) => {
             unPin={props.unPin}
           />
         ))}
+        {!found && (
+          <NavItem
+            item={currentItem}
+            topLevel
+            setCommentsState={props.setCommentsState}
+            commentsState={props.commentsState}
+            setCommandPanelOpen={props.setCommandPanelOpen}
+            commandPanelOpen={props.commandPanelOpen}
+            navState={props.navState}
+            unPin={props.unPin}
+          />
+        )}
       </ul>
 
       <div className="bottom">
@@ -3986,12 +4016,13 @@ const Header = (props: any) => {
           <FiUserPlus style={{ verticalAlign: "-2px" }} />
         </label>
       </button> */}
-      <button
+      {/* <button
         onClick={() => props.pin(currentItem)}
         title={pinned ? "Unpin from left nav" : "Pin this page to left nav"}
       >
         <label>
           <VscPinned
+            className="pinned-icon"
             style={{
               verticalAlign: "-2px",
               fontSize: "16px",
@@ -3999,7 +4030,7 @@ const Header = (props: any) => {
             }}
           />
         </label>
-      </button>
+      </button> */}
       <button
         onClick={() => {
           props.setInviteState("closed");
@@ -4287,6 +4318,7 @@ export default function App() {
       icon: <VscAdd />,
       keybinding: <Keybinding>A</Keybinding>,
       noEllipsis: true,
+      url: "add-data",
     },
     {
       label: "All Capabilities",
@@ -4294,6 +4326,7 @@ export default function App() {
       subnav: [],
       icon: <MdGridView />,
       noEllipsis: true,
+      url: "all-capabilities",
     },
     // {
     //   label: "Home",
@@ -4327,6 +4360,7 @@ export default function App() {
       subnav: [],
       subdir: "/dashboards/",
       menuTitle: "Dashboards",
+      url: "dashboards",
       //   subnav: NAV_DASHBOARD,
     },
     {
@@ -4335,25 +4369,35 @@ export default function App() {
       hasThirdNav: true,
       //   subnav: NAV_BROWSE,
       subdir: "/browse-data/",
+      url: "browse-data",
     },
-    { label: "APM", menuTitle: "APM", subnav: [], icon: <VscGraphLine /> },
+    {
+      label: "APM",
+      menuTitle: "APM",
+      subnav: [],
+      icon: <VscGraphLine />,
+      url: "apm",
+    },
     {
       label: "Mobile",
       menuTitle: "Mobile",
       subnav: [],
       icon: <VscDeviceMobile />,
+      url: "mobile",
     },
     {
       label: "Browser",
       menuTitle: "Browser",
       subnav: [],
       icon: <VscBrowser />,
+      url: "browser",
     },
     {
       label: "Infrastructure",
       menuTitle: "Infrastructure",
       subnav: [],
       icon: <VscServer />,
+      url: "infrastructure",
     },
     {
       label: "Alerts & AI",
@@ -4364,12 +4408,14 @@ export default function App() {
       //   subnav: NAV_ALERTS,
       hasThirdNav: true,
       subdir: "/alerts--ai/",
+      url: "alerts--ai",
     },
     {
       label: "Errors Inbox",
       menuTitle: "Errors Inbox",
       subnav: [],
       icon: <VscInbox />,
+      url: "errors-inbox",
     },
     {
       label: "Logs",
@@ -4379,6 +4425,7 @@ export default function App() {
       icon: <VscListFlat />,
       hasThirdNav: true,
       subdir: "/logs/",
+      url: "logs",
       //   subnav: NAV_LOGS,
     },
     {
@@ -4388,6 +4435,8 @@ export default function App() {
       icon: <VscGithubAction />,
       hasThirdNav: true,
       subdir: "/synthetics",
+      url: "synthetics",
+
       //   subnav: NAV_SYNTHETICS,
     },
     {
@@ -4434,7 +4483,6 @@ export default function App() {
 
   return (
     <>
-      {" "}
       <Helmet>
         <script type="text/javascript">
           {`

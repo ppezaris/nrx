@@ -351,6 +351,9 @@ body {
 .links a.new {
   animation: slide-in 0.5s ease 1;
 }
+.links a.temporary {
+  font-style: italic;
+}
 .third-nav-closed .links.subnav > li > a,
 .collapsed .links:not(.subnav) > li > a {
   padding: 6px 10px;
@@ -2879,4 +2882,7 @@ img.svg {
 }
 .light .header button:hover {
   box-shadow: none;
+}
+.pinned-icon {
+  transition: transform 0.15s;
 }
