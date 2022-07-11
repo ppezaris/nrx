@@ -3472,6 +3472,10 @@ const NavItem = (props: any) => {
     if (props.unPin) props.unPin(props.item);
   };
 
+  const pin = () => {
+    if (props.pin) props.pin(props.item);
+  };
+
   return (
     <li>
       <NavLink
@@ -3523,9 +3527,15 @@ const NavItem = (props: any) => {
             }}
           >
             <ul>
-              <li onClick={() => unPin()}>
-                <VscPinned /> Unpin from menu
-              </li>
+              {item.isTemporary ? (
+                <li onClick={pin}>
+                  <VscPin /> Pin to menu
+                </li>
+              ) : (
+                <li onClick={unPin}>
+                  <VscPinned /> Unpin from menu
+                </li>
+              )}
             </ul>
           </div>
         )}
@@ -3562,9 +3572,9 @@ const Nav = (props: any) => {
   const { nav } = props;
   const location = useLocation();
   const pagePath = location.pathname.substring(1);
-  let currentItem = nav.find((i: any) => i.url === pagePath);
+  let currentItem = nav.find((i: any) => pagePath.startsWith(i.url));
   const found = currentItem ? true : false;
-  if (!currentItem) {
+  if (!currentItem && pagePath !== "nrx") {
     currentItem = ALL_CAPABILITIES.find((i: any) => i.url === pagePath);
     if (!currentItem) {
       const [a, path] = location.pathname.split("/");
@@ -3714,7 +3724,7 @@ const Nav = (props: any) => {
             unPin={props.unPin}
           />
         ))}
-        {!found && (
+        {currentItem && (
           <NavItem
             item={currentItem}
             topLevel
@@ -4454,6 +4464,8 @@ export default function App() {
       noComment: true,
       url: "discussions",
     },
+    // ...NAV_FEEDBACK,
+
     // {
     //   label: "Getting Started",
     //   menuTitle: "Getting Started",
@@ -4514,6 +4526,7 @@ export default function App() {
             setCommandPanelOpen={setCommandPanelOpen}
             commandPanelOpen={commandPanelOpen}
             nav={nav}
+            pin={pin}
             unPin={unPin}
           />
           <div className="body">
