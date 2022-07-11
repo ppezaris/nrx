@@ -3398,13 +3398,27 @@ export const ThirdNav = (props: {
   const toggleThirdNav = () => {
     props.setThirdNavState(props.thirdNavState === "open" ? "closed" : "open");
   };
+  const collapseItem = {
+    label: " ",
+    badge: (
+      <div className="right">
+        <VscChevronLeft />
+      </div>
+    ),
+    noEllipsis: true,
+    hidden: false,
+    noMenuTitle: true,
+    onClick: toggleThirdNav,
+  };
   return (
     <>
       <ul className="links thirdnav subnav">
-        <div className="hidebutton" onClick={toggleThirdNav}>
+        {/* <div className="hidebutton" onClick={toggleThirdNav}>
           <VscChevronLeft />
-        </div>
+        </div> */}
         {props.title && <li className="third-nav-title">{props.title}</li>}
+        <NavItem item={collapseItem} thirdNavState={props.thirdNavState} />
+
         {props.items.map((item) => (
           <NavItem
             item={item}
@@ -3493,6 +3507,11 @@ const NavItem = (props: any) => {
             e.stopPropagation();
             e.preventDefault();
             return false;
+          } else if (item.toggleNavState) {
+            props.toggleNavState();
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
           }
           if (item.noComment) props.setCommentsState("closed");
         }}
@@ -3541,7 +3560,7 @@ const NavItem = (props: any) => {
         )}
         {item.badge && item.badge}
         {item.extra && item.extra}
-        {props.navState !== "normal" && props.topLevel && (
+        {props.navState !== "normal" && props.topLevel && !item.noMenuTitle && (
           <span className={"hover"}>
             <Menu
               label={item.menuTitle || item.label}
@@ -3553,7 +3572,8 @@ const NavItem = (props: any) => {
         )}
         {props.thirdNavState !== "open" &&
           !props.topLevel &&
-          !props.noMenuTitle && (
+          !props.noMenuTitle &&
+          !item.noMenuTitle && (
             <span className={"hover"}>
               <Menu
                 label={item.menuTitle || item.label}
@@ -3574,6 +3594,7 @@ const Nav = (props: any) => {
   const pagePath = location.pathname.substring(1);
   let currentItem = nav.find((i: any) => pagePath.startsWith(i.url));
   const found = currentItem && pagePath !== "nrx" ? true : false;
+  console.warn("NAV STATE IN NAV IS: ", props.navState);
   if (!found) {
     currentItem = ALL_CAPABILITIES.find((i: any) => i.url === pagePath);
     if (!currentItem) {
@@ -3610,22 +3631,22 @@ const Nav = (props: any) => {
       </div> */}
       <div
         className="logo-wrap"
-        onClick={() =>
-          props.setNavState(
-            props.navState == "normal"
-              ? "collapsed"
-              : // : props.navState == "collapsed"
-                // ? "hidden"
-                //   : props.navState == "hidden"
-                //   ? "horizontal"
-                "normal"
-          )
-        }
+        // onClick={() =>
+        //   props.setNavState(
+        //     props.navState == "normal"
+        //       ? "collapsed"
+        //       : // : props.navState == "collapsed"
+        //         // ? "hidden"
+        //         //   : props.navState == "hidden"
+        //         //   ? "horizontal"
+        //         "normal"
+        //   )
+        // }
       >
         <div className="logo">
-          <div className="hidebutton">
+          {/* <div className="hidebutton">
             <VscChevronLeft />
-          </div>
+          </div> */}
           <svg
             width="95"
             height="27"
@@ -3697,7 +3718,7 @@ const Nav = (props: any) => {
         </div>
       </div>
 
-      {props.navState === "hidden" && (
+      {/* {props.navState === "hidden" && (
         <div
           style={{
             position: "absolute",
@@ -3710,11 +3731,12 @@ const Nav = (props: any) => {
           }}
           onClick={() => props.setNavState("normal")}
         />
-      )}
+      )} */}
       <ul className="links scroll" style={{ marginTop: 0 }}>
         {nav.map((item: any) => (
           <NavItem
             item={item}
+            toggleNavState={props.toggleNavState}
             topLevel
             setCommentsState={props.setCommentsState}
             commentsState={props.commentsState}
@@ -3808,7 +3830,7 @@ const Header = (props: any) => {
       url: pagePath,
     };
   }
-  console.warn("CURRENT ITEM IS: ", currentItem);
+  // console.warn("CURRENT ITEM IS: ", currentItem);
 
   const hasTimepicker =
     pathname.includes("entity/") || pathname.includes("dashboards");
@@ -4300,17 +4322,37 @@ export default function App() {
     }
   };
 
+  const toggleNavState = React.useCallback(() => {
+    console.warn("IN TOGGLE: NAV STATE: ", navState);
+    setNavState(navState === "normal" ? "collapsed" : "normal");
+    // setNavState("collapsed");
+  }, [navState]);
+
   const docs = () => {
     setHelpState(helpState === "open" ? "closed" : "open");
   };
 
+  console.warn("NAV STATE: ", navState);
+
   const [nav, setNav] = React.useState<any[]>([
     //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
     {
-      label: "Go To...",
+      label: " ",
+      badge: (
+        <div className="right">
+          <VscChevronLeft />
+        </div>
+      ),
+      noEllipsis: true,
+      hidden: false,
+      noMenuTitle: true,
+      toggleNavState: true,
+    },
+    {
+      label: "Search...",
       icon: <VscSearch />,
       subnav: NAV_SEARCH,
-      menuTitle: "Go To...",
+      menuTitle: "Search...",
       openCommandPalette: true,
       keybinding: (
         <div style={{ display: "flex" }}>
@@ -4522,6 +4564,7 @@ export default function App() {
             setCommentsState={setCommentsState}
             commentsState={commentsState}
             setNavState={setNavState}
+            toggleNavState={toggleNavState}
             navState={navState}
             setCommandPanelOpen={setCommandPanelOpen}
             commandPanelOpen={commandPanelOpen}

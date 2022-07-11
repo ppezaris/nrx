@@ -739,7 +739,8 @@ body {
 .horizontal .links .sep {
   display: none;
 }
-.links a .badge {
+.links a .badge,
+.links a .right {
   position: absolute;
   left: auto !important;
   right: 2px !important;
@@ -750,9 +751,26 @@ body {
   right: 10px !important;
   top: 5px;
 }
+.normal .links a .right {
+  right: 0px !important;
+  top: 5px;
+}
+.collapsed .links a .right,
 .collapsed .links a .badge {
   right: 7px !important;
   top: 4px;
+}
+.collapsed .links a .right {
+  right: 8px !important;
+  transform: rotate(180deg);
+}
+.collapsed .links.thirdnav a .right {
+  transform: none;
+  right: 2px !important;
+}
+.third-nav-closed .links.thirdnav a .right {
+  right: 8px !important;
+  transform: rotate(180deg);
 }
 .links.submenu a .badge {
   right: 10px !important;
