@@ -3573,8 +3573,8 @@ const Nav = (props: any) => {
   const location = useLocation();
   const pagePath = location.pathname.substring(1);
   let currentItem = nav.find((i: any) => pagePath.startsWith(i.url));
-  const found = currentItem ? true : false;
-  if (!currentItem && pagePath !== "nrx") {
+  const found = currentItem && pagePath !== "nrx" ? true : false;
+  if (!found) {
     currentItem = ALL_CAPABILITIES.find((i: any) => i.url === pagePath);
     if (!currentItem) {
       const [a, path] = location.pathname.split("/");
@@ -3724,7 +3724,7 @@ const Nav = (props: any) => {
             unPin={props.unPin}
           />
         ))}
-        {currentItem && (
+        {!found && (
           <NavItem
             item={currentItem}
             topLevel
