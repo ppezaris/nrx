@@ -2032,6 +2032,18 @@ const Explorer = (props: any) => {
 };
 
 const ENTITY_MENU = [
+  {
+    label: " ",
+    badge: (
+      <div className="right">
+        <VscChevronLeft />
+      </div>
+    ),
+    noEllipsis: true,
+    hidden: false,
+    noMenuTitle: true,
+    toggleNavState: true,
+  },
   { label: "Summary" },
   { label: "All Capabilities" },
   { label: "-Monitor", icon: <VscChevronDown /> },
@@ -2161,6 +2173,7 @@ const Entity = (props: any) => {
                         className={item.label === activeItem ? "active" : ""}
                       >
                         {item.label}
+                        {item.badge}
                       </li>
                     );
                   }
@@ -3413,11 +3426,11 @@ export const ThirdNav = (props: {
   return (
     <>
       <ul className="links thirdnav subnav">
-        {/* <div className="hidebutton" onClick={toggleThirdNav}>
+        <div className="hidebutton" onClick={toggleThirdNav}>
           <VscChevronLeft />
-        </div> */}
+        </div>
         {props.title && <li className="third-nav-title">{props.title}</li>}
-        <NavItem item={collapseItem} thirdNavState={props.thirdNavState} />
+        {/* <NavItem item={collapseItem} thirdNavState={props.thirdNavState} /> */}
 
         {props.items.map((item) => (
           <NavItem
@@ -3644,9 +3657,6 @@ const Nav = (props: any) => {
         // }
       >
         <div className="logo">
-          {/* <div className="hidebutton">
-            <VscChevronLeft />
-          </div> */}
           <svg
             width="95"
             height="27"
@@ -3717,6 +3727,22 @@ const Nav = (props: any) => {
           {/* <img className="logo-svg" src={logo} alt="logo" /> */}
         </div>
       </div>
+      <div
+        className="hidebutton"
+        onClick={() =>
+          props.setNavState(
+            props.navState == "normal"
+              ? "collapsed"
+              : // : props.navState == "collapsed"
+                // ? "hidden"
+                //   : props.navState == "hidden"
+                //   ? "horizontal"
+                "normal"
+          )
+        }
+      >
+        <VscChevronLeft />
+      </div>
 
       {/* {props.navState === "hidden" && (
         <div
@@ -3732,7 +3758,7 @@ const Nav = (props: any) => {
           onClick={() => props.setNavState("normal")}
         />
       )} */}
-      <ul className="links scroll" style={{ marginTop: 0 }}>
+      <ul className="links scroll">
         {nav.map((item: any) => (
           <NavItem
             item={item}
@@ -4336,18 +4362,18 @@ export default function App() {
 
   const [nav, setNav] = React.useState<any[]>([
     //   { label: "Search", icon: <VscSearch />, hover: <CmdK /> },
-    {
-      label: " ",
-      badge: (
-        <div className="right">
-          <VscChevronLeft />
-        </div>
-      ),
-      noEllipsis: true,
-      hidden: false,
-      noMenuTitle: true,
-      toggleNavState: true,
-    },
+    // {
+    //   label: " ",
+    //   badge: (
+    //     <div className="right">
+    //       <VscChevronLeft />
+    //     </div>
+    //   ),
+    //   noEllipsis: true,
+    //   hidden: false,
+    //   noMenuTitle: true,
+    //   toggleNavState: true,
+    // },
     {
       label: "Search...",
       icon: <VscSearch />,
