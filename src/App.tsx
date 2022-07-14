@@ -2032,18 +2032,18 @@ const Explorer = (props: any) => {
 };
 
 const ENTITY_MENU = [
-  {
-    label: " ",
-    badge: (
-      <div className="right">
-        <VscChevronLeft />
-      </div>
-    ),
-    noEllipsis: true,
-    hidden: false,
-    noMenuTitle: true,
-    toggleNavState: true,
-  },
+  // {
+  //   label: " ",
+  //   badge: (
+  //     <div className="right">
+  //       <VscChevronLeft />
+  //     </div>
+  //   ),
+  //   noEllipsis: true,
+  //   hidden: false,
+  //   noMenuTitle: true,
+  //   toggleNavState: true,
+  // },
   { label: "Summary" },
   { label: "All Capabilities" },
   { label: "-Monitor", icon: <VscChevronDown /> },
@@ -2067,7 +2067,7 @@ const ENTITY_MENU = [
   { label: "SLA" },
   { label: "Service levels" },
   { label: "Scalability" },
-  { label: "Capacity" },
+  { label: "Capacity", badge: "" },
 ];
 
 const Entity = (props: any) => {
@@ -2155,7 +2155,10 @@ const Entity = (props: any) => {
         </div>
       </div> */}
       <div className="three-col">
-        <div className="left-col">
+        <div className="left-col" style={{ position: "relative" }}>
+          <div className="hidebutton">
+            <VscChevronLeft />
+          </div>
           <div className="box">
             <div className="links">
               <ul>
