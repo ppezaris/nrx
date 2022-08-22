@@ -56,8 +56,9 @@
   --menu-bg: var(--bg-4);
   --menu-border: #656667;
   --menu-selected-bg: #656667;
-  --selected-nav-link: var(--bg-3);
+  /* --selected-nav-link: var(--bg-3); */
   --selected-nav-link: var(--green-1);
+  --badge-bg: var(--bg-4);
 
   --top-bg: var(--bg-1);
   --bottom-bg: var(--bg-1);
@@ -84,6 +85,7 @@
   --bg-2: #f9f9f9;
   --bg-3: #eee;
   --bg-4: #ddd;
+  --bg-6: #aaa;
   --button-bg: #eee;
   --button-fg: #333;
   --popup-bg: #ddd;
@@ -95,6 +97,7 @@
   --fg-2: #111;
   --fg-3: #222;
   --fg-4: #333;
+  --fg-5: #444;
   --border: #ddd;
   --shadow-top: #ddd;
   --shadow-bottom: #ccc;
@@ -102,20 +105,22 @@
   --shadow-bottom-selected: #ccc;
   --content-bg: white;
   --selected-nav-link: #36393e;
-  --selected-nav-link: #bdb;
+  --selected-nav-link: rgb(208, 229, 208);
 
   --menu-bg: var(--bg-3);
   --menu-border: #656667;
 
+  --badge-bg: #999;
+
   --top-bg: var(--bg-1);
   --bottom-bg: var(--bg-1);
-  --nav-bg: var(--bg-4);
-  --nav-fg: var(--fg-3);
-  --nav-hover-bg: var(--bg-3);
+  --nav-bg: var(--bg-3);
+  --nav-fg: var(--fg-5);
+  --nav-hover-bg: var(--bg-1);
   --comments-bg: var(--bg-2);
   --comment-body-bg: var(--bg-1-5);
   --nav-fg-active: var(--fg-1);
-  --third-nav-bg: var(--bg-3);
+  --third-nav-bg: var(--bg-2);
   --content-bg: var(--bg-1);
   --header-button-bg: var(--button-bg);
   --header-button-fg: var(--fg-3);
@@ -553,7 +558,7 @@ ul.links {
   border-right: 1px solid var(--border);
 }
 .light .nav {
-  border-right: 1px solid #d0d0d0;
+  border-right: 1px solid var(--border);
 }
 .console-on .nav {
   height: calc(100vh - var(--console-height));
@@ -643,14 +648,13 @@ ul.links {
   color: white;
   background: #fe4c40;
   background: #e94f3f;
-  background: var(--bg-4);
+  background: var(--badge-bg);
   border-radius: 9px;
   font-size: 10px;
   box-shadow: 0 0 2px black;
   text-shadow: 0 1px 0px rgba(0, 0, 0, 0.5);
 }
 .light .badge {
-  background: rgba(127, 127, 127, 0.5);
   box-shadow: none;
   text-shadow: none;
 }
@@ -2676,6 +2680,9 @@ img.svg {
   border-right: 1px solid var(--border);
   transition: left 0.15s, width 0.15s;
   width: 155px;
+}
+.light .thirdnav {
+  border-right: 1px solid #eee;
 }
 .third-nav-closed .thirdnav {
   width: 32px !important;

@@ -4274,7 +4274,7 @@ export default function App() {
   const [shareState, setShareState] = React.useState("closed");
   const [consoleState, setConsoleState] = React.useState("closed");
   const [thirdNavState, setThirdNavState] = React.useState("open");
-  const [theme, setTheme] = React.useState("dark");
+  const [theme, setTheme] = React.useState("light");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
   >("normal");
