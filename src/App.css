@@ -16,10 +16,6 @@
   --red: #f32735;
   --orange: #ff8300;
   --green: #00ce7c;
-  --blue-1: #00586f;
-  --blue-2: #0095a9;
-  --blue-3: #1dcad3;
-  --blue-4: #afe2e3;
 
   --bg-0: #050607;
   --bg-0-5: #131415;
@@ -419,7 +415,8 @@ ul.links {
 .collapsed .links:not(.subnav) > li > a {
   width: 12px;
 }
-.links a svg {
+.links a svg,
+.three-col .links li svg {
   font-size: 14px !important;
   margin-right: 10px;
   vertical-align: -2px;
@@ -2495,7 +2492,7 @@ input[type="search"] {
   width: 160px;
 }
 .left-col .sep {
-  padding-left: 18px;
+  padding-left: 8px;
 }
 .left-col .box {
   background: var(--bg-1);
@@ -2523,7 +2520,7 @@ input[type="search"] {
 }
 .box li {
   margin: 0;
-  padding: 5px 20px;
+  padding: 5px 10px;
   cursor: pointer;
   position: relative;
   min-height: 12px;
@@ -2927,4 +2924,9 @@ img.svg {
 }
 .pinned-icon {
   transition: transform 0.15s;
+}
+.three-col .links li label {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }

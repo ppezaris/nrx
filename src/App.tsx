@@ -2044,30 +2044,39 @@ const ENTITY_MENU = [
   //   noMenuTitle: true,
   //   toggleNavState: true,
   // },
-  { label: "Summary" },
-  { label: "All Capabilities" },
-  { label: "-Monitor", icon: <VscChevronDown /> },
-  { label: "Distributed tracing" },
-  { label: "Service Map" },
-  { label: "Dependencies" },
-  { label: "Transactions" },
-  { label: "Databases" },
-  { label: "External services" },
-  { label: "Ruby VMs" },
-  { label: "Kubernetes" },
-  { label: "-Triage", icon: <VscChevronDown /> },
-  { label: "Errors Inbox" },
-  { label: "Logs" },
-  { label: "-Events", icon: <VscChevronDown /> },
-  { label: "Errors" },
-  { label: "Issues & Activity" },
-  { label: "Deployments" },
-  { label: "Thread profiler" },
-  { label: "-Reports", icon: <VscChevronDown /> },
-  { label: "SLA" },
-  { label: "Service levels" },
-  { label: "Scalability" },
-  { label: "Capacity", badge: "" },
+  { label: "Summary", icon: <MdGridView /> },
+  { label: "-Monitor", icon: <VscChevronUp /> },
+  { label: "Distributed tracing", icon: <VscGraphLine /> },
+  { label: "Service Map", icon: <VscGlobe /> },
+  { label: "Dependencies", icon: <VscGlobe /> },
+  { label: "Transactions", icon: <VscGlobe /> },
+  { label: "Databases", icon: <VscGlobe /> },
+  { label: "External services", icon: <VscGlobe /> },
+  { label: "Ruby VMs", icon: <VscGlobe /> },
+  { label: "Kubernetes", icon: <VscGlobe /> },
+  { label: "-Triage", icon: <VscChevronUp /> },
+  { label: "Errors Inbox", icon: <VscGlobe /> },
+  { label: "Logs", icon: <VscGlobe /> },
+  { label: "-Events", icon: <VscChevronUp /> },
+  { label: "Errors", icon: <VscGlobe /> },
+  { label: "Issues & Activity", icon: <VscGraphLine /> },
+  { label: "Deployments", icon: <VscGraphLine /> },
+  { label: "Thread profiler", icon: <VscGraphLine /> },
+  { label: "-Reports", icon: <VscChevronUp /> },
+  { label: "SLA", icon: <VscGraphLine /> },
+  { label: "Service levels", icon: <VscGraphLine /> },
+  { label: "Scalability", icon: <VscGraphLine /> },
+  { label: "Performance", icon: <MdGridView /> },
+  { label: "-Settings", icon: <VscChevronUp /> },
+  { label: "Application", icon: <VscGithubAction /> },
+  { label: "Alert conditions", icon: <VscListFlat /> },
+  { label: "Environment", icon: <VscGithubAction /> },
+  { label: "Metric normalization", icon: <VscGithubAction /> },
+  { label: "-More views", icon: <VscChevronUp /> },
+  { label: "Add app", icon: <VscListFlat /> },
+  { label: "Containers", icon: <MdGridView /> },
+  { label: "Event Stream", icon: <VscListFlat /> },
+  { label: "Events Explorer", icon: <MdGridView />, badge: "" },
 ];
 
 const Entity = (props: any) => {
@@ -2175,7 +2184,9 @@ const Entity = (props: any) => {
                         onClick={() => setActiveItem(item.label)}
                         className={item.label === activeItem ? "active" : ""}
                       >
-                        {item.label}
+                        <label>
+                          {item.icon} {item.label}
+                        </label>
                         {item.badge}
                       </li>
                     );
@@ -4274,7 +4285,7 @@ export default function App() {
   const [shareState, setShareState] = React.useState("closed");
   const [consoleState, setConsoleState] = React.useState("closed");
   const [thirdNavState, setThirdNavState] = React.useState("open");
-  const [theme, setTheme] = React.useState("light");
+  const [theme, setTheme] = React.useState("dark");
   const [navState, setNavState] = React.useState<
     "normal" | "collapsed" | "hidden" | "horizontal"
   >("normal");
